@@ -548,7 +548,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(to bottom right, transparent, transparent, transparent, var(--neon-green));
+            background: linear-gradient(to bottom right, transparent, transparent, transparent, var(--neon-green);
             transform: rotate(-45deg);
             animation: shine 3s infinite;
         }
@@ -750,6 +750,38 @@
             box-shadow: 0 0 10px var(--neon-green);
         }
         
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            z-index: 999;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.7);
+            transition: all 0.3s;
+            animation: pulse-whatsapp 2s infinite;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.9);
+        }
+        
+        @keyframes pulse-whatsapp {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -802,6 +834,14 @@
                 align-items: center;
                 justify-content: center;
             }
+            
+            .whatsapp-btn {
+                bottom: 80px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.7rem;
+            }
         }
     </style>
 </head>
@@ -809,6 +849,11 @@
     <div class="scan-line"></div>
     <div class="grid-bg"></div>
     <div id="particles-js"></div>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/527823981639?text=Hola,%20estoy%20interesado%20en%20los%20servicios%20de%20CyberVPS" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <!-- Header con menú que se oculta al hacer scroll -->
     <header id="main-header">
@@ -924,7 +969,7 @@
                         </ul>
                     </div>
                     <div class="carrier-footer">
-                        <a href="#contacto" class="btn">Solicitar Información</a>
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Movistar">Solicitar por WhatsApp</a>
                     </div>
                 </div>
                 
@@ -942,7 +987,7 @@
                         </ul>
                     </div>
                     <div class="carrier-footer">
-                        <a href="#contacto" class="btn">Solicitar Información</a>
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Telcel">Solicitar por WhatsApp</a>
                     </div>
                 </div>
                 
@@ -960,7 +1005,7 @@
                         </ul>
                     </div>
                     <div class="carrier-footer">
-                        <a href="#contacto" class="btn">Solicitar Información</a>
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="AT&T">Solicitar por WhatsApp</a>
                     </div>
                 </div>
                 
@@ -978,7 +1023,7 @@
                         </ul>
                     </div>
                     <div class="carrier-footer">
-                        <a href="#contacto" class="btn">Solicitar Información</a>
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Oxxocel">Solicitar por WhatsApp</a>
                     </div>
                 </div>
                 
@@ -996,7 +1041,7 @@
                         </ul>
                     </div>
                     <div class="carrier-footer">
-                        <a href="#contacto" class="btn">Solicitar Información</a>
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Bait">Solicitar por WhatsApp</a>
                     </div>
                 </div>
             </div>
@@ -1035,7 +1080,7 @@
             </div>
             
             <div style="text-align: center; margin-top: 3rem;">
-                <a href="#contacto" class="btn">Solicitar Demo del Sistema</a>
+                <a href="#contacto" class="btn whatsapp-contact" data-service="Demo del Sistema">Solicitar Demo por WhatsApp</a>
             </div>
         </div>
     </section>
@@ -1077,27 +1122,29 @@
         <div class="container">
             <div class="section-title">
                 <h2>Contacto</h2>
-                <p>¿Necesitas una solución personalizada? Contáctanos</p>
+                <p>¿Necesitas una solución personalizada? Contáctanos por WhatsApp</p>
             </div>
             <div class="contact-grid">
                 <div class="contact-info">
                     <h3>Información de Contacto</h3>
+                    <p><i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp: +52 7823981639</p>
                     <p><i class="fas fa-globe"></i> Servicios disponibles globalmente</p>
-                    <p><i class="fas fa-phone"></i> +1 (800) 555-1234</p>
-                    <p><i class="fas fa-envelope"></i> info@cybervps.com</p>
                     <p><i class="fas fa-clock"></i> Soporte 24/7/365</p>
                     <p><i class="fas fa-headset"></i> Asistencia técnica especializada</p>
+                    <p style="margin-top: 20px; color: var(--neon-green);">
+                        <i class="fas fa-info-circle"></i> Todos los pedidos se gestionan directamente por WhatsApp
+                    </p>
                 </div>
                 <div class="contact-form">
-                    <h3>Solicitar Información</h3>
-                    <form>
+                    <h3>Solicitar por WhatsApp</h3>
+                    <form id="whatsappForm">
                         <div class="form-group">
                             <label for="name">Nombre</label>
-                            <input type="text" id="name" placeholder="Tu nombre">
+                            <input type="text" id="name" placeholder="Tu nombre" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Tu email">
+                            <input type="email" id="email" placeholder="Tu email" required>
                         </div>
                         <div class="form-group">
                             <label for="company">Empresa</label>
@@ -1105,20 +1152,21 @@
                         </div>
                         <div class="form-group">
                             <label for="carrier">Operadora de interés</label>
-                            <select id="carrier">
+                            <select id="carrier" required>
                                 <option value="">Selecciona una opción</option>
                                 <option value="movistar">Movistar</option>
                                 <option value="telcel">Telcel</option>
                                 <option value="att">AT&T</option>
                                 <option value="oxxocel">Oxxocel</option>
                                 <option value="bait">Bait</option>
+                                <option value="otra">Otra</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="message">Mensaje</label>
-                            <textarea id="message" rows="5" placeholder="Tu mensaje"></textarea>
+                            <textarea id="message" rows="5" placeholder="Describe tu solicitud o requerimientos" required></textarea>
                         </div>
-                        <button type="submit" class="btn">Enviar Mensaje</button>
+                        <button type="submit" class="btn">Enviar por WhatsApp</button>
                     </form>
                 </div>
             </div>
@@ -1137,7 +1185,7 @@
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/527823981639" target="_blank"><i class="fab fa-whatsapp" style="color: #25D366;"></i></a>
                 </div>
                 <p>&copy; 2023 CyberVPS. Todos los derechos reservados.</p>
             </div>
@@ -1314,6 +1362,42 @@
             
             document.querySelectorAll('.feature-card, .carrier-card, .step, .client-logo').forEach(el => {
                 observer.observe(el);
+            });
+            
+            // Configurar enlaces de WhatsApp
+            const whatsappButtons = document.querySelectorAll('.whatsapp-contact');
+            whatsappButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const service = this.getAttribute('data-service');
+                    const message = `Hola, estoy interesado en el servicio de ${service} de CyberVPS. Por favor proporcióname más información.`;
+                    const encodedMessage = encodeURIComponent(message);
+                    window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
+                });
+            });
+            
+            // Configurar formulario de WhatsApp
+            const whatsappForm = document.getElementById('whatsappForm');
+            whatsappForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const company = document.getElementById('company').value;
+                const carrier = document.getElementById('carrier').value;
+                const message = document.getElementById('message').value;
+                
+                const whatsappMessage = `Hola, soy ${name}. 
+Email: ${email}
+Empresa: ${company || 'No especificada'}
+Operadora de interés: ${carrier}
+
+Mensaje: ${message}
+
+Me interesa obtener más información sobre los servicios de CyberVPS.`;
+
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
             });
         });
     </script>
