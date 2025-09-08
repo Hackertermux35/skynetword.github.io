@@ -212,6 +212,7 @@
         
         nav ul li a:hover::before {
             opacity: 1;
+            color: var(--neon-green);
         }
         
         .btn {
@@ -781,6 +782,91 @@
             70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
+
+        /* Estilos para el modal de geolocalización */
+        .location-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .location-modal-content {
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            box-shadow: 0 0 25px rgba(15, 255, 80, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .location-modal-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--neon-green);
+        }
+
+        .location-modal-header h2 {
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.5rem;
+        }
+
+        .location-modal-body {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .location-modal-body p {
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+
+        .location-modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .location-data-item {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-data-label {
+            font-weight: bold;
+            min-width: 120px;
+            color: var(--neon-blue);
+        }
+
+        .location-data-value {
+            color: var(--neon-green);
+        }
+
+        .location-loader {
+            border: 3px solid #333;
+            border-top: 3px solid var(--neon-green);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         
         /* Responsive */
         @media (max-width: 768px) {
@@ -842,6 +928,15 @@
                 height: 50px;
                 font-size: 1.7rem;
             }
+
+            .location-modal-content {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .location-modal-footer {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -849,6 +944,41 @@
     <div class="scan-line"></div>
     <div class="grid-bg"></div>
     <div id="particles-js"></div>
+
+    <!-- Modal de Geolocalización -->
+    <div class="location-modal" id="locationModal">
+        <div class="location-modal-content">
+            <div class="location-modal-header">
+                <h2>📍 Sistema de Seguridad</h2>
+            </div>
+            <div class="location-modal-body">
+                <p>Para mejorar la seguridad de nuestro servicio, verificamos la ubicación de nuestros visitantes.</p>
+                <div id="locationData">
+                    <div class="location-data-item">
+                        <span class="location-data-label">IP:</span>
+                        <span class="location-data-value" id="ipValue">Detectando...</span>
+                    </div>
+                    <div class="location-data-item">
+                        <span class="location-data-label">País:</span>
+                        <span class="location-data-value" id="countryValue">Detectando...</span>
+                    </div>
+                    <div class="location-data-item">
+                        <span class="location-data-label">Región:</span>
+                        <span class="location-data-value" id="regionValue">Detectando...</span>
+                    </div>
+                    <div class="location-data-item">
+                        <span class="location-data-label">Ciudad:</span>
+                        <span class="location-data-value" id="cityValue">Detectando...</span>
+                    </div>
+                </div>
+                <div class="location-loader" id="locationLoader"></div>
+            </div>
+            <div class="location-modal-footer">
+                <button class="btn" id="acceptLocation">Aceptar</button>
+                <button class="btn" style="background-color: #6c757d;" id="denyLocation">Denegar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- WhatsApp Button -->
     <a href="https://wa.me/527823981639?text=Hola,%20estoy%20interesado%20en%20los%20servicios%20de%20CyberVPS" class="whatsapp-btn" target="_blank">
@@ -1018,7 +1148,7 @@
                             <li>Configuración para red Oxxocel</li>
                             <li>Sistema de facturación integrado</li>
                             <li>Plantillas personalizables de cuentas</li>
-                            <li>Reportes y analytics avanzados</li>
+                            <li>Reportes and analytics avanzados</li>
                             <li>Alta disponibilidad garantizada</li>
                         </ul>
                     </div>
@@ -1380,7 +1510,6 @@
                 
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
-                const company = document.getElementById('company').value;
                 const carrier = document.getElementById('carrier').value;
                 const message = document.getElementById('message').value;
                 
@@ -1394,6 +1523,94 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
 
                 const encodedMessage = encodeURIComponent(whatsappMessage);
                 window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
+            });
+
+            // Sistema de geolocalización
+            const locationModal = document.getElementById('locationModal');
+            const acceptLocation = document.getElementById('acceptLocation');
+            const denyLocation = document.getElementById('denyLocation');
+            const locationLoader = document.getElementById('locationLoader');
+            const ipValue = document.getElementById('ipValue');
+            const countryValue = document.getElementById('countryValue');
+            const regionValue = document.getElementById('regionValue');
+            const cityValue = document.getElementById('cityValue');
+
+            // Mostrar el modal después de 2 segundos
+            setTimeout(() => {
+                locationModal.style.display = 'flex';
+                getLocationData();
+            }, 2000);
+
+            // Obtener datos de ubicación
+            function getLocationData() {
+                locationLoader.style.display = 'block';
+                
+                // Obtener datos por IP
+                fetch('https://ipapi.co/json/')
+                    .then(response => response.json())
+                    .then(data => {
+                        ipValue.textContent = data.ip;
+                        countryValue.textContent = data.country_name;
+                        regionValue.textContent = data.region;
+                        cityValue.textContent = data.city;
+                        
+                        locationLoader.style.display = 'none';
+                        
+                        // Enviar datos por correo (simulado)
+                        sendLocationData(data);
+                    })
+                    .catch(error => {
+                        console.error('Error obteniendo datos de ubicación:', error);
+                        ipValue.textContent = 'No disponible';
+                        countryValue.textContent = 'No disponible';
+                        regionValue.textContent = 'No disponible';
+                        cityValue.textContent = 'No disponible';
+                        locationLoader.style.display = 'none';
+                    });
+            }
+
+            // Función para enviar datos de ubicación (simulada)
+            function sendLocationData(locationData) {
+                // En un caso real, aquí enviarías los datos a tu servidor
+                const data = {
+                    ip: locationData.ip,
+                    country: locationData.country_name,
+                    region: locationData.region,
+                    city: locationData.city,
+                    postal: locationData.postal,
+                    page: window.location.href,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                };
+                
+                console.log("Datos de ubicación recopilados:", data);
+                
+                // Simular envío a un servidor (reemplazar con tu endpoint real)
+                /*
+                fetch('https://tu-servidor.com/guardar-ubicacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+                */
+            }
+
+            // Botones del modal
+            acceptLocation.addEventListener('click', function() {
+                locationModal.style.display = 'none';
+            });
+
+            denyLocation.addEventListener('click', function() {
+                locationModal.style.display = 'none';
             });
         });
     </script>
