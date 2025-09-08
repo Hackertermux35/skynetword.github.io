@@ -212,7 +212,6 @@
         
         nav ul li a:hover::before {
             opacity: 1;
-            color: var(--neon-green);
         }
         
         .btn {
@@ -403,10 +402,388 @@
         @keyframes glowing {
             0% { background-position: 0 0; }
             50% { background-position: 400% 0; }
-            /* ... resto del código CSS ... */
+            100% { background-position: 0 0; }
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--neon-purple);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .telecom-carriers {
+            padding: 6rem 0 4rem;
+            background-color: rgba(10, 10, 10, 0.8);
+        }
+        
+        .carriers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .carrier-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            position: relative;
+        }
+        
+        .carrier-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(15, 255, 80, 0.5);
+        }
+        
+        .carrier-header {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carrier-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--neon-blue), transparent);
+            opacity: 0.3;
+        }
+        
+        .movistar-header { background-color: rgba(0, 162, 255, 0.2); border-bottom: 1px solid var(--neon-blue); }
+        .telcel-header { background-color: rgba(99, 193, 0, 0.2); border-bottom: 1px solid var(--neon-green); }
+        .att-header { background-color: rgba(0, 156, 222, 0.2); border-bottom: 1px solid var(--neon-blue); }
+        .oxxocel-header { background-color: rgba(204, 0, 0, 0.2); border-bottom: 1px solid var(--neon-red); }
+        .bait-header { background-color: rgba(102, 51, 153, 0.2); border-bottom: 1px solid var(--neon-purple); }
+        
+        .carrier-body {
+            padding: 2rem;
+        }
+        
+        .carrier-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .carrier-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #222;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .carrier-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .carrier-features li::before {
+            content: ">";
+            color: var(--neon-green);
+            position: absolute;
+            left: 0;
+        }
+        
+        .carrier-footer {
+            padding: 0 2rem 2rem;
+            text-align: center;
+        }
+        
+        .account-system {
+            padding: 6rem 0 4rem;
+            background-color: rgba(5, 5, 5, 0.7);
+            border-top: 1px solid var(--neon-purple);
+            border-bottom: 1px solid var(--neon-purple);
+        }
+        
+        .account-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            color: var(--neon-green);
+            border-radius: 0;
+            border: 1px solid var(--neon-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-number::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, transparent, transparent, transparent, var(--neon-green);
+            transform: rotate(-45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { top: -50%; left: -50%; }
+            100% { top: 150%; left: 150%; }
+        }
+        
+        .step:not(:last-child)::after {
+            content: ">";
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            color: var(--neon-green);
+            font-size: 1.5rem;
+        }
+        
+        .clients {
+            padding: 6rem 0 4rem;
+            background-color: rgba(10, 10, 10, 0.8);
+        }
+        
+        .clients-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .client-logo {
+            width: 150px;
+            height: 80px;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .client-logo:hover {
+            transform: translateY(-5px);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        
+        .client-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 247, 255, 0.1), transparent);
+            transform: translateX(-100%);
+        }
+        
+        .client-logo:hover::before {
+            animation: shine-over 1s forwards;
+        }
+        
+        @keyframes shine-over {
+            to { transform: translateX(100%); }
+        }
+        
+        .contact {
+            padding: 6rem 0 4rem;
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.9), rgba(5, 5, 5, 0.9));
+            color: white;
+            border-top: 1px solid var(--neon-green);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-info {
+            padding-right: 2rem;
+        }
+        
+        .contact-form {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 0;
+            color: #fff;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            border-radius: 0;
+            font-size: 1rem;
+            color: white;
+            font-family: 'Source Code Pro', monospace;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        footer {
+            background-color: rgba(5, 5, 5, 0.9);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid var(--neon-green);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: #aaa;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        /* Efectos de escritura para la terminal */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--neon-green);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--neon-green); }
+        }
+        
+        /* Botón para mostrar/ocultar menú en móviles */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(15, 255, 80, 0.2);
+            border: 1px solid var(--neon-green);
+            border-radius: 50%;
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            z-index: 999;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            z-index: 999;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.7);
+            transition: all 0.3s;
+            animation: pulse-whatsapp 2s infinite;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.9);
+        }
+        
+        @keyframes pulse-whatsapp {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
 
-        /* Estilos para el modal de geolocalización */
-        .location-modal {
+        /* Estilos para el modal de autenticación */
+        .auth-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -419,101 +796,146 @@
             align-items: center;
         }
 
-        .location-modal-content {
+        .auth-modal-content {
             background-color: var(--terminal-bg);
             border: 1px solid var(--neon-green);
             border-radius: 5px;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             padding: 2rem;
             box-shadow: 0 0 25px rgba(15, 255, 80, 0.3);
             text-align: center;
             position: relative;
         }
 
-        .location-modal-header {
+        .auth-modal-header {
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--neon-green);
         }
 
-        .location-modal-header h2 {
+        .auth-modal-header h2 {
             color: var(--neon-green);
             font-family: 'Share Tech Mono', monospace;
             font-size: 1.5rem;
         }
 
-        .location-modal-body {
+        .auth-modal-body {
             margin-bottom: 1.5rem;
             text-align: left;
         }
 
-        .location-modal-body p {
-            margin-bottom: 1rem;
-            color: #ccc;
-        }
-
-        .location-modal-footer {
+        .auth-modal-footer {
             display: flex;
             justify-content: center;
             gap: 1rem;
         }
 
-        .location-data-item {
-            display: flex;
-            margin-bottom: 0.5rem;
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            color: var(--neon-green);
+            cursor: pointer;
         }
 
-        .location-data-label {
-            font-weight: bold;
-            min-width: 120px;
-            color: var(--neon-blue);
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #aaa;
+        }
+        
+        .auth-switch a {
+            color: var(--neon-green);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
         }
 
-        .location-data-value {
+        /* Mensajes de estado */
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Source Code Pro', monospace;
+        }
+        
+        .message.success {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--neon-green);
             color: var(--neon-green);
         }
+        
+        .message.error {
+            background-color: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+        }
 
-        .location-loader {
-            border: 3px solid #333;
-            border-top: 3px solid var(--neon-green);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
+        /* Panel de usuario en header */
+        .user-menu {
             display: none;
+            position: relative;
         }
 
-        .map-container {
-            height: 200px;
-            margin: 1rem 0;
-            border: 1px solid var(--neon-blue);
-            border-radius: 5px;
-            overflow: hidden;
+        .user-info {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
         }
 
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-
-        .gps-precision {
-            margin-top: 1rem;
-            padding: 0.5rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-            border-left: 3px solid var(--neon-green);
-        }
-
-        .accuracy-value {
-            color: var(--neon-green);
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: var(--neon-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
             font-weight: bold;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--neon-green);
+            border-radius: 4px;
+            padding: 1rem;
+            min-width: 200px;
+            z-index: 1001;
+            margin-top: 10px;
+        }
+
+        .user-dropdown-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .user-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-dropdown-item a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 0.3rem 0;
+        }
+
+        .user-dropdown-item a:hover {
+            color: var(--neon-green);
+        }
+
+        .user-info:hover .user-dropdown {
+            display: block;
         }
         
         /* Responsive */
@@ -577,17 +999,17 @@
                 font-size: 1.7rem;
             }
 
-            .location-modal-content {
+            .auth-modal-content {
                 width: 95%;
                 padding: 1rem;
             }
 
-            .location-modal-footer {
+            .auth-modal-footer {
                 flex-direction: column;
             }
 
-            .map-container {
-                height: 150px;
+            .user-menu {
+                margin-top: 1rem;
             }
         }
     </style>
@@ -597,48 +1019,84 @@
     <div class="grid-bg"></div>
     <div id="particles-js"></div>
 
-    <!-- Modal de Geolocalización -->
-    <div class="location-modal" id="locationModal">
-        <div class="location-modal-content">
-            <div class="location-modal-header">
-                <h2>📍 Sistema de Seguridad</h2>
+    <!-- Modal de Autenticación -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h2>🔐 Acceso al Sistema</h2>
             </div>
-            <div class="location-modal-body">
-                <p>Para mejorar la seguridad de nuestro servicio, verificamos la ubicación de nuestros visitantes.</p>
-                <div id="locationData">
-                    <div class="location-data-item">
-                        <span class="location-data-label">IP:</span>
-                        <span class="location-data-value" id="ipValue">Detectando...</span>
+            <div class="auth-modal-body">
+                <!-- Formulario de Login -->
+                <div class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">Usuario</label>
+                        <input type="text" id="loginUsername" placeholder="Ingresa tu usuario" required>
                     </div>
-                    <div class="location-data-item">
-                        <span class="location-data-label">País:</span>
-                        <span class="location-data-value" id="countryValue">Detectando...</span>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
+                        <span class="password-toggle" id="loginPasswordToggle">
+                            <i class="far fa-eye"></i>
+                        </span>
                     </div>
-                    <div class="location-data-item">
-                        <span class="location-data-label">Región:</span>
-                        <span class="location-data-value" id="regionValue">Detectando...</span>
+                    
+                    <div class="message" id="loginMessage" style="display: none;"></div>
+                    
+                    <div class="auth-modal-footer">
+                        <button type="button" class="btn" id="loginBtn">Acceder</button>
+                        <button type="button" class="btn" style="background-color: #6c757d;" id="closeAuthModal">Cancelar</button>
                     </div>
-                    <div class="location-data-item">
-                        <span class="location-data-label">Ciudad:</span>
-                        <span class="location-data-value" id="cityValue">Detectando...</span>
-                    </div>
-                    <div class="location-data-item">
-                        <span class="location-data-label">Coordenadas:</span>
-                        <span class="location-data-value" id="coordinatesValue">Detectando...</span>
+                    
+                    <div class="auth-switch">
+                        ¿No tienes cuenta? <a id="switchToRegister">Regístrate aquí</a>
                     </div>
                 </div>
-                <div class="gps-precision" id="gpsPrecision" style="display: none;">
-                    <span class="location-data-label">Precisión:</span>
-                    <span class="accuracy-value" id="accuracyValue"></span> metros
+                
+                <!-- Formulario de Registro -->
+                <div class="auth-form" id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="registerUsername">Usuario</label>
+                        <input type="text" id="registerUsername" placeholder="Crea tu usuario" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail">Correo Electrónico</label>
+                        <input type="email" id="registerEmail" placeholder="tu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Contraseña</label>
+                        <input type="password" id="registerPassword" placeholder="Crea una contraseña segura" required>
+                        <span class="password-toggle" id="registerPasswordToggle">
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmar Contraseña</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="Repite tu contraseña" required>
+                        <span class="password-toggle" id="registerConfirmPasswordToggle">
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerInviteCode">Código de Invitación</label>
+                        <input type="text" id="registerInviteCode" placeholder="Código de acceso (opcional)">
+                    </div>
+                    
+                    <div class="message" id="registerMessage" style="display: none;"></div>
+                    
+                    <div class="auth-modal-footer">
+                        <button type="button" class="btn" id="registerBtn">Registrarse</button>
+                        <button type="button" class="btn" style="background-color: #6c757d;" id="closeAuthModalReg">Cancelar</button>
+                    </div>
+                    
+                    <div class="auth-switch">
+                        ¿Ya tienes cuenta? <a id="switchToLogin">Inicia sesión aquí</a>
+                    </div>
                 </div>
-                <div class="map-container">
-                    <div id="map"></div>
-                </div>
-                <div class="location-loader" id="locationLoader"></div>
-            </div>
-            <div class="location-modal-footer">
-                <button class="btn" id="acceptLocation">Aceptar</button>
-                <button class="btn" style="background-color: #6c757d;" id="denyLocation">Denegar</button>
             </div>
         </div>
     </div>
@@ -672,7 +1130,30 @@
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </nav>
-                <a href="#contacto" class="btn">Terminal SSH</a>
+                
+                <!-- Menú de usuario (inicialmente oculto) -->
+                <div class="user-menu" id="userMenu">
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">Usuario</span>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="user-dropdown-item">
+                            <a href="#"><i class="fas fa-user-circle"></i> Mi Perfil</a>
+                        </div>
+                        <div class="user-dropdown-item">
+                            <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+                        </div>
+                        <div class="user-dropdown-item">
+                            <a href="#"><i class="fas fa-shield-alt"></i> Privilegios: <span id="userLevel">Usuario</span></a>
+                        </div>
+                        <div class="user-dropdown-item">
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn" id="authBtn">Acceder</a>
             </div>
         </div>
     </header>
@@ -1056,7 +1537,7 @@
                         },
                         "onclick": {
                             "enable": true,
-                            "mode": "push"
+                            "mode": 'push'
                         },
                         "resize": true
                     },
@@ -1188,257 +1669,249 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
                 window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
             });
 
-            // Sistema de geolocalización
-            const locationModal = document.getElementById('locationModal');
-            const acceptLocation = document.getElementById('acceptLocation');
-            const denyLocation = document.getElementById('denyLocation');
-            const locationLoader = document.getElementById('locationLoader');
-            const ipValue = document.getElementById('ipValue');
-            const countryValue = document.getElementById('countryValue');
-            const regionValue = document.getElementById('regionValue');
-            const cityValue = document.getElementById('cityValue');
-            const coordinatesValue = document.getElementById('coordinatesValue');
-            const gpsPrecision = document.getElementById('gpsPrecision');
-            const accuracyValue = document.getElementById('accuracyValue');
+            // ==============================================
+            // SISTEMA DE AUTENTICACIÓN
+            // ==============================================
             
-            let map;
-            let marker;
-            let preciseLocation = null;
-
-            // Mostrar el modal después de 2 segundos
-            setTimeout(() => {
-                locationModal.style.display = 'flex';
-                getLocationData();
-            }, 2000);
-
-            // Inicializar el mapa
-            function initMap(lat, lng) {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: { lat: lat, lng: lng },
-                    zoom: 15,
-                    styles: [
-                        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-                        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-                        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-                        {
-                            featureType: "administrative.locality",
-                            elementType: "labels.text.fill",
-                            stylers: [{ color: "#d59563" }]
-                        },
-                        {
-                            featureType: "poi",
-                            elementType: "labels.text.fill",
-                            stylers: [{ color: "#d59563" }]
-                        },
-                        {
-                            featureType: "road",
-                            elementType: "geometry",
-                            stylers: [{ color: "#38414e" }]
-                        },
-                        {
-                            featureType: "road",
-                            elementType: "geometry.stroke",
-                            stylers: [{ color: "#212a37" }]
-                        },
-                        {
-                            featureType: "road",
-                            elementType: "labels.text.fill",
-                            stylers: [{ color: "#9ca5b3" }]
-                        },
-                        {
-                            featureType: "road.highway",
-                            elementType: "geometry",
-                            stylers: [{ color: "#746855" }]
-                        },
-                        {
-                            featureType: "road.highway",
-                            elementType: "geometry.stroke",
-                            stylers: [{ color: "#1f2835" }]
-                        },
-                        {
-                            featureType: "road.highway",
-                            elementType: "labels.text.fill",
-                            stylers: [{ color: "#f3d19c" }]
-                        },
-                        {
-                            featureType: "water",
-                            elementType: "geometry",
-                            stylers: [{ color: "#17263c" }]
-                        },
-                        {
-                            featureType: "water",
-                            elementType: "labels.text.fill",
-                            stylers: [{ color: "#515c6d" }]
-                        },
-                        {
-                            featureType: "water",
-                            elementType: "labels.text.stroke",
-                            stylers: [{ color: "#17263c" }]
-                        }
-                    ]
-                });
-
-                marker = new google.maps.Marker({
-                    position: { lat: lat, lng: lng },
-                    map: map,
-                    title: 'Ubicación aproximada',
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 10,
-                        fillColor: "#0f0",
-                        fillOpacity: 0.8,
-                        strokeWeight: 2,
-                        strokeColor: "#ffffff"
+            // Elementos del DOM para autenticación
+            const authModal = document.getElementById('authModal');
+            const authBtn = document.getElementById('authBtn');
+            const userMenu = document.getElementById('userMenu');
+            const userName = document.getElementById('userName');
+            const userAvatar = document.getElementById('userAvatar');
+            const userLevel = document.getElementById('userLevel');
+            const closeAuthModal = document.getElementById('closeAuthModal');
+            const closeAuthModalReg = document.getElementById('closeAuthModalReg');
+            const switchToRegister = document.getElementById('switchToRegister');
+            const switchToLogin = document.getElementById('switchToLogin');
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const loginMessage = document.getElementById('loginMessage');
+            const registerMessage = document.getElementById('registerMessage');
+            
+            // Toggle de visibilidad de contraseña
+            function setupPasswordToggle(inputId, toggleId) {
+                const passwordInput = document.getElementById(inputId);
+                const toggleButton = document.getElementById(toggleId);
+                
+                toggleButton.addEventListener('click', function() {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        toggleButton.innerHTML = '<i class="far fa-eye-slash"></i>';
+                    } else {
+                        passwordInput.type = 'password';
+                        toggleButton.innerHTML = '<i class="far fa-eye"></i>';
                     }
                 });
             }
-
-            // Obtener datos de ubicación
-            function getLocationData() {
-                locationLoader.style.display = 'block';
-                
-                // Obtener datos por IP primero
-                fetch('https://ipapi.co/json/')
-                    .then(response => response.json())
-                    .then(ipData => {
-                        ipValue.textContent = ipData.ip;
-                        countryValue.textContent = ipData.country_name;
-                        regionValue.textContent = ipData.region;
-                        cityValue.textContent = ipData.city;
-                        
-                        // Ahora intentar obtener la ubicación precisa con GPS
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(
-                                function(position) {
-                                    // Éxito: tenemos ubicación precisa
-                                    const lat = position.coords.latitude;
-                                    const lon = position.coords.longitude;
-                                    const accuracy = position.coords.accuracy;
-                                    
-                                    coordinatesValue.textContent = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
-                                    accuracyValue.textContent = Math.round(accuracy);
-                                    gpsPrecision.style.display = 'block';
-                                    
-                                    // Guardar la ubicación precisa
-                                    preciseLocation = { lat, lon, accuracy };
-                                    
-                                    // Inicializar el mapa con la ubicación precisa
-                                    initMap(lat, lon);
-                                    
-                                    // Dibujar círculo de precisión
-                                    const circle = new google.maps.Circle({
-                                        map: map,
-                                        center: { lat: lat, lng: lon },
-                                        radius: accuracy,
-                                        fillColor: '#00FF00',
-                                        fillOpacity: 0.2,
-                                        strokeColor: '#00FF00',
-                                        strokeOpacity: 0.6,
-                                        strokeWeight: 1
-                                    });
-                                    
-                                    locationLoader.style.display = 'none';
-                                    
-                                    // Enviar datos por correo
-                                    sendLocationData(ipData, preciseLocation);
-                                },
-                                function(error) {
-                                    // El usuario denegó la ubicación precisa, usar datos de IP
-                                    coordinatesValue.textContent = "No disponible (solo IP)";
-                                    
-                                    // Inicializar el mapa con datos de IP (si están disponibles)
-                                    if (ipData.latitude && ipData.longitude) {
-                                        initMap(ipData.latitude, ipData.longitude);
-                                    } else {
-                                        // Usar una ubicación por defecto (centro del país según IP)
-                                        initMap(23.6345, -102.5528); // Centro de México por defecto
-                                    }
-                                    
-                                    locationLoader.style.display = 'none';
-                                    
-                                    // Enviar solo datos de IP al correo
-                                    sendLocationData(ipData, null);
-                                },
-                                {
-                                    enableHighAccuracy: true,
-                                    timeout: 10000,
-                                    maximumAge: 0
-                                }
-                            );
-                        } else {
-                            // Geolocalización no compatible
-                            coordinatesValue.textContent = "No compatible con este navegador";
-                            locationLoader.style.display = 'none';
-                            
-                            // Inicializar el mapa con datos de IP (si están disponibles)
-                            if (ipData.latitude && ipData.longitude) {
-                                initMap(ipData.latitude, ipData.longitude);
-                            } else {
-                                // Usar una ubicación por defecto
-                                initMap(23.6345, -102.5528); // Centro de México por defecto
-                            }
-                            
-                            // Enviar solo datos de IP al correo
-                            sendLocationData(ipData, null);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error obteniendo datos de ubicación:', error);
-                        ipValue.textContent = 'No disponible';
-                        countryValue.textContent = 'No disponible';
-                        regionValue.textContent = 'No disponible';
-                        cityValue.textContent = 'No disponible';
-                        coordinatesValue.textContent = 'No disponible';
-                        locationLoader.style.display = 'none';
-                        
-                        // Inicializar el mapa con una ubicación por defecto
-                        initMap(23.6345, -102.5528); // Centro de México por defecto
-                    });
+            
+            // Configurar toggles de contraseña
+            setupPasswordToggle('loginPassword', 'loginPasswordToggle');
+            setupPasswordToggle('registerPassword', 'registerPasswordToggle');
+            setupPasswordToggle('registerConfirmPassword', 'registerConfirmPasswordToggle');
+            
+            // Mostrar/ocultar modal de autenticación
+            authBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                authModal.style.display = 'flex';
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+            });
+            
+            closeAuthModal.addEventListener('click', function() {
+                authModal.style.display = 'none';
+            });
+            
+            closeAuthModalReg.addEventListener('click', function() {
+                authModal.style.display = 'none';
+            });
+            
+            // Cambiar entre formularios
+            switchToRegister.addEventListener('click', function() {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('registerForm').style.display = 'block';
+                loginMessage.style.display = 'none';
+            });
+            
+            switchToLogin.addEventListener('click', function() {
+                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('loginForm').style.display = 'block';
+                registerMessage.style.display = 'none';
+            });
+            
+            // Mostrar mensaje de estado
+            function showMessage(element, message, type) {
+                element.textContent = message;
+                element.className = `message ${type}`;
+                element.style.display = 'block';
             }
-
-            // Función para enviar datos de ubicación por correo
-            function sendLocationData(ipData, gpsData) {
-                // Usar FormSubmit para enviar los datos al correo
-                const formData = new FormData();
-                formData.append('ip', ipData.ip);
-                formData.append('country', ipData.country_name);
-                formData.append('region', ipData.region);
-                formData.append('city', ipData.city);
-                formData.append('postal', ipData.postal);
-                formData.append('page', window.location.href);
-                formData.append('timestamp', new Date().toISOString());
-                formData.append('userAgent', navigator.userAgent);
+            
+            // Validar fortaleza de contraseña
+            function validatePassword(password) {
+                // Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial
+                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                return regex.test(password);
+            }
+            
+            // Simular base de datos de usuarios
+            let users = JSON.parse(localStorage.getItem('cybervps_users')) || [];
+            
+            // Verificar si hay una sesión activa al cargar la página
+            function checkActiveSession() {
+                const currentUser = JSON.parse(localStorage.getItem('cybervps_current_user'));
+                if (currentUser) {
+                    updateUIForLoggedInUser(currentUser);
+                }
+            }
+            
+            // Actualizar la interfaz para usuario logueado
+            function updateUIForLoggedInUser(user) {
+                userMenu.style.display = 'block';
+                authBtn.style.display = 'none';
+                userName.textContent = user.username;
+                userAvatar.textContent = user.username.charAt(0).toUpperCase();
+                userLevel.textContent = user.level;
                 
-                if (gpsData) {
-                    formData.append('latitude', gpsData.lat);
-                    formData.append('longitude', gpsData.lon);
-                    formData.append('accuracy', Math.round(gpsData.accuracy));
-                    formData.append('mapUrl', `https://www.google.com/maps?q=${gpsData.lat},${gpsData.lon}`);
+                // Cambiar el color del avatar según el nivel de usuario
+                if (user.level === 'Administrador') {
+                    userAvatar.style.backgroundColor = '#ff073a'; // Rojo
+                } else if (user.level === 'Premium') {
+                    userAvatar.style.backgroundColor = '#bd00ff'; // Púrpura
+                } else {
+                    userAvatar.style.backgroundColor = '#00f7ff'; // Azul
+                }
+            }
+            
+            // Registrar nuevo usuario
+            registerBtn.addEventListener('click', function() {
+                const username = document.getElementById('registerUsername').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                const inviteCode = document.getElementById('registerInviteCode').value;
+                
+                // Validaciones
+                if (!username || !email || !password || !confirmPassword) {
+                    showMessage(registerMessage, 'Todos los campos son obligatorios', 'error');
+                    return;
                 }
                 
-                formData.append('_subject', 'Nuevo visitante en CyberVPS - Ubicación precisa');
-                formData.append('_template', 'table');
+                if (password !== confirmPassword) {
+                    showMessage(registerMessage, 'Las contraseñas no coinciden', 'error');
+                    return;
+                }
                 
-                fetch('https://formsubmit.co/ajax/almenos855@gmail.com', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => console.log('Datos de ubicación enviados al correo'))
-                .catch(error => console.error('Error:', error));
-            }
-
-            // Botones del modal
-            acceptLocation.addEventListener('click', function() {
-                locationModal.style.display = 'none';
+                if (!validatePassword(password)) {
+                    showMessage(registerMessage, 'La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales', 'error');
+                    return;
+                }
+                
+                // Verificar si el usuario ya existe
+                if (users.find(user => user.username === username)) {
+                    showMessage(registerMessage, 'El nombre de usuario ya está en uso', 'error');
+                    return;
+                }
+                
+                if (users.find(user => user.email === email)) {
+                    showMessage(registerMessage, 'El correo electrónico ya está registrado', 'error');
+                    return;
+                }
+                
+                // Verificar código de invitación (simulado)
+                let userLevel = 'Usuario';
+                if (inviteCode === 'CYBER2024') {
+                    userLevel = 'Premium';
+                } else if (inviteCode === 'ADMIN777') {
+                    userLevel = 'Administrador';
+                } else if (inviteCode !== '') {
+                    showMessage(registerMessage, 'Código de invitación inválido', 'error');
+                    return;
+                }
+                
+                // Crear nuevo usuario
+                const newUser = {
+                    id: Date.now(),
+                    username,
+                    email,
+                    password: btoa(password), // Encriptación básica (no usar en producción real)
+                    level: userLevel,
+                    joinDate: new Date().toLocaleDateString('es-ES'),
+                    lastLogin: new Date().toISOString()
+                };
+                
+                users.push(newUser);
+                localStorage.setItem('cybervps_users', JSON.stringify(users));
+                
+                // Iniciar sesión automáticamente después del registro
+                localStorage.setItem('cybervps_current_user', JSON.stringify(newUser));
+                updateUIForLoggedInUser(newUser);
+                
+                showMessage(registerMessage, '✅ Cuenta creada exitosamente. Bienvenido/a!', 'success');
+                
+                // Cerrar modal después de 2 segundos
+                setTimeout(() => {
+                    authModal.style.display = 'none';
+                    registerMessage.style.display = 'none';
+                    
+                    // Limpiar formulario
+                    document.getElementById('registerUsername').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    document.getElementById('registerConfirmPassword').value = '';
+                    document.getElementById('registerInviteCode').value = '';
+                }, 2000);
             });
-
-            denyLocation.addEventListener('click', function() {
-                locationModal.style.display = 'none';
+            
+            // Iniciar sesión
+            loginBtn.addEventListener('click', function() {
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                if (!username || !password) {
+                    showMessage(loginMessage, 'Usuario y contraseña son obligatorios', 'error');
+                    return;
+                }
+                
+                // Buscar usuario
+                const user = users.find(u => u.username === username && atob(u.password) === password);
+                
+                if (user) {
+                    // Actualizar último login
+                    user.lastLogin = new Date().toISOString();
+                    localStorage.setItem('cybervps_users', JSON.stringify(users));
+                    localStorage.setItem('cybervps_current_user', JSON.stringify(user));
+                    
+                    // Actualizar UI
+                    updateUIForLoggedInUser(user);
+                    
+                    showMessage(loginMessage, `✅ Bienvenido ${user.username}. Acceso concedido.`, 'success');
+                    
+                    // Cerrar modal después de 2 segundos
+                    setTimeout(() => {
+                        authModal.style.display = 'none';
+                        loginMessage.style.display = 'none';
+                        
+                        // Limpiar formulario
+                        document.getElementById('loginUsername').value = '';
+                        document.getElementById('loginPassword').value = '';
+                    }, 2000);
+                } else {
+                    showMessage(loginMessage, '❌ Credenciales incorrectas. Intenta nuevamente.', 'error');
+                }
             });
+            
+            // Cerrar sesión
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('cybervps_current_user');
+                userMenu.style.display = 'none';
+                authBtn.style.display = 'block';
+            });
+            
+            // Verificar si hay sesión activa al cargar la página
+            checkActiveSession();
         });
     </script>
-    <!-- Cargar la API de Google Maps -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5MjUbDdaa6kO43NxbWbbjeVfKpM5k7Ew&callback=initMap"></script>
 </body>
 </html>
