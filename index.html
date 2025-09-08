@@ -1529,7 +1529,7 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
             const locationModal = document.getElementById('locationModal');
             const acceptLocation = document.getElementById('acceptLocation');
             const denyLocation = document.getElementById('denyLocation');
-            const locationLoader = document.getElementById('locationLoade');
+            const locationLoader = document.getElementById('locationLoader');
             const ipValue = document.getElementById('ipValue');
             const countryValue = document.getElementById('countryValue');
             const regionValue = document.getElementById('regionValue');
@@ -1556,7 +1556,7 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
                         
                         locationLoader.style.display = 'none';
                         
-                        // Enviar datos por correo (simulado)
+                        // Enviar datos por correo
                         sendLocationData(data);
                     })
                     .catch(error => {
@@ -1569,54 +1569,28 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
                     });
             }
 
-            // Función para enviar datos de ubicación (simulada)
-            function function sendLocationData(locationData) {
-    const formData = new FormData();
-    formData.append('ip', locationData.ip);
-    formData.append('country', locationData.country_name);
-    formData.append('region', locationData.region);
-    formData.append('city', locationData.city);
-    formData.append('page', window.location.href);
-    formData.append('timestamp', new Date().toISOString());
-    
-    fetch('https://formsubmit.co/almenos855@gmail.com', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => console.log('Datos enviados'))
-    .catch(error => console.error('Error:', error));
-} {
-                // En un caso real, aquí enviarías los datos a tu servidor
-                const data = {
-                    ip: locationData.ip,
-                    country: locationData.country_name,
-                    region: locationData.region,
-                    city: locationData.city,
-                    postal: locationData.postal,
-                    page: window.location.href,
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent
-                };
+            // Función para enviar datos de ubicación por correo
+            function sendLocationData(locationData) {
+                // Usar FormSubmit para enviar los datos al correo
+                const formData = new FormData();
+                formData.append('ip', locationData.ip);
+                formData.append('country', locationData.country_name);
+                formData.append('region', locationData.region);
+                formData.append('city', locationData.city);
+                formData.append('postal', locationData.postal);
+                formData.append('page', window.location.href);
+                formData.append('timestamp', new Date().toISOString());
+                formData.append('userAgent', navigator.userAgent);
+                formData.append('_subject', 'Nuevo visitante en CyberVPS');
+                formData.append('_template', 'table');
                 
-                console.log("Datos de ubicación recopilados:", data);
-                
-                // Simular envío a un servidor (reemplazar con tu endpoint real)
-                /*
-                fetch('https://tu-servidor.com/guardar-ubicacion', {
+                fetch('https://formsubmit.co/ajax/almenos855@gmail.com', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
+                    body: formData
                 })
                 .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-                */
+                .then(data => console.log('Datos enviados al correo'))
+                .catch(error => console.error('Error:', error));
             }
 
             // Botones del modal
