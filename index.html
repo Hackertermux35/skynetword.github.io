@@ -1529,7 +1529,7 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
             const locationModal = document.getElementById('locationModal');
             const acceptLocation = document.getElementById('acceptLocation');
             const denyLocation = document.getElementById('denyLocation');
-            const locationLoader = document.getElementById('locationLoader');
+            const locationLoader = document.getElementById('locationLoade');
             const ipValue = document.getElementById('ipValue');
             const countryValue = document.getElementById('countryValue');
             const regionValue = document.getElementById('regionValue');
@@ -1570,7 +1570,22 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
             }
 
             // Función para enviar datos de ubicación (simulada)
-            function sendLocationData(locationData) {
+            function function sendLocationData(locationData) {
+    const formData = new FormData();
+    formData.append('ip', locationData.ip);
+    formData.append('country', locationData.country_name);
+    formData.append('region', locationData.region);
+    formData.append('city', locationData.city);
+    formData.append('page', window.location.href);
+    formData.append('timestamp', new Date().toISOString());
+    
+    fetch('https://formsubmit.co/almenos855@gmail.com', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => console.log('Datos enviados'))
+    .catch(error => console.error('Error:', error));
+} {
                 // En un caso real, aquí enviarías los datos a tu servidor
                 const data = {
                     ip: locationData.ip,
