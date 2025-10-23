@@ -568,6 +568,196 @@
             font-size: 1.5rem;
         }
         
+        /* Sección de Suscripciones */
+        .subscriptions {
+            padding: 6rem 0 4rem;
+            background-color: rgba(10, 10, 10, 0.8);
+            border-top: 1px solid var(--neon-yellow);
+            border-bottom: 1px solid var(--neon-yellow);
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .plan-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--neon-yellow);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .plan-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 25px rgba(255, 254, 10, 0.7);
+        }
+        
+        .plan-card.popular {
+            border: 2px solid var(--neon-red);
+            transform: scale(1.05);
+            animation: popular-glow 2s infinite alternate;
+        }
+        
+        .plan-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        @keyframes popular-glow {
+            0% { box-shadow: 0 0 10px rgba(255, 7, 58, 0.5); }
+            100% { box-shadow: 0 0 25px rgba(255, 7, 58, 0.8); }
+        }
+        
+        .plan-badge {
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background-color: var(--neon-red);
+            color: black;
+            padding: 0.5rem 2rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            box-shadow: 0 0 10px var(--neon-red);
+            animation: badge-pulse 1.5s infinite alternate;
+        }
+        
+        @keyframes badge-pulse {
+            0% { transform: rotate(45deg) scale(1); }
+            100% { transform: rotate(45deg) scale(1.1); }
+        }
+        
+        .plan-header {
+            padding: 2rem;
+            text-align: center;
+            background-color: rgba(255, 254, 10, 0.1);
+            border-bottom: 1px solid var(--neon-yellow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 254, 10, 0.1), transparent);
+            transform: translateX(-100%);
+        }
+        
+        .plan-card:hover .plan-header::before {
+            animation: shine-over 1s forwards;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            color: var(--neon-yellow);
+            margin: 1rem 0;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 10px var(--neon-yellow);
+            animation: price-flicker 3s infinite alternate;
+        }
+        
+        @keyframes price-flicker {
+            0%, 100% { text-shadow: 0 0 10px var(--neon-yellow); }
+            50% { text-shadow: 0 0 15px var(--neon-yellow), 0 0 20px var(--neon-yellow); }
+        }
+        
+        .plan-price span {
+            font-size: 1rem;
+            color: #ccc;
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .plan-description {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .plan-body {
+            padding: 2rem;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #222;
+            position: relative;
+            padding-left: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .plan-features li:hover {
+            color: var(--neon-green);
+            transform: translateX(5px);
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-features li::before {
+            content: "✓";
+            color: var(--neon-green);
+            position: absolute;
+            left: 0;
+            transition: all 0.3s;
+        }
+        
+        .plan-features li:hover::before {
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+        
+        .plan-footer {
+            padding: 0 2rem 2rem;
+            text-align: center;
+        }
+        
+        .subscribe-btn {
+            background: transparent;
+            color: var(--neon-yellow);
+            border: 1px solid var(--neon-yellow);
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subscribe-btn:hover {
+            background-color: var(--neon-yellow);
+            color: black;
+            box-shadow: 0 0 15px var(--neon-yellow);
+            letter-spacing: 2px;
+        }
+        
         .clients {
             padding: 6rem 0 4rem;
             background-color: rgba(10, 10, 10, 0.8);
@@ -647,6 +837,7 @@
             box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
         }
         
+        /* Estilos mejorados para formularios con estilo hacker */
         .form-group {
             margin-bottom: 1.5rem;
             position: relative;
@@ -658,6 +849,7 @@
             font-weight: 500;
             color: var(--neon-blue);
             font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 5px var(--neon-blue);
         }
         
         .form-group input,
@@ -665,13 +857,16 @@
         .form-group select {
             width: 100%;
             padding: 0.8rem;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.9);
             border: 1px solid #333;
             border-radius: 0;
             font-size: 1rem;
-            color: white;
+            color: var(--neon-green);
             font-family: 'Source Code Pro', monospace;
             transition: all 0.3s;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 5px var(--neon-green);
+            letter-spacing: 1px;
         }
         
         .form-group input:focus,
@@ -679,7 +874,38 @@
         .form-group select:focus {
             outline: none;
             border-color: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue), inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #555;
+            font-style: italic;
+        }
+        
+        /* Efecto de terminal para inputs */
+        .terminal-input {
+            position: relative;
+        }
+        
+        .terminal-input::before {
+            content: "> ";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-green);
+            z-index: 1;
+        }
+        
+        .terminal-input input,
+        .terminal-input textarea,
+        .terminal-input select {
+            padding-left: 25px;
+        }
+        
+        .terminal-input textarea {
+            padding-top: 0.8rem;
         }
         
         footer {
@@ -829,6 +1055,14 @@
                 flex-direction: column;
             }
             
+            .plan-card.popular {
+                transform: scale(1);
+            }
+            
+            .plan-card.popular:hover {
+                transform: translateY(-10px);
+            }
+            
             .mobile-menu-btn {
                 display: flex;
                 align-items: center;
@@ -874,12 +1108,13 @@
                     <ul>
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#operadoras">Operadoras</a></li>
+                        <li><a href="#suscripciones">Suscripciones</a></li>
                         <li><a href="#sistema">Sistema</a></li>
                         <li><a href="#clientes">Clientes</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </nav>
-                <a href="#contacto" class="btn">Terminal SSH</a>
+                <a href="#suscripciones" class="btn">Suscripciones</a>
             </div>
         </div>
     </header>
@@ -1048,6 +1283,92 @@
         </div>
     </section>
 
+    <!-- Suscripciones Section -->
+    <section class="subscriptions" id="suscripciones">
+        <div class="container">
+            <div class="section-title">
+                <h2>Suscripciones Premium</h2>
+                <p>Elige el plan que mejor se adapte a tus necesidades de telecomunicaciones</p>
+            </div>
+            
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Plan Básico</h3>
+                        <div class="plan-price">$50<span>/mes</span></div>
+                        <p class="plan-description">Ideal para pequeños operadores</p>
+                    </div>
+                    <div class="plan-body">
+                        <ul class="plan-features">
+                            <li>1 VPS especializado</li>
+                            <li>10 GB Almacenamiento SSD</li>
+                            <li>2 GB RAM</li>
+                            <li>1 CPU Core</li>
+                            <li>Ancho de banda 1TB</li>
+                            <li>Soporte por email</li>
+                            <li>Panel de control básico</li>
+                        </ul>
+                    </div>
+                    <div class="plan-footer">
+                        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=2c9380849507946601950c914d0201f0" class="subscribe-btn" target="_blank">Suscribirse</a>
+                    </div>
+                </div>
+                
+                <div class="plan-card popular">
+                    <div class="plan-badge">POPULAR</div>
+                    <div class="plan-header">
+                        <h3 class="plan-name">Plan Profesional</h3>
+                        <div class="plan-price">$150<span>/mes</span></div>
+                        <p class="plan-description">Para empresas en crecimiento</p>
+                    </div>
+                    <div class="plan-body">
+                        <ul class="plan-features">
+                            <li>3 VPS especializados</li>
+                            <li>50 GB Almacenamiento SSD</li>
+                            <li>8 GB RAM</li>
+                            <li>4 CPU Cores</li>
+                            <li>Ancho de banda 5TB</li>
+                            <li>Soporte prioritario 24/7</li>
+                            <li>Panel de control avanzado</li>
+                            <li>Backups automáticos</li>
+                        </ul>
+                    </div>
+                    <div class="plan-footer">
+                        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=2c9380849507946601950c914d0201f0" class="subscribe-btn" target="_blank">Suscribirse</a>
+                    </div>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Plan Enterprise</h3>
+                        <div class="plan-price">$300<span>/mes</span></div>
+                        <p class="plan-description">Para grandes operadores</p>
+                    </div>
+                    <div class="plan-body">
+                        <ul class="plan-features">
+                            <li>5 VPS especializados</li>
+                            <li>100 GB Almacenamiento SSD</li>
+                            <li>16 GB RAM</li>
+                            <li>8 CPU Cores</li>
+                            <li>Ancho de banda ilimitado</li>
+                            <li>Soporte premium 24/7</li>
+                            <li>Panel de control enterprise</li>
+                            <li>Backups automáticos diarios</li>
+                            <li>Monitoreo avanzado</li>
+                        </ul>
+                    </div>
+                    <div class="plan-footer">
+                        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=2c9380849507946601950c914d0201f0" class="subscribe-btn" target="_blank">Suscribirse</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="color: #aaa;">¿Necesitas un plan personalizado? <a href="#contacto" style="color: var(--neon-green);">Contáctanos</a></p>
+            </div>
+        </div>
+    </section>
+
     <!-- Account System Section -->
     <section class="account-system" id="sistema">
         <div class="container">
@@ -1138,13 +1459,19 @@
                 <div class="contact-form">
                     <h3>Solicitar por WhatsApp</h3>
                     <form id="whatsappForm">
-                
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Tu email" required>
+                        <div class="form-group terminal-input">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" placeholder="Ingresa tu nombre" required>
                         </div>
-                       
-                        <div class="form-group">
+                        <div class="form-group terminal-input">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Ingresa tu email" required>
+                        </div>
+                        <div class="form-group terminal-input">
+                            <label for="company">Empresa</label>
+                            <input type="text" id="company" placeholder="Nombre de tu empresa">
+                        </div>
+                        <div class="form-group terminal-input">
                             <label for="carrier">Operadora de interés</label>
                             <select id="carrier" required>
                                 <option value="">Selecciona una opción</option>
@@ -1156,7 +1483,7 @@
                                 <option value="otra">Otra</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group terminal-input">
                             <label for="message">Mensaje</label>
                             <textarea id="message" rows="5" placeholder="Describe tu solicitud o requerimientos" required></textarea>
                         </div>
@@ -1354,7 +1681,7 @@
                 });
             }, observerOptions);
             
-            document.querySelectorAll('.feature-card, .carrier-card, .step, .client-logo').forEach(el => {
+            document.querySelectorAll('.feature-card, .carrier-card, .step, .client-logo, .plan-card').forEach(el => {
                 observer.observe(el);
             });
             
@@ -1383,6 +1710,7 @@
                 
                 const whatsappMessage = `Hola, soy ${name}. 
 Email: ${email}
+Empresa: ${company || 'No especificada'}
 Operadora de interés: ${carrier}
 
 Mensaje: ${message}
@@ -1391,6 +1719,18 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
 
                 const encodedMessage = encodeURIComponent(whatsappMessage);
                 window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
+            });
+            
+            // Efecto de escritura en inputs
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('focused');
+                });
             });
         });
     </script>
