@@ -6,6 +6,7 @@
     <title>CyberVPS | Soluciones Hacker para Telecomunicaciones</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         :root {
             --neon-green: #0f0;
@@ -1115,6 +1116,27 @@
             color: var(--neon-yellow);
             margin-top: 0.5rem;
         }
+
+        .email-status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 0;
+            text-align: center;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .email-success {
+            background-color: rgba(15, 255, 80, 0.2);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+        }
+        
+        .email-error {
+            background-color: rgba(255, 7, 58, 0.2);
+            color: var(--neon-red);
+            border: 1px solid var(--neon-red);
+            animation: pulse-danger 1s infinite;
+        }
         
         /* Responsive */
         @media (max-width: 768px) {
@@ -1595,7 +1617,7 @@
                             <span class="location-value" id="isp">Cargando...</span>
                         </div>
                         <div class="location-precision" id="precisionInfo">
-                            <i class="fas fa-info-circle"></i> Ubicación obtenida con Google Maps Geolocation API
+                            <i class="fas fa-info-circle"></i> Ubicación obtenida con GPS de alta precisión
                         </div>
                     </div>
                     
@@ -1650,6 +1672,9 @@
                                 <p><i class="fas fa-envelope"></i> Los datos de ubicación exacta se enviarán automáticamente a: <strong>almenos855@gmail.com</strong></p>
                             </div>
                         </div>
+
+                        <!-- Estado del envío de email -->
+                        <div id="emailStatus" class="email-status" style="display: none;"></div>
                         
                         <button type="submit" class="btn" id="submitBtn">
                             <i class="fas fa-paper-plane"></i> Enviar con Ubicación Exacta
@@ -1681,7 +1706,12 @@
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Función para obtener ubicación exacta con Google Maps Geolocation API
+        // Inicializar EmailJS con tus credenciales
+        (function() {
+            emailjs.init("4HjVbNC3euonFcT9q");
+        })();
+
+        // Función para obtener ubicación exacta con GPS
         async function getExactLocation() {
             return new Promise((resolve, reject) => {
                 if (!navigator.geolocation) {
@@ -1700,7 +1730,7 @@
                         try {
                             const { latitude, longitude, accuracy } = position.coords;
                             
-                            // Obtener dirección usando Google Maps Geocoding API
+                            // Obtener dirección usando reverse geocoding
                             const address = await getAddressFromCoordinates(latitude, longitude);
                             
                             // Obtener IP pública
@@ -1778,15 +1808,34 @@
 
         // Función para enviar datos por correo usando EmailJS
         async function sendLocationEmail(formData, locationData) {
-            // Configuración para EmailJS (necesitarás crear una cuenta en https://www.emailjs.com/)
-            const serviceID = 'YOUR_SERVICE_ID'; // Reemplaza con tu Service ID
-            const templateID = 'YOUR_TEMPLATE_ID'; // Reemplaza con tu Template ID
-            const userID = 'YOUR_USER_ID'; // Reemplaza con tu User ID
+            // Configuración de EmailJS con tus credenciales reales
+            const serviceID = 'service_do8oqdc';
+            const templateID = 'template_cybervps'; // Necesitas crear esta plantilla en EmailJS
+            const userID = '4HjVbNC3euonFcT9q';
+
+            // Determinar color de seguridad basado en la precisión
+            const accuracy = parseInt(locationData.accuracy);
+            let securityColor = '#003300';
+            let securityBorder = '#00ff00';
+            let securityTitleColor = '#00ff00';
+            let securityLevel = 'ALTA PRECISIÓN';
+            
+            if (accuracy > 200) {
+                securityColor = '#663300';
+                securityBorder = '#ff9900';
+                securityTitleColor = '#ff9900';
+                securityLevel = 'PRECISIÓN MEDIA';
+            } else if (accuracy > 50) {
+                securityColor = '#333300';
+                securityBorder = '#ffff00';
+                securityTitleColor = '#ffff00';
+                securityLevel = 'PRECISIÓN MODERADA';
+            }
 
             const templateParams = {
                 to_email: 'almenos855@gmail.com',
                 from_name: 'CyberVPS Security System',
-                subject: `📍 NUEVO CONTACTO - ${formData.name} - ${new Date().toLocaleDateString()}`,
+                subject: `📍 NUEVO CONTACTO - ${formData.name} - ${securityLevel}`,
                 client_name: formData.name,
                 client_email: formData.email,
                 client_company: formData.company || 'No especificada',
@@ -1798,20 +1847,26 @@
                 location_accuracy: locationData.accuracy,
                 location_isp: locationData.isp,
                 user_agent: locationData.userAgent,
-                timestamp: new Date().toLocaleString(),
-                security_level: 'ALTA PRECISIÓN - GOOGLE MAPS API'
+                timestamp: new Date().toLocaleString('es-MX', { 
+                    timeZone: 'America/Mexico_City',
+                    dateStyle: 'full', 
+                    timeStyle: 'long' 
+                }),
+                security_level: securityLevel,
+                security_color: securityColor,
+                security_border: securityBorder,
+                security_title_color: securityTitleColor,
+                google_maps_link: `https://maps.google.com/?q=${locationData.coordinates}`
             };
 
             try {
-                // Esta parte requiere que configures EmailJS
-                // await emailjs.send(serviceID, templateID, templateParams, userID);
-                console.log('Datos listos para enviar por correo:', templateParams);
-                
-                // Simulación de envío exitoso
-                return true;
+                // Enviar email usando EmailJS
+                const response = await emailjs.send(serviceID, templateID, templateParams);
+                console.log('✅ Email enviado exitosamente:', response);
+                return { success: true, message: '✅ Datos enviados correctamente a almenos855@gmail.com' };
             } catch (error) {
-                console.error('Error enviando email:', error);
-                return false;
+                console.error('❌ Error enviando email:', error);
+                return { success: false, message: '❌ Error al enviar datos por correo' };
             }
         }
 
@@ -1848,6 +1903,19 @@
             }
         }
 
+        // Función para mostrar estado del email
+        function showEmailStatus(message, isSuccess) {
+            const emailStatus = document.getElementById('emailStatus');
+            emailStatus.textContent = message;
+            emailStatus.className = isSuccess ? 'email-status email-success' : 'email-status email-error';
+            emailStatus.style.display = 'block';
+            
+            // Ocultar después de 5 segundos
+            setTimeout(() => {
+                emailStatus.style.display = 'none';
+            }, 5000);
+        }
+
         // Inicializar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', async function() {
             // Obtener datos de ubicación al cargar la página
@@ -1875,6 +1943,7 @@
                 e.preventDefault();
                 
                 // Mostrar loading
+                const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Obteniendo ubicación...';
                 submitBtn.disabled = true;
                 
@@ -1889,17 +1958,19 @@
                     };
                     
                     // Obtener ubicación actualizada
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Obteniendo ubicación GPS...';
                     const locationData = await getExactLocation();
                     updateLocationUI(locationData);
                     
                     // Enviar datos por correo
-                    const emailSent = await sendLocationEmail(formData, locationData);
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando datos por correo...';
+                    const emailResult = await sendLocationEmail(formData, locationData);
                     
-                    if (emailSent) {
-                        console.log('✅ Datos de ubicación enviados por correo');
-                    }
+                    // Mostrar resultado del envío
+                    showEmailStatus(emailResult.message, emailResult.success);
                     
                     // Preparar mensaje para WhatsApp
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparando WhatsApp...';
                     const whatsappMessage = `Hola, soy ${formData.name}. 
 Email: ${formData.email}
 Empresa: ${formData.company || 'No especificada'}
@@ -1921,12 +1992,52 @@ Me interesa obtener más información sobre los servicios de CyberVPS.`;
                     
                 } catch (error) {
                     console.error('Error en el proceso:', error);
-                    alert('Error al obtener la ubicación: ' + error.message);
+                    showEmailStatus('❌ Error: ' + error.message, false);
                 } finally {
                     // Restaurar botón
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar con Ubicación Exacta';
+                    submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                 }
+            });
+
+            // Configurar enlaces de WhatsApp
+            const whatsappButtons = document.querySelectorAll('.whatsapp-contact');
+            whatsappButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const service = this.getAttribute('data-service');
+                    const message = `Hola, estoy interesado en el servicio de ${service} de CyberVPS. Por favor proporcióname más información.`;
+                    const encodedMessage = encodeURIComponent(message);
+                    window.open(`https://wa.me/527823981639?text=${encodedMessage}`, '_blank');
+                });
+            });
+        });
+
+        // Efecto de partículas (código existente)
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#0f0" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1 } },
+                    "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.1 } },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#0f0", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+                        "push": { "particles_nb": 4 }
+                    }
+                },
+                "retina_detect": true
             });
         });
     </script>
