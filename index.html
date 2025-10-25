@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberVPS | Geolocalización Activa</title>
+    <title>CyberVPS | OSINT & Auditoría de Seguridad</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -225,11 +225,11 @@
             50% { border-color: var(--neon-green); }
         }
         
-        .location-section {
+        .osint-section {
             padding: 4rem 0;
             background-color: rgba(10, 10, 10, 0.8);
-            border-top: 1px solid var(--neon-blue);
-            border-bottom: 1px solid var(--neon-blue);
+            border-top: 1px solid var(--neon-purple);
+            border-bottom: 1px solid var(--neon-purple);
         }
         
         .section-title {
@@ -239,10 +239,10 @@
         
         .section-title h2 {
             font-size: 2.2rem;
-            color: var(--neon-blue);
+            color: var(--neon-purple);
             margin-bottom: 1rem;
             font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 10px var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-purple);
         }
         
         .section-title p {
@@ -252,110 +252,92 @@
             font-family: 'Source Code Pro', monospace;
         }
         
-        .location-grid {
+        .osint-tools {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
+            margin-top: 2rem;
         }
         
-        @media (max-width: 768px) {
-            .location-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .location-data {
+        .tool-card {
             background-color: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--neon-blue);
-            padding: 2rem;
             border-radius: 0;
-            box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
         
-        .location-item {
-            margin: 1rem 0;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
         }
         
-        .location-label {
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--neon-red), var(--neon-purple), var(--neon-blue), var(--neon-green));
+            background-size: 400%;
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .tool-card h3 {
+            margin-bottom: 1rem;
             color: var(--neon-blue);
             font-family: 'Share Tech Mono', monospace;
         }
         
-        .location-value {
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
             color: var(--neon-green);
-            text-align: right;
-            max-width: 70%;
-            word-break: break-word;
-        }
-        
-        .map-container {
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--neon-red);
-            border-radius: 0;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(255, 7, 58, 0.3);
-            height: 400px;
-            position: relative;
-        }
-        
-        #satelliteMap {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .map-overlay {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border: 1px solid var(--neon-green);
-            border-radius: 0;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--neon-green);
-            z-index: 1000;
         }
         
-        .security-alert {
-            background-color: rgba(255, 7, 58, 0.1);
-            border: 1px solid var(--neon-red);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .security-alert::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .form-control {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 7, 58, 0.1), transparent);
-            animation: security-scan 3s infinite;
-        }
-        
-        @keyframes security-scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
+            padding: 0.8rem;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
             border-radius: 0;
-            font-size: 0.8rem;
-            margin-left: 1rem;
-            background-color: rgba(15, 255, 80, 0.2);
             color: var(--neon-green);
-            border: 1px solid var(--neon-green);
+            font-family: 'Source Code Pro', monospace;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
         }
         
         .btn {
@@ -399,19 +381,58 @@
             left: 0;
         }
         
+        .results-container {
+            margin-top: 2rem;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-yellow);
+            padding: 1rem;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .result-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-platform {
+            color: var(--neon-blue);
+        }
+        
+        .result-status {
+            color: var(--neon-green);
+        }
+        
+        .result-url {
+            color: var(--neon-yellow);
+            text-decoration: none;
+        }
+        
+        .result-url:hover {
+            text-decoration: underline;
+        }
+        
         .loading {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 200px;
+            padding: 2rem;
             flex-direction: column;
         }
         
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(15, 255, 80, 0.3);
-            border-top: 5px solid var(--neon-green);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(15, 255, 80, 0.3);
+            border-top: 4px solid var(--neon-green);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 1rem;
@@ -420,6 +441,43 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        .security-alert {
+            background-color: rgba(255, 7, 58, 0.1);
+            border: 1px solid var(--neon-red);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .security-alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 7, 58, 0.1), transparent);
+            animation: security-scan 3s infinite;
+        }
+        
+        @keyframes security-scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+            background-color: rgba(15, 255, 80, 0.2);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
         }
         
         footer {
@@ -452,21 +510,37 @@
             text-shadow: 0 0 10px var(--neon-green);
         }
         
-        .accuracy-info {
-            font-size: 0.8rem;
-            color: var(--neon-yellow);
-            margin-top: 0.5rem;
-            text-align: center;
+        .tab-container {
+            margin-top: 2rem;
         }
         
-        .coordinates-link {
-            color: var(--neon-blue);
-            text-decoration: none;
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neon-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            font-family: 'Share Tech Mono', monospace;
             transition: all 0.3s;
         }
         
-        .coordinates-link:hover {
+        .tab.active {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
             text-shadow: 0 0 5px var(--neon-blue);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
@@ -479,14 +553,14 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-server logo-icon"></i>
-                    <h1>CyberVPS</h1>
+                    <i class="fas fa-user-secret logo-icon"></i>
+                    <h1>CyberVPS OSINT</h1>
                 </div>
             </div>
             
             <div class="terminal">
                 <div class="terminal-header">
-                    <div class="terminal-title">root@cybervps:~</div>
+                    <div class="terminal-title">root@cybervps-osint:~</div>
                     <div class="terminal-controls">
                         <div class="terminal-control control-close"></div>
                         <div class="terminal-control control-minimize"></div>
@@ -495,110 +569,220 @@
                 </div>
                 <div class="terminal-content">
                     <div class="command" style="animation-delay: 0.5s;">
-                        <span class="command-prompt">root@cybervps:~$</span> Iniciando sistema de geolocalización...
+                        <span class="command-prompt">root@cybervps-osint:~$</span> Iniciando herramientas OSINT...
                     </div>
                     <div class="command" style="animation-delay: 1.5s;">
-                        <span class="command-prompt">root@cybervps:~$</span> Obteniendo coordenadas GPS de alta precisión...
+                        <span class="command-prompt">root@cybervps-osint:~$</span> Cargando módulos de auditoría...
                     </div>
                     <div class="command" style="animation-delay: 2.5s;">
-                        <span class="command-prompt">root@cybervps:~$</span> <span class="typewriter">Conectando con satélites...</span>
+                        <span class="command-prompt">root@cybervps-osint:~$</span> <span class="typewriter">Sistema Sherlock Holmes activado</span>
                     </div>
                     <div class="command" style="animation-delay: 6s;">
-                        <span class="command-prompt">root@cybervps:~$</span> <span class="blink">_</span>
+                        <span class="command-prompt">root@cybervps-osint:~$</span> <span class="blink">_</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Location Section -->
-    <section class="location-section">
+    <!-- OSINT Tools Section -->
+    <section class="osint-section">
         <div class="container">
             <div class="section-title">
-                <h2>SISTEMA DE GEOLOCALIZACIÓN</h2>
-                <p>Ubicación exacta obtenida mediante GPS y datos de red</p>
+                <h2>HERRAMIENTAS OSINT - AUDITORÍA DE SEGURIDAD</h2>
+                <p>Investigación de fuentes abiertas para análisis forense digital</p>
             </div>
             
             <div class="security-alert">
-                <h3><i class="fas fa-satellite-dish"></i> SISTEMA DE GEOLOCALIZACIÓN ACTIVO</h3>
-                <p>Obteniendo datos de ubicación en tiempo real con alta precisión</p>
+                <h3><i class="fas fa-shield-alt"></i> ADVERTENCIA LEGAL</h3>
+                <p>Estas herramientas deben usarse únicamente para auditorías de seguridad autorizadas y pruebas de penetración éticas.</p>
                 <div class="status-indicator">
-                    <i class="fas fa-broadcast-tower"></i> ESCANEANDO...
+                    <i class="fas fa-exclamation-triangle"></i> USO RESPONSABLE
                 </div>
             </div>
             
-            <div class="location-grid">
-                <div class="location-data">
-                    <h3><i class="fas fa-map-marker-alt"></i> DATOS DE UBICACIÓN</h3>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Coordenadas:</span>
-                        <span class="location-value" id="coordinates">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Dirección exacta:</span>
-                        <span class="location-value" id="address">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Precisión:</span>
-                        <span class="location-value" id="accuracy">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Altitud:</span>
-                        <span class="location-value" id="altitude">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Velocidad:</span>
-                        <span class="location-value" id="speed">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">IP Pública:</span>
-                        <span class="location-value" id="ip">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Proveedor:</span>
-                        <span class="location-value" id="isp">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Ciudad/Región:</span>
-                        <span class="location-value" id="city">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">País:</span>
-                        <span class="location-value" id="country">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="location-item">
-                        <span class="location-label">Zona horaria:</span>
-                        <span class="location-value" id="timezone">Obteniendo...</span>
-                    </div>
-                    
-                    <div class="accuracy-info">
-                        <i class="fas fa-info-circle"></i> Los datos se actualizan automáticamente cada 10 segundos
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn" id="refreshBtn">
-                            <i class="fas fa-sync-alt"></i> Actualizar Ubicación
-                        </button>
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="username">Búsqueda de Usuarios</div>
+                    <div class="tab" data-tab="phone">Auditoría de Teléfonos</div>
+                    <div class="tab" data-tab="email">Análisis de Emails</div>
+                    <div class="tab" data-tab="domain">Investigación de Dominios</div>
+                </div>
+                
+                <!-- Búsqueda de Usuarios -->
+                <div class="tab-content active" id="username-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-user-circle tool-icon"></i>
+                            <h3>Sherlock - Búsqueda de Usuarios</h3>
+                            <p>Busca un nombre de usuario en más de 200 redes sociales y plataformas.</p>
+                            
+                            <div class="form-group">
+                                <label for="username">Nombre de Usuario:</label>
+                                <input type="text" id="username" class="form-control" placeholder="ejemplo: johndoe">
+                            </div>
+                            
+                            <button class="btn" onclick="searchUsername()">
+                                <i class="fas fa-search"></i> Buscar Usuario
+                            </button>
+                            
+                            <div class="results-container" id="username-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-id-card tool-icon"></i>
+                            <h3>Maigret - Perfil Avanzado</h3>
+                            <p>Análisis exhaustivo de huella digital en internet.</p>
+                            
+                            <div class="form-group">
+                                <label for="fullname">Nombre Completo:</label>
+                                <input type="text" id="fullname" class="form-control" placeholder="ejemplo: John Doe">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location">Ubicación (opcional):</label>
+                                <input type="text" id="location" class="form-control" placeholder="ejemplo: Ciudad, País">
+                            </div>
+                            
+                            <button class="btn" onclick="searchFullname()">
+                                <i class="fas fa-fingerprint"></i> Analizar Huella Digital
+                            </button>
+                            
+                            <div class="results-container" id="fullname-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="map-container">
-                    <div class="map-overlay">
-                        <i class="fas fa-satellite"></i> VISTA SATELITAL
+                <!-- Auditoría de Teléfonos -->
+                <div class="tab-content" id="phone-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-phone tool-icon"></i>
+                            <h3>PhoneInfoga - Auditoría de Teléfonos</h3>
+                            <p>Análisis avanzado de números telefónicos y recopilación de información.</p>
+                            
+                            <div class="form-group">
+                                <label for="phone">Número de Teléfono:</label>
+                                <input type="text" id="phone" class="form-control" placeholder="+521234567890">
+                            </div>
+                            
+                            <button class="btn" onclick="analyzePhone()">
+                                <i class="fas fa-phone-volume"></i> Analizar Teléfono
+                            </button>
+                            
+                            <div class="results-container" id="phone-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-mobile-alt tool-icon"></i>
+                            <h3>WhatsApp OSINT</h3>
+                            <p>Verificación de existencia en WhatsApp y recopilación de datos.</p>
+                            
+                            <div class="form-group">
+                                <label for="whatsapp-phone">Número para WhatsApp:</label>
+                                <input type="text" id="whatsapp-phone" class="form-control" placeholder="+521234567890">
+                            </div>
+                            
+                            <button class="btn" onclick="checkWhatsApp()">
+                                <i class="fab fa-whatsapp"></i> Verificar WhatsApp
+                            </button>
+                            
+                            <div class="results-container" id="whatsapp-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
-                    <div id="satelliteMap" class="loading">
-                        <div class="spinner"></div>
-                        <div>Cargando mapa satelital...</div>
+                </div>
+                
+                <!-- Análisis de Emails -->
+                <div class="tab-content" id="email-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-envelope tool-icon"></i>
+                            <h3>Hunter.io - Análisis de Email</h3>
+                            <p>Verificación de emails y búsqueda de cuentas asociadas.</p>
+                            
+                            <div class="form-group">
+                                <label for="email">Dirección de Email:</label>
+                                <input type="email" id="email" class="form-control" placeholder="usuario@dominio.com">
+                            </div>
+                            
+                            <button class="btn" onclick="analyzeEmail()">
+                                <i class="fas fa-search"></i> Analizar Email
+                            </button>
+                            
+                            <div class="results-container" id="email-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-at tool-icon"></i>
+                            <h3>Have I Been Pwned</h3>
+                            <p>Verifica si un email ha sido comprometido en filtraciones de datos.</p>
+                            
+                            <div class="form-group">
+                                <label for="pwned-email">Email a verificar:</label>
+                                <input type="email" id="pwned-email" class="form-control" placeholder="usuario@dominio.com">
+                            </div>
+                            
+                            <button class="btn" onclick="checkPwned()">
+                                <i class="fas fa-shield-alt"></i> Verificar Filtraciones
+                            </button>
+                            
+                            <div class="results-container" id="pwned-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Investigación de Dominios -->
+                <div class="tab-content" id="domain-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-globe tool-icon"></i>
+                            <h3>Whois & DNS Lookup</h3>
+                            <p>Información completa de registro de dominios y DNS.</p>
+                            
+                            <div class="form-group">
+                                <label for="domain">Dominio a investigar:</label>
+                                <input type="text" id="domain" class="form-control" placeholder="ejemplo.com">
+                            </div>
+                            
+                            <button class="btn" onclick="investigateDomain()">
+                                <i class="fas fa-search"></i> Investigar Dominio
+                            </button>
+                            
+                            <div class="results-container" id="domain-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-sitemap tool-icon"></i>
+                            <h3>Subdomain Finder</h3>
+                            <p>Descubre subdominios asociados a un dominio principal.</p>
+                            
+                            <div class="form-group">
+                                <label for="subdomain">Dominio principal:</label>
+                                <input type="text" id="subdomain" class="form-control" placeholder="ejemplo.com">
+                            </div>
+                            
+                            <button class="btn" onclick="findSubdomains()">
+                                <i class="fas fa-network-wired"></i> Buscar Subdominios
+                            </button>
+                            
+                            <div class="results-container" id="subdomain-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -609,238 +793,284 @@
         <div class="container">
             <div class="footer-content">
                 <div class="logo">
-                    <i class="fas fa-server logo-icon"></i>
-                    <h1>CyberVPS</h1>
+                    <i class="fas fa-user-secret logo-icon"></i>
+                    <h1>CyberVPS OSINT</h1>
                 </div>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp" style="color: #25D366;"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
                 </div>
-                <p>&copy; 2023 CyberVPS. Sistema de Geolocalización Avanzado.</p>
+                <p>&copy; 2023 CyberVPS OSINT. Herramientas para auditoría de seguridad ética.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Cargar la API de Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCx6pWadcA0v4iV7KkCj2ZlX7Q7y9Q8b9E&callback=initMap" async defer></script>
-
     <script>
-        // Variables globales
-        let map;
-        let marker;
-        let watchId;
-        let currentPosition = null;
-
-        // Inicializar el mapa
-        function initMap() {
-            // Crear mapa centrado en una ubicación por defecto
-            map = new google.maps.Map(document.getElementById('satelliteMap'), {
-                zoom: 18,
-                mapTypeId: 'hybrid', // Vista satelital con etiquetas
-                styles: [
-                    {
-                        "elementType": "geometry",
-                        "stylers": [{"color": "#242f3e"}]
-                    },
-                    {
-                        "elementType": "labels.text.fill",
-                        "stylers": [{"color": "#746855"}]
-                    },
-                    {
-                        "elementType": "labels.text.stroke",
-                        "stylers": [{"color": "#242f3e"}]
-                    }
-                ]
+        // Sistema de pestañas
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remover clase active de todas las pestañas y contenidos
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Agregar clase active a la pestaña clickeada
+                this.classList.add('active');
+                
+                // Mostrar el contenido correspondiente
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
             });
-            
-            // Obtener ubicación inicial
-            getCurrentLocation();
-        }
+        });
 
-        // Función para obtener la ubicación actual
-        function getCurrentLocation() {
-            if (navigator.geolocation) {
-                const options = {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                };
-                
-                // Obtener ubicación una vez
-                navigator.geolocation.getCurrentPosition(
-                    updateLocation,
-                    handleLocationError,
-                    options
-                );
-                
-                // Monitorear cambios en la ubicación
-                watchId = navigator.geolocation.watchPosition(
-                    updateLocation,
-                    handleLocationError,
-                    options
-                );
-                
-            } else {
-                document.getElementById('coordinates').textContent = 'Geolocalización no soportada';
+        // Simulación de búsqueda de usuarios
+        function searchUsername() {
+            const username = document.getElementById('username').value;
+            if (!username) {
+                alert('Por favor ingresa un nombre de usuario');
+                return;
             }
-        }
-
-        // Actualizar la ubicación en la interfaz
-        function updateLocation(position) {
-            currentPosition = position;
-            const coords = position.coords;
             
-            // Actualizar datos de ubicación
-            document.getElementById('coordinates').innerHTML = 
-                `<a href="https://maps.google.com/?q=${coords.latitude},${coords.longitude}" 
-                  target="_blank" class="coordinates-link">
-                  ${coords.latitude.toFixed(6)}, ${coords.longitude.toFixed(6)}
-                 </a>`;
+            const resultsContainer = document.getElementById('username-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Buscando usuario en plataformas...</div>';
             
-            document.getElementById('accuracy').textContent = 
-                coords.accuracy ? `${Math.round(coords.accuracy)} metros` : 'No disponible';
-            
-            document.getElementById('altitude').textContent = 
-                coords.altitude ? `${Math.round(coords.altitude)} metros` : 'No disponible';
-            
-            document.getElementById('speed').textContent = 
-                coords.speed ? `${(coords.speed * 3.6).toFixed(1)} km/h` : '0 km/h';
-            
-            // Actualizar el mapa
-            const latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
-            
-            if (!marker) {
-                marker = new google.maps.Marker({
-                    position: latLng,
-                    map: map,
-                    title: 'Tu ubicación actual',
-                    icon: {
-                        url: 'data:image/svg+xml;base64,' + btoa(`
-                            <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="16" cy="16" r="8" fill="#ff073a" stroke="#0f0" stroke-width="2"/>
-                                <circle cx="16" cy="16" r="3" fill="#0f0"/>
-                            </svg>
-                        `),
-                        scaledSize: new google.maps.Size(32, 32),
-                        anchor: new google.maps.Point(16, 16)
-                    },
-                    animation: google.maps.Animation.BOUNCE
+            // Simulación de búsqueda con timeout
+            setTimeout(() => {
+                const platforms = [
+                    { name: 'Facebook', status: 'Encontrado', url: `https://facebook.com/${username}` },
+                    { name: 'Twitter', status: 'Encontrado', url: `https://twitter.com/${username}` },
+                    { name: 'Instagram', status: 'Encontrado', url: `https://instagram.com/${username}` },
+                    { name: 'GitHub', status: 'Encontrado', url: `https://github.com/${username}` },
+                    { name: 'LinkedIn', status: 'No encontrado', url: '#' },
+                    { name: 'Reddit', status: 'Encontrado', url: `https://reddit.com/user/${username}` },
+                    { name: 'YouTube', status: 'Encontrado', url: `https://youtube.com/${username}` },
+                    { name: 'TikTok', status: 'No encontrado', url: '#' }
+                ];
+                
+                let resultsHTML = '';
+                platforms.forEach(platform => {
+                    const statusColor = platform.status === 'Encontrado' ? 'var(--neon-green)' : 'var(--neon-red)';
+                    resultsHTML += `
+                        <div class="result-item">
+                            <span class="result-platform">${platform.name}</span>
+                            <span class="result-status" style="color: ${statusColor}">${platform.status}</span>
+                            ${platform.url !== '#' ? `<a href="${platform.url}" target="_blank" class="result-url">Ver perfil</a>` : ''}
+                        </div>
+                    `;
                 });
-            } else {
-                marker.setPosition(latLng);
-            }
-            
-            map.setCenter(latLng);
-            
-            // Obtener dirección a partir de coordenadas
-            getAddressFromCoords(coords.latitude, coords.longitude);
-            
-            // Obtener información de IP
-            getIPInfo();
+                
+                resultsContainer.innerHTML = resultsHTML;
+            }, 2000);
         }
 
-        // Obtener dirección a partir de coordenadas
-        function getAddressFromCoords(lat, lng) {
-            const geocoder = new google.maps.Geocoder();
-            const latLng = new google.maps.LatLng(lat, lng);
-            
-            geocoder.geocode({ 'location': latLng }, function(results, status) {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        document.getElementById('address').textContent = results[0].formatted_address;
-                    } else {
-                        document.getElementById('address').textContent = 'Dirección no disponible';
-                    }
-                } else {
-                    document.getElementById('address').textContent = 'Error obteniendo dirección';
-                }
-            });
-        }
-
-        // Obtener información de IP
-        async function getIPInfo() {
-            try {
-                // Obtener IP pública
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                document.getElementById('ip').textContent = ipData.ip;
-                
-                // Obtener información de geolocalización por IP
-                const geoResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
-                const geoData = await geoResponse.json();
-                
-                document.getElementById('isp').textContent = geoData.org || 'No disponible';
-                document.getElementById('city').textContent = geoData.city ? `${geoData.city}, ${geoData.region}` : 'No disponible';
-                document.getElementById('country').textContent = geoData.country_name || 'No disponible';
-                document.getElementById('timezone').textContent = geoData.timezone || 'No disponible';
-                
-            } catch (error) {
-                console.error('Error obteniendo información de IP:', error);
-                document.getElementById('ip').textContent = 'Error';
-                document.getElementById('isp').textContent = 'Error';
-                document.getElementById('city').textContent = 'Error';
-                document.getElementById('country').textContent = 'Error';
-                document.getElementById('timezone').textContent = 'Error';
-            }
-        }
-
-        // Manejar errores de geolocalización
-        function handleLocationError(error) {
-            let errorMessage;
-            
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    errorMessage = "Permiso de ubicación denegado por el usuario";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    errorMessage = "Información de ubicación no disponible";
-                    break;
-                case error.TIMEOUT:
-                    errorMessage = "Tiempo de espera agotado para obtener la ubicación";
-                    break;
-                case error.UNKNOWN_ERROR:
-                    errorMessage = "Error desconocido al obtener la ubicación";
-                    break;
+        // Simulación de análisis de teléfono
+        function analyzePhone() {
+            const phone = document.getElementById('phone').value;
+            if (!phone) {
+                alert('Por favor ingresa un número de teléfono');
+                return;
             }
             
-            document.getElementById('coordinates').textContent = errorMessage;
-            document.getElementById('accuracy').textContent = 'No disponible';
-            document.getElementById('address').textContent = 'No disponible';
+            const resultsContainer = document.getElementById('phone-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Analizando número telefónico...</div>';
+            
+            setTimeout(() => {
+                const phoneInfo = [
+                    { field: 'Número', value: phone },
+                    { field: 'País', value: 'México' },
+                    { field: 'Operadora', value: 'Telcel' },
+                    { field: 'Tipo de línea', value: 'Móvil' },
+                    { field: 'WhatsApp', value: 'Activo', status: 'success' },
+                    { field: 'Telegram', value: 'No encontrado', status: 'error' },
+                    { field: 'Registro en redes', value: '3 plataformas encontradas', status: 'warning' },
+                    { field: 'Última actividad', value: 'Hace 2 días' }
+                ];
+                
+                let resultsHTML = '';
+                phoneInfo.forEach(info => {
+                    let valueColor = 'var(--neon-green)';
+                    if (info.status === 'error') valueColor = 'var(--neon-red)';
+                    if (info.status === 'warning') valueColor = 'var(--neon-yellow)';
+                    
+                    resultsHTML += `
+                        <div class="result-item">
+                            <span class="result-platform">${info.field}</span>
+                            <span class="result-status" style="color: ${valueColor}">${info.value}</span>
+                        </div>
+                    `;
+                });
+                
+                resultsContainer.innerHTML = resultsHTML;
+            }, 2500);
         }
 
-        // Actualizar ubicación manualmente
-        document.getElementById('refreshBtn').addEventListener('click', function() {
-            if (navigator.geolocation) {
-                const options = {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                };
-                
-                navigator.geolocation.getCurrentPosition(
-                    updateLocation,
-                    handleLocationError,
-                    options
-                );
+        // Simulación de análisis de email
+        function analyzeEmail() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert('Por favor ingresa una dirección de email');
+                return;
             }
-        });
+            
+            const resultsContainer = document.getElementById('email-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Analizando dirección de email...</div>';
+            
+            setTimeout(() => {
+                const emailInfo = [
+                    { field: 'Email', value: email },
+                    { field: 'Dominio válido', value: 'Sí', status: 'success' },
+                    { field: 'Registro en redes', value: '5 plataformas encontradas', status: 'success' },
+                    { field: 'Filtraciones de datos', value: '2 brechas encontradas', status: 'warning' },
+                    { field: 'Cuentas asociadas', value: '8 servicios detectados', status: 'success' },
+                    { field: 'Antigüedad del dominio', value: '3 años' },
+                    { field: 'Reputación', value: 'Media', status: 'warning' }
+                ];
+                
+                let resultsHTML = '';
+                emailInfo.forEach(info => {
+                    let valueColor = 'var(--neon-green)';
+                    if (info.status === 'error') valueColor = 'var(--neon-red)';
+                    if (info.status === 'warning') valueColor = 'var(--neon-yellow)';
+                    
+                    resultsHTML += `
+                        <div class="result-item">
+                            <span class="result-platform">${info.field}</span>
+                            <span class="result-status" style="color: ${valueColor}">${info.value}</span>
+                        </div>
+                    `;
+                });
+                
+                resultsContainer.innerHTML = resultsHTML;
+            }, 2000);
+        }
 
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            // La función initMap se llamará cuando se cargue la API de Google Maps
-        });
+        // Simulación de investigación de dominio
+        function investigateDomain() {
+            const domain = document.getElementById('domain').value;
+            if (!domain) {
+                alert('Por favor ingresa un dominio');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('domain-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Investigando dominio...</div>';
+            
+            setTimeout(() => {
+                const domainInfo = [
+                    { field: 'Dominio', value: domain },
+                    { field: 'Registrante', value: 'Privacidad activada' },
+                    { field: 'Fecha de registro', value: '2020-05-15' },
+                    { field: 'Fecha de expiración', value: '2025-05-15' },
+                    { field: 'Servidores DNS', value: 'ns1.cloudflare.com, ns2.cloudflare.com' },
+                    { field: 'IP del servidor', value: '104.21.85.204' },
+                    { field: 'Ubicación del servidor', value: 'Estados Unidos' },
+                    { field: 'Certificado SSL', value: 'Válido', status: 'success' },
+                    { field: 'Subdominios detectados', value: '12 encontrados', status: 'warning' }
+                ];
+                
+                let resultsHTML = '';
+                domainInfo.forEach(info => {
+                    let valueColor = 'var(--neon-green)';
+                    if (info.status === 'error') valueColor = 'var(--neon-red)';
+                    if (info.status === 'warning') valueColor = 'var(--neon-yellow)';
+                    
+                    resultsHTML += `
+                        <div class="result-item">
+                            <span class="result-platform">${info.field}</span>
+                            <span class="result-status" style="color: ${valueColor}">${info.value}</span>
+                        </div>
+                    `;
+                });
+                
+                resultsContainer.innerHTML = resultsHTML;
+            }, 3000);
+        }
 
-        // Si hay un error al cargar Google Maps
-        window.gm_authFailure = function() {
-            document.getElementById('satelliteMap').innerHTML = 
-                '<div style="color: var(--neon-red); text-align: center; padding: 2rem;">' +
-                '<i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>' +
-                '<h3>Error al cargar el mapa</h3>' +
-                '<p>No se pudo cargar Google Maps. Verifica tu conexión a internet.</p>' +
-                '</div>';
-        };
+        // Funciones adicionales para las otras herramientas
+        function searchFullname() {
+            document.getElementById('fullname-results').innerHTML = '<div class="loading"><div class="spinner"></div>Analizando huella digital...</div>';
+            setTimeout(() => {
+                document.getElementById('fullname-results').innerHTML = `
+                    <div class="result-item">
+                        <span class="result-platform">Perfiles encontrados</span>
+                        <span class="result-status" style="color: var(--neon-green)">7 perfiles en diferentes plataformas</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">Patrón de actividad</span>
+                        <span class="result-status" style="color: var(--neon-yellow)">Activo en redes profesionales</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">Intereses detectados</span>
+                        <span class="result-status" style="color: var(--neon-blue)">Tecnología, Ciberseguridad, Desarrollo</span>
+                    </div>
+                `;
+            }, 2500);
+        }
+
+        function checkWhatsApp() {
+            document.getElementById('whatsapp-results').innerHTML = '<div class="loading"><div class="spinner"></div>Verificando cuenta de WhatsApp...</div>';
+            setTimeout(() => {
+                document.getElementById('whatsapp-results').innerHTML = `
+                    <div class="result-item">
+                        <span class="result-platform">Estado de WhatsApp</span>
+                        <span class="result-status" style="color: var(--neon-green)">Cuenta activa</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">Foto de perfil</span>
+                        <span class="result-status" style="color: var(--neon-green)">Disponible</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">Última vez en línea</span>
+                        <span class="result-status" style="color: var(--neon-yellow)">Hace 2 horas</span>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        function checkPwned() {
+            document.getElementById('pwned-results').innerHTML = '<div class="loading"><div class="spinner"></div>Verificando filtraciones de datos...</div>';
+            setTimeout(() => {
+                document.getElementById('pwned-results').innerHTML = `
+                    <div class="result-item">
+                        <span class="result-platform">Estado general</span>
+                        <span class="result-status" style="color: var(--neon-red)">COMPROMETIDO</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">Filtraciones encontradas</span>
+                        <span class="result-status" style="color: var(--neon-yellow)">3 brechas de datos</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">Servicios afectados</span>
+                        <span class="result-status" style="color: var(--neon-red)">LinkedIn, Adobe, MySpace</span>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        function findSubdomains() {
+            document.getElementById('subdomain-results').innerHTML = '<div class="loading"><div class="spinner"></div>Buscando subdominios...</div>';
+            setTimeout(() => {
+                document.getElementById('subdomain-results').innerHTML = `
+                    <div class="result-item">
+                        <span class="result-platform">Subdominios encontrados</span>
+                        <span class="result-status" style="color: var(--neon-green)">12 subdominios activos</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">admin.ejemplo.com</span>
+                        <span class="result-status" style="color: var(--neon-green)">Activo</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">api.ejemplo.com</span>
+                        <span class="result-status" style="color: var(--neon-green)">Activo</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-platform">mail.ejemplo.com</span>
+                        <span class="result-status" style="color: var(--neon-green)">Activo</span>
+                    </div>
+                `;
+            }, 3000);
+        }
     </script>
 </body>
 </html>
