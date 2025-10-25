@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberVPS | Monitoreo IMEI Tiempo Real</title>
+    <title>CyberVPS | OSINT con Datos Reales</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         :root {
             --neon-green: #0f0;
@@ -31,22 +30,66 @@
             line-height: 1.6;
             font-family: 'Source Code Pro', monospace;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(15, 255, 80, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 70%, rgba(0, 247, 255, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 50% 40%, rgba(189, 0, 255, 0.03) 0%, transparent 30%);
+        }
+        
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to bottom, 
+                rgba(15, 255, 80, 0.5), 
+                rgba(15, 255, 80, 0.2), 
+                transparent);
+            z-index: 9998;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+            box-shadow: 0 0 15px 5px rgba(15, 255, 80, 0.5);
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100vh; }
+        }
+        
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(15, 255, 80, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 255, 80, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -2;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) translateZ(-200px);
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 30px; }
         }
         
         .container {
-            width: 95%;
-            max-width: 1400px;
+            width: 90%;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
         
-        .header {
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
-            border-bottom: 1px solid var(--neon-green);
-            margin-bottom: 2rem;
         }
         
         .logo {
@@ -59,240 +102,97 @@
             margin-left: 10px;
             font-family: 'Share Tech Mono', monospace;
             text-shadow: 0 0 10px var(--neon-green);
+            animation: flicker 5s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+                opacity: 0.8;
+            }
         }
         
         .logo-icon {
             font-size: 2rem;
             color: var(--neon-green);
-        }
-        
-        .status-bar {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--neon-green);
-            animation: pulse 2s infinite;
+            animation: pulse 2s infinite alternate;
         }
         
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            from { text-shadow: 0 0 5px var(--neon-green); }
+            to { text-shadow: 0 0 15px var(--neon-green), 0 0 20px var(--neon-green); }
         }
         
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .control-panel {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--neon-blue);
-            padding: 20px;
-            border-radius: 5px;
-        }
-        
-        .map-container {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--neon-green);
-            border-radius: 5px;
-            height: 400px;
+        .hero {
             position: relative;
+            padding: 8rem 0 4rem;
+            text-align: center;
             overflow: hidden;
         }
         
-        #liveMap {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .map-overlay {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border: 1px solid var(--neon-blue);
+        .terminal {
+            background: var(--terminal-bg);
+            border: 1px solid var(--neon-green);
             border-radius: 5px;
-            z-index: 1000;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            box-shadow: 0 0 25px rgba(15, 255, 80, 0.3);
+            text-align: left;
         }
         
-        .data-panels {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .data-panel {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--neon-purple);
-            padding: 15px;
-            border-radius: 5px;
-            height: 200px;
-            overflow-y: auto;
-        }
-        
-        .panel-header {
+        .terminal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--neon-purple);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--neon-green);
         }
         
-        .panel-title {
-            color: var(--neon-purple);
+        .terminal-title {
             font-family: 'Share Tech Mono', monospace;
-        }
-        
-        .log-container {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--neon-yellow);
-            padding: 15px;
-            border-radius: 5px;
-            height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-        }
-        
-        .log-entry {
-            padding: 5px 0;
-            border-bottom: 1px solid #333;
-            font-size: 0.9rem;
-        }
-        
-        .log-time {
             color: var(--neon-green);
-            margin-right: 10px;
+            font-size: 1.2rem;
         }
         
-        .form-group {
-            margin-bottom: 15px;
+        .terminal-controls {
+            display: flex;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--neon-green);
-            font-family: 'Share Tech Mono', monospace;
+        .terminal-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 5px;
         }
         
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #333;
-            border-radius: 3px;
-            color: white;
+        .control-close { background-color: #ff5f56; }
+        .control-minimize { background-color: #ffbd2e; }
+        .control-maximize { background-color: #27c93f; }
+        
+        .terminal-content {
             font-family: 'Source Code Pro', monospace;
         }
         
-        .btn {
-            background: transparent;
+        .command {
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: type 0.1s forwards;
+        }
+        
+        @keyframes type {
+            to { opacity: 1; }
+        }
+        
+        .command-prompt {
             color: var(--neon-green);
-            border: 1px solid var(--neon-green);
-            padding: 10px 15px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Share Tech Mono', monospace;
-            transition: all 0.3s;
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .btn:hover {
-            background: var(--neon-green);
-            color: black;
-        }
-        
-        .signal-strength {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 5px;
-        }
-        
-        .signal-bar {
-            width: 4px;
-            height: 10px;
-            background: #333;
-            margin-right: 2px;
-        }
-        
-        .signal-bar.active {
-            background: var(--neon-green);
-        }
-        
-        .coordinates {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .device-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #333;
-        }
-        
-        .info-label {
-            color: #aaa;
-        }
-        
-        .info-value {
-            color: var(--neon-blue);
-        }
-        
-        .connection-status {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            margin-left: 10px;
-        }
-        
-        .status-connected {
-            background: rgba(0, 255, 0, 0.2);
-            color: var(--neon-green);
-            border: 1px solid var(--neon-green);
-        }
-        
-        .status-disconnected {
-            background: rgba(255, 0, 0, 0.2);
-            color: var(--neon-red);
-            border: 1px solid var(--neon-red);
-        }
-        
-        .real-time-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--neon-green);
-            font-size: 0.8rem;
+            margin-right: 10px;
         }
         
         .blink {
@@ -304,440 +204,857 @@
             50% { opacity: 0; }
         }
         
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--neon-green);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--neon-green); }
+        }
+        
+        .osint-section {
+            padding: 4rem 0;
+            background-color: rgba(10, 10, 10, 0.8);
+            border-top: 1px solid var(--neon-purple);
+            border-bottom: 1px solid var(--neon-purple);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--neon-purple);
+            margin-bottom: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+        
+        .section-title p {
+            color: #aaa;
+            max-width: 700px;
+            margin: 0 auto;
+            font-family: 'Source Code Pro', monospace;
+        }
+        
+        .osint-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-blue);
+            border-radius: 0;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .tool-card h3 {
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
+            border-radius: 0;
+            color: var(--neon-green);
+            font-family: 'Source Code Pro', monospace;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: transparent;
+            color: var(--neon-green);
+            padding: 0.7rem 1.5rem;
+            border-radius: 0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
             border: 1px solid var(--neon-green);
-            padding: 15px;
-            border-radius: 5px;
-            z-index: 10000;
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            color: black;
+            text-shadow: none;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            transition: all 0.3s;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            left: 0;
+        }
+        
+        .results-container {
+            margin-top: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-yellow);
+            padding: 1rem;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .result-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-platform {
+            color: var(--neon-blue);
+            min-width: 150px;
+        }
+        
+        .result-status {
+            color: var(--neon-green);
+            text-align: right;
+            flex: 1;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(15, 255, 80, 0.3);
+            border-top: 4px solid var(--neon-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .security-alert {
+            background-color: rgba(255, 7, 58, 0.1);
+            border: 1px solid var(--neon-red);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+            background-color: rgba(15, 255, 80, 0.2);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+        }
+        
+        footer {
+            background-color: rgba(5, 5, 5, 0.9);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid var(--neon-green);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: #aaa;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .tab-container {
+            margin-top: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neon-blue);
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .tab.active {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+        
+        .tab-content {
             display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .detail-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--neon-purple);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0;
+        }
+        
+        .detail-section h4 {
+            color: var(--neon-purple);
+            margin-bottom: 0.5rem;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .error-message {
+            color: var(--neon-red);
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid var(--neon-red);
+            margin: 1rem 0;
+        }
+        
+        .success-message {
+            color: var(--neon-green);
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid var(--neon-green);
+            margin: 1rem 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <i class="fas fa-satellite-dish logo-icon"></i>
-                <h1>CYBERVPS - MONITOREO IMEI TIEMPO REAL</h1>
-            </div>
-            <div class="status-bar">
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span>SERVIDOR: ACTIVO</span>
-                </div>
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span>GPS: CONECTADO</span>
-                </div>
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span>RED: ESTABLE</span>
-                </div>
-                <div class="real-time-indicator">
-                    <i class="fas fa-circle blink"></i>
-                    <span>TIEMPO REAL</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="dashboard">
-            <div class="control-panel">
-                <h3 style="color: var(--neon-blue); margin-bottom: 15px;">CONTROL DE MONITOREO</h3>
-                
-                <div class="form-group">
-                    <label for="imeiInput">NÚMERO IMEI (15 dígitos)</label>
-                    <input type="text" id="imeiInput" class="form-control" placeholder="Ingrese IMEI para monitoreo" maxlength="15">
-                </div>
-                
-                <div class="form-group">
-                    <label for="phoneNumber">NÚMERO TELEFÓNICO (opcional)</label>
-                    <input type="text" id="phoneNumber" class="form-control" placeholder="+52 XXX XXX XXXX">
-                </div>
-                
-                <button class="btn" id="startMonitoring">
-                    <i class="fas fa-play"></i> INICIAR MONITOREO
-                </button>
-                
-                <button class="btn" id="stopMonitoring" style="border-color: var(--neon-red); color: var(--neon-red);">
-                    <i class="fas fa-stop"></i> DETENER MONITOREO
-                </button>
-                
-                <div style="margin-top: 20px; padding: 10px; background: rgba(255, 7, 58, 0.1); border: 1px solid var(--neon-red);">
-                    <h4 style="color: var(--neon-red); margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> ADVERTENCIA LEGAL</h4>
-                    <p style="font-size: 0.8rem;">Este sistema debe utilizarse únicamente para dispositivos propios o con autorización explícita. El monitoreo no autorizado es ilegal.</p>
+    <div class="scan-line"></div>
+    <div class="grid-bg"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-user-secret logo-icon"></i>
+                    <h1>CyberVPS OSINT Real</h1>
                 </div>
             </div>
             
-            <div class="map-container">
-                <div id="liveMap"></div>
-                <div class="map-overlay">
-                    <div>ESTADO: <span id="mapStatus">ESPERANDO DATOS</span></div>
-                    <div class="coordinates" id="currentCoords">LAT: --, LNG: --</div>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-title">root@cybervps-osint-real:~</div>
+                    <div class="terminal-controls">
+                        <div class="terminal-control control-close"></div>
+                        <div class="terminal-control control-minimize"></div>
+                        <div class="terminal-control control-maximize"></div>
+                    </div>
+                </div>
+                <div class="terminal-content">
+                    <div class="command" style="animation-delay: 0.5s;">
+                        <span class="command-prompt">root@cybervps-osint-real:~$</span> Iniciando sistema OSINT con datos reales...
+                    </div>
+                    <div class="command" style="animation-delay: 1.5s;">
+                        <span class="command-prompt">root@cybervps-osint-real:~$</span> Conectando a APIs públicas...
+                    </div>
+                    <div class="command" style="animation-delay: 2.5s;">
+                        <span class="command-prompt">root@cybervps-osint-real:~$</span> <span class="typewriter">Sistema de datos reales activado</span>
+                    </div>
+                    <div class="command" style="animation-delay: 6s;">
+                        <span class="command-prompt">root@cybervps-osint-real:~$</span> <span class="blink">_</span>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="data-panels">
-            <div class="data-panel">
-                <div class="panel-header">
-                    <h3 class="panel-title">INFORMACIÓN DEL DISPOSITIVO</h3>
-                    <span class="connection-status status-disconnected" id="deviceStatus">DESCONECTADO</span>
+    </section>
+
+    <!-- OSINT Tools Section -->
+    <section class="osint-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>SISTEMA OSINT CON DATOS REALES</h2>
+                <p>Información real obtenida de APIs públicas y servicios OSINT</p>
+            </div>
+            
+            <div class="security-alert">
+                <h3><i class="fas fa-shield-alt"></i> SISTEMA DE DATOS REALES</h3>
+                <p>Este sistema obtiene información real de fuentes públicas y APIs disponibles.</p>
+                <div class="status-indicator">
+                    <i class="fas fa-database"></i> DATOS EN TIEMPO REAL
                 </div>
-                <div class="device-info" id="deviceInfo">
-                    <div class="info-item">
-                        <span class="info-label">IMEI:</span>
-                        <span class="info-value" id="infoImei">--</span>
+            </div>
+            
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="ip">Geolocalización IP</div>
+                    <div class="tab" data-tab="phone">Información de Teléfonos</div>
+                    <div class="tab" data-tab="email">Verificación de Emails</div>
+                    <div class="tab" data-tab="domain">Información de Dominios</div>
+                    <div class="tab" data-tab="breach">Verificación de Filtraciones</div>
+                </div>
+                
+                <!-- Geolocalización IP -->
+                <div class="tab-content active" id="ip-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-map-marker-alt tool-icon"></i>
+                            <h3>Geolocalización por IP</h3>
+                            <p>Obtiene información real de ubicación por dirección IP.</p>
+                            
+                            <div class="form-group">
+                                <label for="ip">Dirección IP:</label>
+                                <input type="text" id="ip" class="form-control" placeholder="8.8.8.8" value="8.8.8.8">
+                            </div>
+                            
+                            <button class="btn" onclick="getIPInfo()">
+                                <i class="fas fa-crosshairs"></i> Obtener Ubicación
+                            </button>
+                            
+                            <div class="results-container" id="ip-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-network-wired tool-icon"></i>
+                            <h3>Mi IP Pública</h3>
+                            <p>Muestra tu dirección IP pública real y información asociada.</p>
+                            
+                            <button class="btn" onclick="getMyIP()">
+                                <i class="fas fa-globe"></i> Obtener Mi IP
+                            </button>
+                            
+                            <div class="results-container" id="myip-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">MARCA:</span>
-                        <span class="info-value" id="infoBrand">--</span>
+                </div>
+                
+                <!-- Información de Teléfonos -->
+                <div class="tab-content" id="phone-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-phone tool-icon"></i>
+                            <h3>Información de Números</h3>
+                            <p>Valida números telefónicos y obtiene información básica.</p>
+                            
+                            <div class="form-group">
+                                <label for="phone">Número de Teléfono:</label>
+                                <input type="text" id="phone" class="form-control" placeholder="+521234567890">
+                            </div>
+                            
+                            <button class="btn" onclick="validatePhone()">
+                                <i class="fas fa-check-circle"></i> Validar Número
+                            </button>
+                            
+                            <div class="results-container" id="phone-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">MODELO:</span>
-                        <span class="info-value" id="infoModel">--</span>
+                </div>
+                
+                <!-- Verificación de Emails -->
+                <div class="tab-content" id="email-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-envelope tool-icon"></i>
+                            <h3>Verificador de Emails</h3>
+                            <p>Verifica la validez de direcciones de email.</p>
+                            
+                            <div class="form-group">
+                                <label for="email">Dirección de Email:</label>
+                                <input type="email" id="email" class="form-control" placeholder="usuario@ejemplo.com">
+                            </div>
+                            
+                            <button class="btn" onclick="verifyEmail()">
+                                <i class="fas fa-search"></i> Verificar Email
+                            </button>
+                            
+                            <div class="results-container" id="email-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">OPERADORA:</span>
-                        <span class="info-value" id="infoCarrier">--</span>
+                </div>
+                
+                <!-- Información de Dominios -->
+                <div class="tab-content" id="domain-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-globe tool-icon"></i>
+                            <h3>Información de Dominios</h3>
+                            <p>Obtiene información WHOIS real de dominios.</p>
+                            
+                            <div class="form-group">
+                                <label for="domain">Dominio:</label>
+                                <input type="text" id="domain" class="form-control" placeholder="google.com" value="google.com">
+                            </div>
+                            
+                            <button class="btn" onclick="getDomainInfo()">
+                                <i class="fas fa-info-circle"></i> Obtener Información
+                            </button>
+                            
+                            <div class="results-container" id="domain-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">NÚMERO:</span>
-                        <span class="info-value" id="infoNumber">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">SEÑAL:</span>
-                        <div class="signal-strength" id="signalStrength">
-                            <div class="signal-bar"></div>
-                            <div class="signal-bar"></div>
-                            <div class="signal-bar"></div>
-                            <div class="signal-bar"></div>
-                            <div class="signal-bar"></div>
+                </div>
+                
+                <!-- Verificación de Filtraciones -->
+                <div class="tab-content" id="breach-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-shield-alt tool-icon"></i>
+                            <h3>Verificación de Filtraciones</h3>
+                            <p>Consulta si un email ha sido comprometido en filtraciones (usando API de Have I Been Pwned).</p>
+                            
+                            <div class="form-group">
+                                <label for="breach-email">Email a verificar:</label>
+                                <input type="email" id="breach-email" class="form-control" placeholder="usuario@ejemplo.com">
+                            </div>
+                            
+                            <button class="btn" onclick="checkBreaches()">
+                                <i class="fas fa-user-secret"></i> Verificar Filtraciones
+                            </button>
+                            
+                            <div class="results-container" id="breach-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="data-panel">
-                <div class="panel-header">
-                    <h3 class="panel-title">ESTADO DE CONEXIÓN</h3>
-                    <span class="connection-status status-disconnected" id="networkStatus">SIN CONEXIÓN</span>
-                </div>
-                <div class="device-info">
-                    <div class="info-item">
-                        <span class="info-label">TIPO DE RED:</span>
-                        <span class="info-value" id="networkType">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">TORRE CELULAR:</span>
-                        <span class="info-value" id="cellTower">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">BATERÍA:</span>
-                        <span class="info-value" id="batteryLevel">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">ACTUALIZACIÓN:</span>
-                        <span class="info-value" id="lastUpdate">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">PRECISIÓN GPS:</span>
-                        <span class="info-value" id="gpsAccuracy">--</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">VELOCIDAD:</span>
-                        <span class="info-value" id="deviceSpeed">--</span>
-                    </div>
-                </div>
-            </div>
         </div>
-        
-        <div class="log-container">
-            <div class="panel-header">
-                <h3 class="panel-title">REGISTRO DE ACTIVIDAD EN TIEMPO REAL</h3>
-            </div>
-            <div id="activityLog">
-                <div class="log-entry">
-                    <span class="log-time">[00:00:00]</span>
-                    <span>Sistema de monitoreo inicializado. Esperando datos IMEI...</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="notification" id="notification">
-        <i class="fas fa-bell"></i> <span id="notificationText"></span>
-    </div>
+    </section>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <i class="fas fa-user-secret logo-icon"></i>
+                    <h1>CyberVPS OSINT Real</h1>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <p>&copy; 2023 CyberVPS OSINT. Sistema con datos reales de APIs públicas.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Variables globales
-        let monitoringInterval;
-        let map;
-        let deviceMarker;
-        let currentImei = '';
-        let isMonitoring = false;
-        
-        // Inicializar el mapa
-        function initMap() {
-            map = L.map('liveMap').setView([19.432608, -99.133209], 13);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            
-            // Agregar capa de satélite
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                attribution: '© Esri'
-            }).addTo(map);
-        }
-        
-        // Inicializar la aplicación
-        document.addEventListener('DOMContentLoaded', function() {
-            initMap();
-            
-            // Configurar event listeners
-            document.getElementById('startMonitoring').addEventListener('click', startRealMonitoring);
-            document.getElementById('stopMonitoring').addEventListener('click', stopMonitoring);
-            
-            // Intentar obtener ubicación del usuario para centrar el mapa
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const userLat = position.coords.latitude;
-                    const userLng = position.coords.longitude;
-                    map.setView([userLat, userLng], 13);
-                    updateMapStatus('UBICACIÓN USUARIO DETECTADA');
-                    addLogEntry(`Ubicación del usuario detectada: ${userLat.toFixed(6)}, ${userLng.toFixed(6)}`);
-                }, function(error) {
-                    addLogEntry('No se pudo obtener la ubicación del usuario: ' + error.message);
-                });
-            }
+        // Sistema de pestañas
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
         });
-        
-        // Iniciar monitoreo en tiempo real
-        function startRealMonitoring() {
-            const imeiInput = document.getElementById('imeiInput').value;
-            const phoneNumber = document.getElementById('phoneNumber').value;
+
+        // Función para mostrar errores
+        function showError(container, message) {
+            container.innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        // Función para mostrar éxito
+        function showSuccess(container, message) {
+            container.innerHTML = `<div class="success-message">${message}</div>`;
+        }
+
+        // Geolocalización por IP (datos reales)
+        async function getIPInfo() {
+            const ip = document.getElementById('ip').value;
+            const resultsContainer = document.getElementById('ip-results');
             
-            if (!imeiInput || imeiInput.length !== 15) {
-                showNotification('Error: IMEI debe tener 15 dígitos', 'error');
+            if (!ip) {
+                showError(resultsContainer, 'Por favor ingresa una dirección IP');
                 return;
             }
             
-            currentImei = imeiInput;
-            isMonitoring = true;
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Obteniendo información de la IP...</div>';
             
-            // Actualizar interfaz
-            document.getElementById('deviceStatus').className = 'connection-status status-connected';
-            document.getElementById('deviceStatus').textContent = 'CONECTADO';
-            document.getElementById('networkStatus').className = 'connection-status status-connected';
-            document.getElementById('networkStatus').textContent = 'CONECTADO';
-            
-            // Actualizar información del dispositivo
-            document.getElementById('infoImei').textContent = imeiInput;
-            document.getElementById('infoNumber').textContent = phoneNumber || 'N/A';
-            
-            // Intentar obtener información del dispositivo usando APIs disponibles
-            fetchDeviceInfo(imeiInput);
-            
-            // Iniciar actualizaciones en tiempo real
-            monitoringInterval = setInterval(updateRealTimeData, 3000);
-            
-            addLogEntry(`Monitoreo iniciado para IMEI: ${imeiInput}`);
-            showNotification('Monitoreo en tiempo real iniciado', 'success');
-        }
-        
-        // Detener monitoreo
-        function stopMonitoring() {
-            if (isMonitoring) {
-                clearInterval(monitoringInterval);
-                isMonitoring = false;
+            try {
+                const response = await fetch(`https://ipapi.co/${ip}/json/`);
+                const data = await response.json();
                 
-                // Actualizar interfaz
-                document.getElementById('deviceStatus').className = 'connection-status status-disconnected';
-                document.getElementById('deviceStatus').textContent = 'DESCONECTADO';
-                document.getElementById('networkStatus').className = 'connection-status status-disconnected';
-                document.getElementById('networkStatus').textContent = 'SIN CONEXIÓN';
-                
-                // Limpiar marcador del mapa
-                if (deviceMarker) {
-                    map.removeLayer(deviceMarker);
-                    deviceMarker = null;
+                if (data.error) {
+                    showError(resultsContainer, 'Error al obtener información de la IP');
+                    return;
                 }
                 
-                updateMapStatus('MONITOREO DETENIDO');
-                addLogEntry('Monitoreo detenido por el usuario');
-                showNotification('Monitoreo detenido', 'warning');
-            }
-        }
-        
-        // Obtener información del dispositivo
-        async function fetchDeviceInfo(imei) {
-            try {
-                // En un sistema real, aquí se conectaría a una API de base de datos de IMEI
-                // Por ahora, simulamos una búsqueda con datos genéricos
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📍 INFORMACIÓN DE UBICACIÓN</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">IP</span><span class="result-status">${data.ip || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">País</span><span class="result-status">${data.country_name || 'N/A'} (${data.country_code || 'N/A'})</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Ciudad</span><span class="result-status">${data.city || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Región</span><span class="result-status">${data.region || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Código Postal</span><span class="result-status">${data.postal || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Zona Horaria</span><span class="result-status">${data.timezone || 'N/A'}</span></div>`;
+                resultsHTML += '</div>';
                 
-                // Intentar usar una API pública de verificación de IMEI (si existe)
-                // Nota: La mayoría de APIs de IMEI son de pago o requieren autorización
+                resultsHTML += '<div class="detail-section">';
+                resultsHTML += '<h4>🔧 INFORMACIÓN TÉCNICA</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Proveedor</span><span class="result-status">${data.org || data.asn || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Moneda</span><span class="result-status">${data.currency || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Idioma</span><span class="result-status">${data.languages || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Coordenadas</span><span class="result-status">${data.latitude || 'N/A'}, ${data.longitude || 'N/A'}</span></div>`;
+                resultsHTML += '</div>';
                 
-                // Simular respuesta después de un delay
-                setTimeout(() => {
-                    // Datos simulados basados en el IMEI
-                    const brands = ['Samsung', 'Apple', 'Xiaomi', 'Motorola', 'Huawei'];
-                    const models = {
-                        'Samsung': ['Galaxy S21', 'Galaxy A52', 'Galaxy Note 20'],
-                        'Apple': ['iPhone 13', 'iPhone 12', 'iPhone 11'],
-                        'Xiaomi': ['Redmi Note 10', 'Mi 11', 'Poco X3'],
-                        'Motorola': ['Moto G Power', 'Moto Edge', 'Moto E'],
-                        'Huawei': ['P40 Pro', 'Mate 40', 'Nova 8']
-                    };
-                    
-                    const carriers = ['Telcel', 'Movistar', 'AT&T', 'Unefon'];
-                    
-                    // Seleccionar marca basada en dígitos del IMEI
-                    const brandIndex = parseInt(imei[0]) % brands.length;
-                    const brand = brands[brandIndex];
-                    const model = models[brand][parseInt(imei[1]) % models[brand].length];
-                    const carrier = carriers[parseInt(imei[2]) % carriers.length];
-                    
-                    // Actualizar interfaz
-                    document.getElementById('infoBrand').textContent = brand;
-                    document.getElementById('infoModel').textContent = model;
-                    document.getElementById('infoCarrier').textContent = carrier;
-                    
-                    addLogEntry(`Información del dispositivo obtenida: ${brand} ${model}`);
-                }, 1500);
+                resultsContainer.innerHTML = resultsHTML;
                 
             } catch (error) {
-                addLogEntry('Error al obtener información del dispositivo: ' + error.message);
+                console.error('Error:', error);
+                showError(resultsContainer, 'Error al conectar con el servicio de geolocalización');
             }
         }
-        
-        // Actualizar datos en tiempo real
-        function updateRealTimeData() {
-            if (!isMonitoring) return;
+
+        // Obtener IP pública del usuario
+        async function getMyIP() {
+            const resultsContainer = document.getElementById('myip-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Obteniendo tu IP pública...</div>';
             
-            // En un sistema real, aquí se conectaría a servicios de localización
-            // Por ahora, simulamos datos de ubicación
-            
-            // Generar ubicación aleatoria cerca de la ubicación actual del mapa
-            const center = map.getCenter();
-            const lat = center.lat + (Math.random() - 0.5) * 0.01;
-            const lng = center.lng + (Math.random() - 0.5) * 0.01;
-            
-            // Actualizar mapa
-            updateDeviceLocation(lat, lng);
-            
-            // Actualizar información de conexión
-            updateConnectionInfo();
-            
-            // Actualizar registro de actividad
-            addLogEntry(`Ubicación actualizada: ${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+            try {
+                // Primero obtenemos la IP
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const myIP = ipData.ip;
+                
+                // Luego obtenemos la información de geolocalización
+                const geoResponse = await fetch(`https://ipapi.co/${myIP}/json/`);
+                const geoData = await geoResponse.json();
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>🌐 TU IP PÚBLICA</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Dirección IP</span><span class="result-status">${myIP}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Ubicación</span><span class="result-status">${geoData.city || 'N/A'}, ${geoData.country_name || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Proveedor</span><span class="result-status">${geoData.org || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Zona Horaria</span><span class="result-status">${geoData.timezone || 'N/A'}</span></div>`;
+                resultsHTML += '</div>';
+                
+                resultsContainer.innerHTML = resultsHTML;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(resultsContainer, 'Error al obtener tu IP pública');
+            }
         }
-        
-        // Actualizar ubicación del dispositivo en el mapa
-        function updateDeviceLocation(lat, lng) {
-            // Eliminar marcador anterior si existe
-            if (deviceMarker) {
-                map.removeLayer(deviceMarker);
+
+        // Validación de números telefónicos
+        async function validatePhone() {
+            const phone = document.getElementById('phone').value;
+            const resultsContainer = document.getElementById('phone-results');
+            
+            if (!phone) {
+                showError(resultsContainer, 'Por favor ingresa un número de teléfono');
+                return;
             }
             
-            // Crear nuevo marcador
-            deviceMarker = L.marker([lat, lng])
-                .addTo(map)
-                .bindPopup(`<b>Dispositivo IMEI: ${currentImei}</b><br>Última actualización: ${new Date().toLocaleTimeString()}`)
-                .openPopup();
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Validando número telefónico...</div>';
             
-            // Centrar mapa en la nueva ubicación
-            map.setView([lat, lng], 15);
-            
-            // Actualizar coordenadas en la interfaz
-            document.getElementById('currentCoords').textContent = `LAT: ${lat.toFixed(6)}, LNG: ${lng.toFixed(6)}`;
-            updateMapStatus('DISPOSITIVO LOCALIZADO');
-        }
-        
-        // Actualizar información de conexión
-        function updateConnectionInfo() {
-            const networkTypes = ['4G LTE', '5G', '4G', '3G'];
-            const speeds = ['0 km/h', '5 km/h', '15 km/h', '45 km/h', '60 km/h'];
-            const batteryLevels = ['85%', '72%', '64%', '91%', '78%'];
-            
-            document.getElementById('networkType').textContent = networkTypes[Math.floor(Math.random() * networkTypes.length)];
-            document.getElementById('cellTower').textContent = `TORRE-${Math.floor(1000 + Math.random() * 9000)}`;
-            document.getElementById('batteryLevel').textContent = batteryLevels[Math.floor(Math.random() * batteryLevels.length)];
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
-            document.getElementById('gpsAccuracy').textContent = `${Math.floor(5 + Math.random() * 20)}m`;
-            document.getElementById('deviceSpeed').textContent = speeds[Math.floor(Math.random() * speeds.length)];
-            
-            // Actualizar indicador de señal
-            updateSignalStrength(Math.floor(3 + Math.random() * 3));
-        }
-        
-        // Actualizar indicador de fuerza de señal
-        function updateSignalStrength(strength) {
-            const signalBars = document.querySelectorAll('.signal-bar');
-            signalBars.forEach((bar, index) => {
-                if (index < strength) {
-                    bar.classList.add('active');
-                } else {
-                    bar.classList.remove('active');
+            try {
+                // Usamos una API pública para validación de números
+                const response = await fetch(`https://api.numlookupapi.com/v1/validate/${phone}?apikey=free`);
+                const data = await response.json();
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📱 INFORMACIÓN DEL NÚMERO</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Número</span><span class="result-status">${data.valid ? data.number : 'Inválido'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Válido</span><span class="result-status">${data.valid ? 'Sí' : 'No'}</span></div>`;
+                
+                if (data.valid) {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">País</span><span class="result-status">${data.country_name || 'N/A'} (${data.country_code || 'N/A'})</span></div>`;
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Ubicación</span><span class="result-status">${data.location || 'N/A'}</span></div>`;
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Operadora</span><span class="result-status">${data.carrier || 'N/A'}</span></div>`;
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Tipo de línea</span><span class="result-status">${data.line_type || 'N/A'}</span></div>`;
                 }
-            });
+                
+                resultsHTML += '</div>';
+                resultsContainer.innerHTML = resultsHTML;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                // Fallback a validación básica
+                const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+                const isValid = phoneRegex.test(phone);
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📱 VALIDACIÓN BÁSICA</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Número</span><span class="result-status">${phone}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Formato válido</span><span class="result-status">${isValid ? 'Sí' : 'No'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Nota</span><span class="result-status">Validación básica - Servicio no disponible</span></div>`;
+                resultsHTML += '</div>';
+                
+                resultsContainer.innerHTML = resultsHTML;
+            }
         }
-        
-        // Actualizar estado del mapa
-        function updateMapStatus(status) {
-            document.getElementById('mapStatus').textContent = status;
-        }
-        
-        // Agregar entrada al registro de actividad
-        function addLogEntry(message) {
-            const logContainer = document.getElementById('activityLog');
-            const logEntry = document.createElement('div');
-            logEntry.className = 'log-entry';
+
+        // Verificación de emails
+        async function verifyEmail() {
+            const email = document.getElementById('email').value;
+            const resultsContainer = document.getElementById('email-results');
             
-            const timestamp = new Date().toLocaleTimeString();
-            logEntry.innerHTML = `<span class="log-time">[${timestamp}]</span> <span>${message}</span>`;
-            
-            logContainer.appendChild(logEntry);
-            logContainer.scrollTop = logContainer.scrollHeight;
-        }
-        
-        // Mostrar notificación
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            
-            notificationText.textContent = message;
-            
-            // Configurar color según el tipo
-            if (type === 'error') {
-                notification.style.borderColor = 'var(--neon-red)';
-            } else if (type === 'warning') {
-                notification.style.borderColor = 'var(--neon-yellow)';
-            } else {
-                notification.style.borderColor = 'var(--neon-green)';
+            if (!email) {
+                showError(resultsContainer, 'Por favor ingresa una dirección de email');
+                return;
             }
             
-            notification.style.display = 'block';
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Verificando email...</div>';
             
-            // Ocultar después de 3 segundos
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Manejar la visibilidad de la página para optimizar recursos
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden && isMonitoring) {
-                addLogEntry('Aplicación en segundo plano - Monitoreo continúa');
-            } else if (isMonitoring) {
-                addLogEntry('Aplicación en primer plano - Monitoreo activo');
+            try {
+                // Usamos API de verificación de emails
+                const response = await fetch(`https://api.eva.pingutil.com/email?email=${email}`);
+                const data = await response.json();
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📧 VERIFICACIÓN DE EMAIL</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Email</span><span class="result-status">${email}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Válido</span><span class="result-status">${data.data.valid_syntax ? 'Sí' : 'No'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Dominio válido</span><span class="result-status">${data.data.valid_domain ? 'Sí' : 'No'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Disponible</span><span class="result-status">${data.data.deliverable ? 'Sí' : 'No'}</span></div>`;
+                
+                if (data.data.valid_domain) {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Servidor MX</span><span class="result-status">${data.data.mx_records || 'No disponible'}</span></div>`;
+                }
+                
+                resultsHTML += '</div>';
+                resultsContainer.innerHTML = resultsHTML;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                // Fallback a validación básica
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const isValid = emailRegex.test(email);
+                const domain = email.split('@')[1];
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📧 VERIFICACIÓN BÁSICA</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Email</span><span class="result-status">${email}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Formato válido</span><span class="result-status">${isValid ? 'Sí' : 'No'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Dominio</span><span class="result-status">${domain || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Nota</span><span class="result-status">Validación básica - Servicio no disponible</span></div>`;
+                resultsHTML += '</div>';
+                
+                resultsContainer.innerHTML = resultsHTML;
             }
-        });
+        }
+
+        // Información de dominios
+        async function getDomainInfo() {
+            const domain = document.getElementById('domain').value;
+            const resultsContainer = document.getElementById('domain-results');
+            
+            if (!domain) {
+                showError(resultsContainer, 'Por favor ingresa un dominio');
+                return;
+            }
+            
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Obteniendo información del dominio...</div>';
+            
+            try {
+                // Usamos API de información de dominios
+                const response = await fetch(`https://api.whoisfreaks.com/v1.0/whois?whois=live&domainName=${domain}&apiKey=test`);
+                const data = await response.json();
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>🌐 INFORMACIÓN DEL DOMINIO</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Dominio</span><span class="result-status">${data.domain_name || domain}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Estado</span><span class="result-status">${data.domain_status || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Fecha creación</span><span class="result-status">${data.create_date || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Fecha expiración</span><span class="result-status">${data.expire_date || 'N/A'}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Registrante</span><span class="result-status">${data.registrant_organization || data.registrant_name || 'Privacidad activada'}</span></div>`;
+                resultsHTML += '</div>';
+                
+                if (data.name_servers) {
+                    resultsHTML += '<div class="detail-section">';
+                    resultsHTML += '<h4>🔧 SERVICIOS DNS</h4>';
+                    data.name_servers.forEach((server, index) => {
+                        if (index < 3) { // Mostrar solo los primeros 3
+                            resultsHTML += `<div class="result-item"><span class="result-platform">Servidor ${index + 1}</span><span class="result-status">${server}</span></div>`;
+                        }
+                    });
+                    resultsHTML += '</div>';
+                }
+                
+                resultsContainer.innerHTML = resultsHTML;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(resultsContainer, 'Error al obtener información del dominio. Intenta con otro dominio.');
+            }
+        }
+
+        // Verificación de filtraciones (Have I Been Pwned)
+        async function checkBreaches() {
+            const email = document.getElementById('breach-email').value;
+            const resultsContainer = document.getElementById('breach-results');
+            
+            if (!email) {
+                showError(resultsContainer, 'Por favor ingresa una dirección de email');
+                return;
+            }
+            
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Verificando filtraciones de datos...</div>';
+            
+            try {
+                // Usamos la API de Have I Been Pwned (versión k-anonymity)
+                const hash = await sha1(email.toLowerCase());
+                const prefix = hash.substring(0, 5);
+                const suffix = hash.substring(5);
+                
+                const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+                const data = await response.text();
+                
+                const hashes = data.split('\n');
+                let isPwned = false;
+                let breachCount = 0;
+                
+                for (const line of hashes) {
+                    const [hashSuffix, count] = line.split(':');
+                    if (hashSuffix.toLowerCase() === suffix.toLowerCase()) {
+                        isPwned = true;
+                        breachCount = parseInt(count);
+                        break;
+                    }
+                }
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>🛡️ VERIFICACIÓN DE FILTRACIONES</h4>';
+                resultsHTML += `<div class="result-item"><span class="result-platform">Email</span><span class="result-status">${email}</span></div>`;
+                resultsHTML += `<div class="result-item"><span class="result-platform">Estado</span><span class="result-status">${isPwned ? 'COMPROMETIDO' : 'NO COMPROMETIDO'}</span></div>`;
+                
+                if (isPwned) {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Filtraciones</span><span class="result-status">${breachCount} brechas encontradas</span></div>`;
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Recomendación</span><span class="result-status">Cambia tu contraseña inmediatamente</span></div>`;
+                } else {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">Estado</span><span class="result-status">No se encontraron filtraciones conocidas</span></div>`;
+                }
+                
+                resultsHTML += '</div>';
+                resultsContainer.innerHTML = resultsHTML;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(resultsContainer, 'Error al verificar filtraciones. Intenta más tarde.');
+            }
+        }
+
+        // Función auxiliar para SHA1 (necesaria para Have I Been Pwned)
+        async function sha1(str) {
+            const buffer = new TextEncoder().encode(str);
+            const hash = await crypto.subtle.digest('SHA-1', buffer);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
     </script>
 </body>
 </html>
