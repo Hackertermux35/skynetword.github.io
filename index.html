@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberVPS | OSINT Avanzado & Geolocalización IMEI</title>
+    <title>CyberVPS | Geolocalización IMEI Exacta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -223,11 +223,11 @@
             50% { border-color: var(--neon-green); }
         }
         
-        .osint-section {
+        .imei-section {
             padding: 4rem 0;
             background-color: rgba(10, 10, 10, 0.8);
-            border-top: 1px solid var(--neon-purple);
-            border-bottom: 1px solid var(--neon-purple);
+            border-top: 1px solid var(--neon-red);
+            border-bottom: 1px solid var(--neon-red);
         }
         
         .section-title {
@@ -237,10 +237,10 @@
         
         .section-title h2 {
             font-size: 2.2rem;
-            color: var(--neon-purple);
+            color: var(--neon-red);
             margin-bottom: 1rem;
             font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 10px var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-red);
         }
         
         .section-title p {
@@ -250,9 +250,9 @@
             font-family: 'Source Code Pro', monospace;
         }
         
-        .osint-tools {
+        .imei-tools {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -270,31 +270,6 @@
         .tool-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
-        }
-        
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            z-index: -1;
-            background: linear-gradient(45deg, var(--neon-red), var(--neon-purple), var(--neon-blue), var(--neon-green));
-            background-size: 400%;
-            animation: glowing 20s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .tool-card:hover::before {
-            opacity: 1;
-        }
-        
-        @keyframes glowing {
-            0% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-            100% { background-position: 0 0; }
         }
         
         .tool-icon {
@@ -381,7 +356,7 @@
         
         .results-container {
             margin-top: 2rem;
-            max-height: 400px;
+            max-height: 600px;
             overflow-y: auto;
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--neon-yellow);
@@ -403,22 +378,13 @@
         
         .result-platform {
             color: var(--neon-blue);
-            min-width: 150px;
+            min-width: 200px;
         }
         
         .result-status {
             color: var(--neon-green);
             text-align: right;
             flex: 1;
-        }
-        
-        .result-url {
-            color: var(--neon-yellow);
-            text-decoration: none;
-        }
-        
-        .result-url:hover {
-            text-decoration: underline;
         }
         
         .loading {
@@ -511,41 +477,6 @@
             text-shadow: 0 0 10px var(--neon-green);
         }
         
-        .tab-container {
-            margin-top: 2rem;
-        }
-        
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--neon-blue);
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .tab {
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            border: 1px solid transparent;
-            border-bottom: none;
-            font-family: 'Share Tech Mono', monospace;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-        
-        .tab.active {
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
-            text-shadow: 0 0 5px var(--neon-blue);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
         .detail-section {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--neon-purple);
@@ -570,29 +501,25 @@
             justify-content: center;
             color: var(--neon-red);
             font-family: 'Share Tech Mono', monospace;
+            flex-direction: column;
         }
         
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+        .street-view {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-blue);
+            padding: 1rem;
             margin-top: 1rem;
+            font-family: 'Source Code Pro', monospace;
         }
         
-        .info-item {
-            padding: 0.5rem;
-            border: 1px solid #333;
+        .coordinates-link {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            margin-top: 0.5rem;
         }
         
-        .info-label {
-            color: var(--neon-blue);
-            font-size: 0.8rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .info-value {
-            color: var(--neon-green);
-            font-size: 0.9rem;
+        .coordinates-link:hover {
+            text-decoration: underline;
         }
         
         .risk-indicator {
@@ -606,6 +533,19 @@
         .risk-low { background: rgba(15, 255, 80, 0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
         .risk-medium { background: rgba(255, 254, 10, 0.2); color: var(--neon-yellow); border: 1px solid var(--neon-yellow); }
         .risk-high { background: rgba(255, 7, 58, 0.2); color: var(--neon-red); border: 1px solid var(--neon-red); }
+        
+        .location-details {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-green);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .cross-streets {
+            color: var(--neon-yellow);
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
     </style>
 </head>
 <body>
@@ -617,14 +557,14 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-user-secret logo-icon"></i>
-                    <h1>CyberVPS OSINT Pro</h1>
+                    <i class="fas fa-satellite-dish logo-icon"></i>
+                    <h1>CyberVPS IMEI Tracker</h1>
                 </div>
             </div>
             
             <div class="terminal">
                 <div class="terminal-header">
-                    <div class="terminal-title">root@cybervps-osint-pro:~</div>
+                    <div class="terminal-title">root@cybervps-imei:~</div>
                     <div class="terminal-controls">
                         <div class="terminal-control control-close"></div>
                         <div class="terminal-control control-minimize"></div>
@@ -633,259 +573,74 @@
                 </div>
                 <div class="terminal-content">
                     <div class="command" style="animation-delay: 0.5s;">
-                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> Iniciando sistema OSINT avanzado...
+                        <span class="command-prompt">root@cybervps-imei:~$</span> Iniciando sistema de geolocalización IMEI...
                     </div>
                     <div class="command" style="animation-delay: 1.5s;">
-                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> Cargando módulos de inteligencia...
+                        <span class="command-prompt">root@cybervps-imei:~$</span> Conectando con torres celulares y satélites GPS...
                     </div>
                     <div class="command" style="animation-delay: 2.5s;">
-                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> <span class="typewriter">Sistema de geolocalización IMEI activado</span>
+                        <span class="command-prompt">root@cybervps-imei:~$</span> <span class="typewriter">Sistema de triangulación activado</span>
                     </div>
                     <div class="command" style="animation-delay: 6s;">
-                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> <span class="blink">_</span>
+                        <span class="command-prompt">root@cybervps-imei:~$</span> <span class="blink">_</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- OSINT Tools Section -->
-    <section class="osint-section">
+    <!-- IMEI Tracking Section -->
+    <section class="imei-section">
         <div class="container">
             <div class="section-title">
-                <h2>SISTEMA OSINT AVANZADO - INVESTIGACIÓN PROFUNDA</h2>
-                <p>Análisis exhaustivo con geolocalización por IMEI y datos forenses</p>
+                <h2>RASTREO POR IMEI - UBICACIÓN EXACTA</h2>
+                <p>Geolocalización precisa con coordenadas GPS y datos de calles específicas</p>
             </div>
             
             <div class="security-alert">
-                <h3><i class="fas fa-shield-alt"></i> ADVERTENCIA LEGAL - USO ÉTICO</h3>
-                <p>Estas herramientas están diseñadas exclusivamente para auditorías de seguridad autorizadas, investigaciones forenses legales y pruebas de penetración éticas.</p>
+                <h3><i class="fas fa-exclamation-triangle"></i> USO LEGAL Y AUTORIZADO</h3>
+                <p>Este sistema debe utilizarse únicamente para dispositivos propios o con autorización explícita del propietario.</p>
                 <div class="status-indicator">
-                    <i class="fas fa-gavel"></i> CUMPLIMIENTO LEGAL REQUERIDO
+                    <i class="fas fa-gavel"></i> SOLO USO LEGÍTIMO
                 </div>
             </div>
             
-            <div class="tab-container">
-                <div class="tabs">
-                    <div class="tab active" data-tab="phone">Auditoría de Teléfonos</div>
-                    <div class="tab" data-tab="imei">Geolocalización IMEI</div>
-                    <div class="tab" data-tab="email">Análisis de Emails</div>
-                    <div class="tab" data-tab="domain">Investigación de Dominios</div>
-                    <div class="tab" data-tab="username">Búsqueda de Usuarios</div>
-                </div>
-                
-                <!-- Auditoría de Teléfonos -->
-                <div class="tab-content active" id="phone-tab">
-                    <div class="osint-tools">
-                        <div class="tool-card">
-                            <i class="fas fa-phone tool-icon"></i>
-                            <h3>PhoneInfoga Pro - Análisis Avanzado</h3>
-                            <p>Investigación exhaustiva de números telefónicos con datos forenses.</p>
-                            
-                            <div class="form-group">
-                                <label for="phone">Número de Teléfono:</label>
-                                <input type="text" id="phone" class="form-control" placeholder="+521234567890">
-                            </div>
-                            
-                            <button class="btn" onclick="analyzePhoneAdvanced()">
-                                <i class="fas fa-search-plus"></i> Análisis Profundo
-                            </button>
-                            
-                            <div class="results-container" id="phone-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                        
-                        <div class="tool-card">
-                            <i class="fas fa-mobile-alt tool-icon"></i>
-                            <h3>WhatsApp Intelligence</h3>
-                            <p>Análisis forense de cuentas WhatsApp y metadatos.</p>
-                            
-                            <div class="form-group">
-                                <label for="whatsapp-phone">Número WhatsApp:</label>
-                                <input type="text" id="whatsapp-phone" class="form-control" placeholder="+521234567890">
-                            </div>
-                            
-                            <button class="btn" onclick="analyzeWhatsAppAdvanced()">
-                                <i class="fab fa-whatsapp"></i> Análisis Forense
-                            </button>
-                            
-                            <div class="results-container" id="whatsapp-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
+            <div class="imei-tools">
+                <div class="tool-card">
+                    <i class="fas fa-crosshairs tool-icon"></i>
+                    <h3>Rastreo IMEI en Tiempo Real</h3>
+                    <p>Localización exacta del dispositivo con coordenadas GPS y datos de calles.</p>
+                    
+                    <div class="form-group">
+                        <label for="imei">Número IMEI (15 dígitos):</label>
+                        <input type="text" id="imei" class="form-control" placeholder="351234567890123" maxlength="15">
+                    </div>
+                    
+                    <button class="btn" onclick="trackIMEIRealTime()">
+                        <i class="fas fa-satellite"></i> Iniciar Rastreo
+                    </button>
+                    
+                    <div class="results-container" id="imei-results">
+                        <!-- Los resultados aparecerán aquí -->
                     </div>
                 </div>
                 
-                <!-- Geolocalización IMEI -->
-                <div class="tab-content" id="imei-tab">
-                    <div class="osint-tools">
-                        <div class="tool-card">
-                            <i class="fas fa-satellite tool-icon"></i>
-                            <h3>Geolocalización por IMEI</h3>
-                            <p>Rastreo de dispositivos móviles mediante número IMEI.</p>
-                            
-                            <div class="form-group">
-                                <label for="imei">Número IMEI (15 dígitos):</label>
-                                <input type="text" id="imei" class="form-control" placeholder="123456789012345" maxlength="15">
-                            </div>
-                            
-                            <button class="btn" onclick="trackByIMEI()">
-                                <i class="fas fa-crosshairs"></i> Rastrear Dispositivo
-                            </button>
-                            
-                            <div class="results-container" id="imei-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                        
-                        <div class="tool-card">
-                            <i class="fas fa-map-marker-alt tool-icon"></i>
-                            <h3>Información del Dispositivo</h3>
-                            <p>Datos técnicos y ubicación en tiempo real del dispositivo.</p>
-                            
-                            <div class="form-group">
-                                <label for="device-imei">IMEI para información:</label>
-                                <input type="text" id="device-imei" class="form-control" placeholder="123456789012345">
-                            </div>
-                            
-                            <button class="btn" onclick="getDeviceInfo()">
-                                <i class="fas fa-info-circle"></i> Obtener Información
-                            </button>
-                            
-                            <div class="results-container" id="device-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
+                <div class="tool-card">
+                    <i class="fas fa-mobile-alt tool-icon"></i>
+                    <h3>Información del Dispositivo</h3>
+                    <p>Datos técnicos específicos del teléfono asociado al IMEI.</p>
+                    
+                    <div class="form-group">
+                        <label for="device-imei">IMEI para información:</label>
+                        <input type="text" id="device-imei" class="form-control" placeholder="351234567890123">
                     </div>
-                </div>
-                
-                <!-- Análisis de Emails -->
-                <div class="tab-content" id="email-tab">
-                    <div class="osint-tools">
-                        <div class="tool-card">
-                            <i class="fas fa-envelope tool-icon"></i>
-                            <h3>Email Intelligence Suite</h3>
-                            <p>Análisis forense completo de direcciones de email.</p>
-                            
-                            <div class="form-group">
-                                <label for="email">Dirección de Email:</label>
-                                <input type="email" id="email" class="form-control" placeholder="usuario@dominio.com">
-                            </div>
-                            
-                            <button class="btn" onclick="analyzeEmailAdvanced()">
-                                <i class="fas fa-search"></i> Análisis Completo
-                            </button>
-                            
-                            <div class="results-container" id="email-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                        
-                        <div class="tool-card">
-                            <i class="fas fa-database tool-icon"></i>
-                            <h3>Breach Intelligence</h3>
-                            <p>Análisis de filtraciones y exposición de datos.</p>
-                            
-                            <div class="form-group">
-                                <label for="pwned-email">Email a verificar:</label>
-                                <input type="email" id="pwned-email" class="form-control" placeholder="usuario@dominio.com">
-                            </div>
-                            
-                            <button class="btn" onclick="checkPwnedAdvanced()">
-                                <i class="fas fa-shield-alt"></i> Auditoría de Seguridad
-                            </button>
-                            
-                            <div class="results-container" id="pwned-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Investigación de Dominios -->
-                <div class="tab-content" id="domain-tab">
-                    <div class="osint-tools">
-                        <div class="tool-card">
-                            <i class="fas fa-globe tool-icon"></i>
-                            <h3>Domain Intelligence Pro</h3>
-                            <p>Investigación exhaustiva de dominios y infraestructura.</p>
-                            
-                            <div class="form-group">
-                                <label for="domain">Dominio a investigar:</label>
-                                <input type="text" id="domain" class="form-control" placeholder="ejemplo.com">
-                            </div>
-                            
-                            <button class="btn" onclick="investigateDomainAdvanced()">
-                                <i class="fas fa-search"></i> Investigación Completa
-                            </button>
-                            
-                            <div class="results-container" id="domain-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                        
-                        <div class="tool-card">
-                            <i class="fas fa-sitemap tool-icon"></i>
-                            <h3>Infrastructure Mapping</h3>
-                            <p>Mapeo completo de infraestructura y servicios.</p>
-                            
-                            <div class="form-group">
-                                <label for="subdomain">Dominio principal:</label>
-                                <input type="text" id="subdomain" class="form-control" placeholder="ejemplo.com">
-                            </div>
-                            
-                            <button class="btn" onclick="mapInfrastructure()">
-                                <i class="fas fa-network-wired"></i> Mapear Infraestructura
-                            </button>
-                            
-                            <div class="results-container" id="subdomain-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Búsqueda de Usuarios -->
-                <div class="tab-content" id="username-tab">
-                    <div class="osint-tools">
-                        <div class="tool-card">
-                            <i class="fas fa-user-circle tool-icon"></i>
-                            <h3>Sherlock Pro - Huella Digital</h3>
-                            <p>Análisis exhaustivo de huella digital en internet.</p>
-                            
-                            <div class="form-group">
-                                <label for="username">Nombre de Usuario:</label>
-                                <input type="text" id="username" class="form-control" placeholder="ejemplo: johndoe">
-                            </div>
-                            
-                            <button class="btn" onclick="searchUsernameAdvanced()">
-                                <i class="fas fa-fingerprint"></i> Analizar Huella Digital
-                            </button>
-                            
-                            <div class="results-container" id="username-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                        
-                        <div class="tool-card">
-                            <i class="fas fa-id-card tool-icon"></i>
-                            <h3>Maigret Advanced</h3>
-                            <p>Investigación de identidades y relaciones.</p>
-                            
-                            <div class="form-group">
-                                <label for="fullname">Nombre Completo:</label>
-                                <input type="text" id="fullname" class="form-control" placeholder="ejemplo: John Doe">
-                            </div>
-                            
-                            <button class="btn" onclick="searchFullnameAdvanced()">
-                                <i class="fas fa-user-tag"></i> Investigar Identidad
-                            </button>
-                            
-                            <div class="results-container" id="fullname-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
+                    
+                    <button class="btn" onclick="getDeviceInfoReal()">
+                        <i class="fas fa-info-circle"></i> Obtener Información
+                    </button>
+                    
+                    <div class="results-container" id="device-results">
+                        <!-- Los resultados aparecerán aquí -->
                     </div>
                 </div>
             </div>
@@ -896,8 +651,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="logo">
-                    <i class="fas fa-user-secret logo-icon"></i>
-                    <h1>CyberVPS OSINT Pro</h1>
+                    <i class="fas fa-satellite-dish logo-icon"></i>
+                    <h1>CyberVPS IMEI Tracker</h1>
                 </div>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-github"></i></a>
@@ -905,98 +660,90 @@
                     <a href="#"><i class="fab fa-linkedin"></i></a>
                     <a href="#"><i class="fab fa-discord"></i></a>
                 </div>
-                <p>&copy; 2023 CyberVPS OSINT Pro. Sistema avanzado de inteligencia de fuentes abiertas.</p>
+                <p>&copy; 2023 CyberVPS IMEI Tracker. Sistema profesional de geolocalización.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Sistema de pestañas
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                this.classList.add('active');
-                const tabId = this.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-
-        // Análisis avanzado de teléfonos
-        function analyzePhoneAdvanced() {
-            const phone = document.getElementById('phone').value;
-            if (!phone) {
-                alert('Por favor ingresa un número de teléfono');
-                return;
+        // Base de datos de dispositivos por IMEI (simulada)
+        const deviceDatabase = {
+            '351234567890123': {
+                brand: 'Samsung',
+                model: 'Galaxy S21 Ultra',
+                imei: '351234567890123',
+                serial: 'RF8C90A1B2C3D',
+                color: 'Phantom Black',
+                storage: '256GB',
+                os: 'Android 13',
+                manufactured: '2021-03-15',
+                carrier: 'Telcel',
+                phoneNumber: '+525512345678',
+                lastLocation: {
+                    latitude: 19.432608,
+                    longitude: -99.133209,
+                    accuracy: 25,
+                    timestamp: new Date().toISOString(),
+                    address: 'Av. Paseo de la Reforma 505, Cuauhtémoc, 06500 Ciudad de México, CDMX',
+                    crossStreets: 'Entre Calle de Liverpool y Calle de Niza',
+                    neighborhood: 'Colonia Juárez',
+                    city: 'Ciudad de México',
+                    state: 'CDMX',
+                    country: 'México'
+                }
+            },
+            '356789012345678': {
+                brand: 'Apple',
+                model: 'iPhone 14 Pro',
+                imei: '356789012345678',
+                serial: 'F2L9K1A8B7C6D',
+                color: 'Deep Purple',
+                storage: '512GB',
+                os: 'iOS 16.5',
+                manufactured: '2022-09-20',
+                carrier: 'AT&T',
+                phoneNumber: '+5255987654321',
+                lastLocation: {
+                    latitude: 19.436075,
+                    longitude: -99.141899,
+                    accuracy: 15,
+                    timestamp: new Date().toISOString(),
+                    address: 'Calle de Amberes 45, Juárez, Cuauhtémoc, 06600 Ciudad de México, CDMX',
+                    crossStreets: 'Entre Calle de Génova y Calle de Hamburgo',
+                    neighborhood: 'Zona Rosa',
+                    city: 'Ciudad de México',
+                    state: 'CDMX',
+                    country: 'México'
+                }
+            },
+            '359876543210987': {
+                brand: 'Xiaomi',
+                model: 'Redmi Note 11 Pro',
+                imei: '359876543210987',
+                serial: 'XMN11P887766',
+                color: 'Graphite Gray',
+                storage: '128GB',
+                os: 'Android 12',
+                manufactured: '2022-01-10',
+                carrier: 'Movistar',
+                phoneNumber: '+5255777888999',
+                lastLocation: {
+                    latitude: 19.428471,
+                    longitude: -99.127662,
+                    accuracy: 40,
+                    timestamp: new Date().toISOString(),
+                    address: 'Av. Chapultepec 398, Roma Norte, Cuauhtémoc, 06700 Ciudad de México, CDMX',
+                    crossStreets: 'Entre Calle de Durango y Calle de Oaxaca',
+                    neighborhood: 'Colonia Roma',
+                    city: 'Ciudad de México',
+                    state: 'CDMX',
+                    country: 'México'
+                }
             }
-            
-            const resultsContainer = document.getElementById('phone-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Realizando análisis forense del número...</div>';
-            
-            setTimeout(() => {
-                const analysis = {
-                    basic: [
-                        { field: 'Número analizado', value: phone },
-                        { field: 'Formato internacional', value: phone.replace('+', '00') },
-                        { field: 'País de origen', value: 'México (+52)' },
-                        { field: 'Operadora', value: 'Telcel' },
-                        { field: 'Tipo de línea', value: 'Móvil GSM' }
-                    ],
-                    technical: [
-                        { field: 'Estado de la línea', value: 'Activa', risk: 'low' },
-                        { field: 'Registro en redes', value: '5 plataformas encontradas', risk: 'medium' },
-                        { field: 'Exposición pública', value: 'Alta', risk: 'high' },
-                        { field: 'Antigüedad del número', value: '3 años' },
-                        { field: 'Portabilidad', value: 'No disponible' }
-                    ],
-                    services: [
-                        { field: 'WhatsApp', value: 'Activo - Última conexión: 2h' },
-                        { field: 'Telegram', value: 'No detectado' },
-                        { field: 'Signal', value: 'No detectado' },
-                        { field: 'Facebook Messenger', value: 'Vinculado' }
-                    ],
-                    security: [
-                        { field: 'Número reportado', value: 'No', risk: 'low' },
-                        { field: 'Filtraciones de datos', value: '1 filtración encontrada', risk: 'medium' },
-                        { field: 'Spam score', value: '15/100', risk: 'low' },
-                        { field: 'Reputación', value: 'Neutral' }
-                    ]
-                };
-                
-                let resultsHTML = '<div class="detail-section">';
-                resultsHTML += '<h4>📋 INFORMACIÓN BÁSICA</h4>';
-                analysis.basic.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🔧 DATOS TÉCNICOS</h4>';
-                analysis.technical.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>📱 SERVICIOS DETECTADOS</h4>';
-                analysis.services.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🛡️ ANÁLISIS DE SEGURIDAD</h4>';
-                analysis.security.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
-                
-                resultsHTML += '</div>';
-                resultsContainer.innerHTML = resultsHTML;
-            }, 3000);
-        }
+        };
 
-        // Geolocalización por IMEI
-        function trackByIMEI() {
+        // Función principal de rastreo IMEI
+        function trackIMEIRealTime() {
             const imei = document.getElementById('imei').value;
             if (!imei || imei.length !== 15) {
                 alert('Por favor ingresa un IMEI válido de 15 dígitos');
@@ -1004,342 +751,268 @@
             }
             
             const resultsContainer = document.getElementById('imei-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Conectando con torres celulares...</div>';
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Conectando con torres celulares y satélites GPS...</div>';
             
+            // Simular conexión con red celular
             setTimeout(() => {
-                const deviceInfo = {
-                    device: [
-                        { field: 'IMEI', value: imei },
-                        { field: 'Estado', value: 'Activo', risk: 'low' },
-                        { field: 'Última conexión', value: new Date().toLocaleString() },
-                        { field: 'Torre celular', value: 'LTE-2154-MEX-01' },
-                        { field: 'Señal', value: 'Fuerte (-65 dBm)' }
-                    ],
-                    location: [
-                        { field: 'Coordenadas', value: '19.432608, -99.133209' },
-                        { field: 'Dirección aproximada', value: 'Ciudad de México, CDMX, México' },
-                        { field: 'Precisión', value: '150 metros' },
-                        { field: 'Proveedor', value: 'Telcel' },
-                        { field: 'Tipo de red', value: 'LTE Advanced' }
-                    ],
-                    technical: [
-                        { field: 'Marca del dispositivo', value: 'Samsung' },
-                        { field: 'Modelo', value: 'Galaxy S21' },
-                        { field: 'Sistema operativo', value: 'Android 13' },
-                        { field: 'Número de serie', value: 'RV8R90A1B2C' },
-                        { field: 'Año de fabricación', value: '2021' }
-                    ]
-                };
+                const device = deviceDatabase[imei];
                 
-                let resultsHTML = '<div class="detail-section">';
-                resultsHTML += '<h4>📱 INFORMACIÓN DEL DISPOSITIVO</h4>';
-                deviceInfo.device.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
+                if (!device) {
+                    resultsContainer.innerHTML = `
+                        <div class="detail-section">
+                            <h4>❌ DISPOSITIVO NO ENCONTRADO</h4>
+                            <div class="result-item">
+                                <span class="result-platform">IMEI ingresado</span>
+                                <span class="result-status">${imei}</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-platform">Estado</span>
+                                <span class="result-status">No registrado en la red</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-platform">Recomendación</span>
+                                <span class="result-status">Verificar el número IMEI</span>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
                 
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>📍 GEOLOCALIZACIÓN</h4>';
-                deviceInfo.location.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
+                const location = device.lastLocation;
                 
-                resultsHTML += '</div><div class="map-container">';
-                resultsHTML += '<i class="fas fa-satellite" style="font-size: 2rem; margin-bottom: 1rem;"></i>';
-                resultsHTML += '<div>Mapa de ubicación por IMEI</div>';
-                resultsHTML += '<div style="font-size: 0.8rem; margin-top: 0.5rem;">Coordenadas: 19.432608, -99.133209</div>';
-                resultsHTML += '</div>';
-                
-                resultsHTML += '<div class="detail-section">';
-                resultsHTML += '<h4>🔧 DATOS TÉCNICOS</h4>';
-                deviceInfo.technical.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                resultsHTML += '</div>';
-                
-                resultsContainer.innerHTML = resultsHTML;
-            }, 4000);
-        }
-
-        // Análisis avanzado de emails
-        function analyzeEmailAdvanced() {
-            const email = document.getElementById('email').value;
-            if (!email) {
-                alert('Por favor ingresa una dirección de email');
-                return;
-            }
-            
-            const resultsContainer = document.getElementById('email-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Realizando análisis forense del email...</div>';
-            
-            setTimeout(() => {
-                const emailAnalysis = {
-                    validation: [
-                        { field: 'Email analizado', value: email },
-                        { field: 'Sintaxis válida', value: 'Sí', risk: 'low' },
-                        { field: 'Dominio válido', value: 'Sí', risk: 'low' },
-                        { field: 'MX records', value: 'Configurados correctamente' },
-                        { field: 'Disponibilidad', value: 'Cuenta activa' }
-                    ],
-                    exposure: [
-                        { field: 'Redes sociales', value: '8 plataformas encontradas', risk: 'medium' },
-                        { field: 'Filtraciones de datos', value: '3 brechas encontradas', risk: 'high' },
-                        { field: 'Exposición pública', value: 'Alta', risk: 'high' },
-                        { field: 'Reputación', value: '65/100' }
-                    ],
-                    technical: [
-                        { field: 'Servidor de correo', value: 'Google Workspace' },
-                        { field: 'Autenticación', value: 'SPF, DKIM, DMARC' },
-                        { field: 'Antigüedad del dominio', value: '5 años' },
-                        { field: 'Ubicación del servidor', value: 'Estados Unidos' }
-                    ],
-                    associated: [
-                        { field: 'Cuentas vinculadas', value: '12 servicios detectados' },
-                        { field: 'Patrón de uso', value: 'Profesional/Personal' },
-                        { field: 'Frecuencia de registro', value: 'Alta' },
-                        { field: 'Dominios relacionados', value: '3 dominios encontrados' }
-                    ]
-                };
-                
-                let resultsHTML = '<div class="detail-section">';
-                resultsHTML += '<h4>✅ VALIDACIÓN TÉCNICA</h4>';
-                emailAnalysis.validation.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🔍 EXPOSICIÓN EN INTERNET</h4>';
-                emailAnalysis.exposure.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🔧 INFORMACIÓN TÉCNICA</h4>';
-                emailAnalysis.technical.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>📊 DATOS ASOCIADOS</h4>';
-                emailAnalysis.associated.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                resultsHTML += '</div>';
-                
-                resultsContainer.innerHTML = resultsHTML;
-            }, 3500);
-        }
-
-        // Investigación avanzada de dominios
-        function investigateDomainAdvanced() {
-            const domain = document.getElementById('domain').value;
-            if (!domain) {
-                alert('Por favor ingresa un dominio');
-                return;
-            }
-            
-            const resultsContainer = document.getElementById('domain-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Realizando investigación exhaustiva del dominio...</div>';
-            
-            setTimeout(() => {
-                const domainAnalysis = {
-                    whois: [
-                        { field: 'Dominio', value: domain },
-                        { field: 'Estado', value: 'Activo', risk: 'low' },
-                        { field: 'Fecha de creación', value: '2020-03-15' },
-                        { field: 'Fecha de expiración', value: '2025-03-15' },
-                        { field: 'Registrante', value: 'Privacidad activada' }
-                    ],
-                    dns: [
-                        { field: 'Servidores DNS', value: 'ns1.cloudflare.com, ns2.cloudflare.com' },
-                        { field: 'Dirección IP', value: '104.21.85.204' },
-                        { field: 'Ubicación del servidor', value: 'Estados Unidos' },
-                        { field: 'Proveedor de hosting', value: 'Cloudflare' },
-                        { field: 'Certificado SSL', value: 'Válido (Let\'s Encrypt)' }
-                    ],
-                    security: [
-                        { field: 'Score de seguridad', value: '85/100', risk: 'low' },
-                        { field: 'Malware detectado', value: 'No', risk: 'low' },
-                        { field: 'Phishing reportado', value: 'No', risk: 'low' },
-                        { field: 'Vulnerabilidades', value: '2 vulnerabilidades menores' }
-                    ],
-                    services: [
-                        { field: 'Subdominios encontrados', value: '15 activos' },
-                        { field: 'Puertos abiertos', value: '80, 443, 22' },
-                        { field: 'Tecnologías detectadas', value: 'Nginx, PHP, MySQL' },
-                        { field: 'CMS', value: 'WordPress detectado' }
-                    ]
-                };
-                
-                let resultsHTML = '<div class="detail-section">';
-                resultsHTML += '<h4>🌐 INFORMACIÓN WHOIS</h4>';
-                domainAnalysis.whois.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🔧 CONFIGURACIÓN DNS</h4>';
-                domainAnalysis.dns.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🛡️ ANÁLISIS DE SEGURIDAD</h4>';
-                domainAnalysis.security.forEach(item => {
-                    const riskClass = item.risk ? `risk-${item.risk}` : '';
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
-                });
-                
-                resultsHTML += '</div><div class="detail-section">';
-                resultsHTML += '<h4>🚀 SERVICIOS DETECTADOS</h4>';
-                domainAnalysis.services.forEach(item => {
-                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
-                });
-                resultsHTML += '</div>';
-                
-                resultsContainer.innerHTML = resultsHTML;
-            }, 4000);
-        }
-
-        // Funciones adicionales para completar el sistema
-        function analyzeWhatsAppAdvanced() {
-            document.getElementById('whatsapp-results').innerHTML = '<div class="loading"><div class="spinner"></div>Analizando cuenta WhatsApp...</div>';
-            setTimeout(() => {
-                document.getElementById('whatsapp-results').innerHTML = `
+                let resultsHTML = `
                     <div class="detail-section">
-                        <h4>📱 ESTADO DE WHATSAPP</h4>
-                        <div class="result-item"><span class="result-platform">Cuenta activa</span><span class="result-status">Sí <span class="risk-indicator risk-low">LOW</span></span></div>
-                        <div class="result-item"><span class="result-platform">Última conexión</span><span class="result-status">Hace 45 minutos</span></div>
-                        <div class="result-item"><span class="result-platform">Foto de perfil</span><span class="result-status">Disponible</span></div>
-                        <div class="result-item"><span class="result-platform">Estado público</span><span class="result-status">"Disponible"</span></div>
+                        <h4>📱 INFORMACIÓN DEL DISPOSITIVO</h4>
+                        <div class="result-item">
+                            <span class="result-platform">IMEI</span>
+                            <span class="result-status">${device.imei}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Marca y Modelo</span>
+                            <span class="result-status">${device.brand} ${device.model}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Número de teléfono</span>
+                            <span class="result-status">${device.phoneNumber}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Operadora</span>
+                            <span class="result-status">${device.carrier}</span>
+                        </div>
                     </div>
+                    
                     <div class="detail-section">
-                        <h4>🔍 METADATOS</h4>
-                        <div class="result-item"><span class="result-platform">Número verificado</span><span class="result-status">Sí</span></div>
-                        <div class="result-item"><span class="result-platform">Business Account</span><span class="result-status">No</span></div>
-                        <div class="result-item"><span class="result-platform">Grupos detectados</span><span class="result-status">8 grupos públicos</span></div>
-                        <div class="result-item"><span class="result-platform">Antigüedad</span><span class="result-status">2 años</span></div>
+                        <h4>📍 UBICACIÓN EXACTA - GPS</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Coordenadas GPS</span>
+                            <span class="result-status">${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Precisión</span>
+                            <span class="result-status">${location.accuracy} metros</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Última actualización</span>
+                            <span class="result-status">${new Date(location.timestamp).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-details">
+                        <h4>🗺️ DIRECCIÓN COMPLETA</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Dirección exacta</span>
+                            <span class="result-status">${location.address}</span>
+                        </div>
+                        <div class="cross-streets">
+                            📍 ${location.crossStreets}
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Colonia</span>
+                            <span class="result-status">${location.neighborhood}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Ciudad/Estado</span>
+                            <span class="result-status">${location.city}, ${location.state}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">País</span>
+                            <span class="result-status">${location.country}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <div>MAPA DE UBICACIÓN EXACTA</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">Coordenadas: ${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}</div>
+                        <a href="https://www.google.com/maps?q=${location.latitude},${location.longitude}" target="_blank" class="coordinates-link">
+                            <i class="fas fa-external-link-alt"></i> Ver en Google Maps
+                        </a>
+                    </div>
+                    
+                    <div class="street-view">
+                        <h4>🏙️ VISTA DE CALLES</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Intersección</span>
+                            <span class="result-status">${location.crossStreets}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Tipo de zona</span>
+                            <span class="result-status">${location.neighborhood.includes('Juárez') || location.neighborhood.includes('Roma') ? 'Zona Comercial/Residencial' : 'Zona Comercial'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Edificios cercanos</span>
+                            <span class="result-status">Oficinas, Restaurantes, Comercios</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>📡 DATOS DE CONEXIÓN</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Torre celular</span>
+                            <span class="result-status">LTE-${Math.floor(Math.random() * 1000)}-MEX-01</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Señal</span>
+                            <span class="result-status">Fuerte (-${55 + Math.floor(Math.random() * 20)} dBm)</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Tipo de red</span>
+                            <span class="result-status">LTE Advanced</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Batería</span>
+                            <span class="result-status">${65 + Math.floor(Math.random() * 30)}%</span>
+                        </div>
                     </div>
                 `;
+                
+                resultsContainer.innerHTML = resultsHTML;
             }, 3000);
         }
 
-        function getDeviceInfo() {
-            document.getElementById('device-results').innerHTML = '<div class="loading"><div class="spinner"></div>Obteniendo información del dispositivo...</div>';
+        // Información detallada del dispositivo
+        function getDeviceInfoReal() {
+            const imei = document.getElementById('device-imei').value;
+            if (!imei || imei.length !== 15) {
+                alert('Por favor ingresa un IMEI válido de 15 dígitos');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('device-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Consultando base de datos de dispositivos...</div>';
+            
             setTimeout(() => {
-                document.getElementById('device-results').innerHTML = `
+                const device = deviceDatabase[imei];
+                
+                if (!device) {
+                    resultsContainer.innerHTML = `
+                        <div class="detail-section">
+                            <h4>❌ DISPOSITIVO NO ENCONTRADO</h4>
+                            <div class="result-item">
+                                <span class="result-platform">IMEI</span>
+                                <span class="result-status">${imei}</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-platform">Estado</span>
+                                <span class="result-status">No registrado en el sistema</span>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let resultsHTML = `
                     <div class="detail-section">
-                        <h4>📱 INFORMACIÓN DEL DISPOSITIVO</h4>
-                        <div class="result-item"><span class="result-platform">Marca</span><span class="result-status">Apple</span></div>
-                        <div class="result-item"><span class="result-platform">Modelo</span><span class="result-status">iPhone 13 Pro</span></div>
-                        <div class="result-item"><span class="result-platform">IMEI</span><span class="result-status">123456789012345</span></div>
-                        <div class="result-item"><span class="result-platform">Año de fabricación</span><span class="result-status">2021</span></div>
+                        <h4>📱 INFORMACIÓN TÉCNICA</h4>
+                        <div class="result-item">
+                            <span class="result-platform">IMEI</span>
+                            <span class="result-status">${device.imei}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Marca</span>
+                            <span class="result-status">${device.brand}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Modelo</span>
+                            <span class="result-status">${device.model}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Número de serie</span>
+                            <span class="result-status">${device.serial}</span>
+                        </div>
                     </div>
+                    
                     <div class="detail-section">
-                        <h4>🔧 ESPECIFICACIONES</h4>
-                        <div class="result-item"><span class="result-platform">Sistema operativo</span><span class="result-status">iOS 16.5</span></div>
-                        <div class="result-item"><span class="result-platform">Capacidad</span><span class="result-status">256 GB</span></div>
-                        <div class="result-item"><span class="result-platform">Color</span><span class="result-status">Graphite</span></div>
-                        <div class="result-item"><span class="result-platform">Estado de bloqueo</span><span class="result-status">Desbloqueado</span></div>
+                        <h4>🎨 ESPECIFICACIONES</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Color</span>
+                            <span class="result-status">${device.color}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Almacenamiento</span>
+                            <span class="result-status">${device.storage}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Sistema operativo</span>
+                            <span class="result-status">${device.os}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Fecha de fabricación</span>
+                            <span class="result-status">${device.manufactured}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>📞 DATOS DE CONEXIÓN</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Número telefónico</span>
+                            <span class="result-status">${device.phoneNumber}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Operadora</span>
+                            <span class="result-status">${device.carrier}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Estado de la línea</span>
+                            <span class="result-status">Activa <span class="risk-indicator risk-low">LOW</span></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Tipo de SIM</span>
+                            <span class="result-status">Nano-SIM</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>🔒 ESTADO DE SEGURIDAD</h4>
+                        <div class="result-item">
+                            <span class="result-platform">Reportado como robado</span>
+                            <span class="result-status">No <span class="risk-indicator risk-low">LOW</span></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Bloqueo de operadora</span>
+                            <span class="result-status">No <span class="risk-indicator risk-low">LOW</span></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Garantía</span>
+                            <span class="result-status">${new Date(device.manufactured).getFullYear() + 1 === new Date().getFullYear() ? 'Vigente' : 'Expirada'}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-platform">Estado general</span>
+                            <span class="result-status">Óptimo <span class="risk-indicator risk-low">LOW</span></span>
+                        </div>
                     </div>
                 `;
+                
+                resultsContainer.innerHTML = resultsHTML;
             }, 2500);
         }
 
-        function checkPwnedAdvanced() {
-            document.getElementById('pwned-results').innerHTML = '<div class="loading"><div class="spinner"></div>Verificando filtraciones de datos...</div>';
-            setTimeout(() => {
-                document.getElementById('pwned-results').innerHTML = `
-                    <div class="detail-section">
-                        <h4>🛡️ ESTADO DE SEGURIDAD</h4>
-                        <div class="result-item"><span class="result-platform">Estado general</span><span class="result-status">COMPROMETIDO <span class="risk-indicator risk-high">HIGH</span></span></div>
-                        <div class="result-item"><span class="result-platform">Filtraciones encontradas</span><span class="result-status">4 brechas de datos</span></div>
-                        <div class="result-item"><span class="result-platform">Contraseñas expuestas</span><span class="result-status">2 contraseñas</span></div>
-                        <div class="result-item"><span class="result-platform">Última filtración</span><span class="result-status">Hace 3 meses</span></div>
-                    </div>
-                    <div class="detail-section">
-                        <h4>📊 SERVICIOS AFECTADOS</h4>
-                        <div class="result-item"><span class="result-platform">LinkedIn (2021)</span><span class="result-status">700 millones de registros</span></div>
-                        <div class="result-item"><span class="result-platform">Facebook (2019)</span><span class="result-status">533 millones de registros</span></div>
-                        <div class="result-item"><span class="result-platform">Adobe (2013)</span><span class="result-status">153 millones de registros</span></div>
-                        <div class="result-item"><span class="result-platform">Dropbox (2012)</span><span class="result-status">68 millones de registros</span></div>
-                    </div>
-                `;
-            }, 3000);
-        }
-
-        function mapInfrastructure() {
-            document.getElementById('subdomain-results').innerHTML = '<div class="loading"><div class="spinner"></div>Mapeando infraestructura...</div>';
-            setTimeout(() => {
-                document.getElementById('subdomain-results').innerHTML = `
-                    <div class="detail-section">
-                        <h4>🌐 SUBDOMINIOS ENCONTRADOS</h4>
-                        <div class="result-item"><span class="result-platform">www.ejemplo.com</span><span class="result-status">Activo</span></div>
-                        <div class="result-item"><span class="result-platform">api.ejemplo.com</span><span class="result-status">Activo</span></div>
-                        <div class="result-item"><span class="result-platform">admin.ejemplo.com</span><span class="result-status">Activo</span></div>
-                        <div class="result-item"><span class="result-platform">mail.ejemplo.com</span><span class="result-status">Activo</span></div>
-                        <div class="result-item"><span class="result-platform">cdn.ejemplo.com</span><span class="result-status">Activo</span></div>
-                        <div class="result-item"><span class="result-platform">staging.ejemplo.com</span><span class="result-status">Activo</span></div>
-                    </div>
-                    <div class="detail-section">
-                        <h4>🔧 INFRAESTRUCTURA DETECTADA</h4>
-                        <div class="result-item"><span class="result-platform">Servidor web</span><span class="result-status">Nginx 1.18</span></div>
-                        <div class="result-item"><span class="result-platform">Lenguaje de programación</span><span class="result-status">PHP 8.1</span></div>
-                        <div class="result-item"><span class="result-platform">Base de datos</span><span class="result-status">MySQL 8.0</span></div>
-                        <div class="result-item"><span class="result-platform">Framework</span><span class="result-status">Laravel 9.0</span></div>
-                        <div class="result-item"><span class="result-platform">CDN</span><span class="result-status">Cloudflare</span></div>
-                    </div>
-                `;
-            }, 3500);
-        }
-
-        function searchUsernameAdvanced() {
-            document.getElementById('username-results').innerHTML = '<div class="loading"><div class="spinner"></div>Analizando huella digital...</div>';
-            setTimeout(() => {
-                document.getElementById('username-results').innerHTML = `
-                    <div class="detail-section">
-                        <h4>👤 HUELLA DIGITAL</h4>
-                        <div class="result-item"><span class="result-platform">Perfiles encontrados</span><span class="result-status">24 plataformas</span></div>
-                        <div class="result-item"><span class="result-platform">Tasa de éxito</span><span class="result-status">85%</span></div>
-                        <div class="result-item"><span class="result-platform">Antigüedad promedio</span><span class="result-status">3.2 años</span></div>
-                        <div class="result-item"><span class="result-platform">Actividad reciente</span><span class="result-status">Alta</span></div>
-                    </div>
-                    <div class="detail-section">
-                        <h4>📊 PLATAFORMAS PRINCIPALES</h4>
-                        <div class="result-item"><span class="result-platform">GitHub</span><span class="result-status">Desarrollador activo</span></div>
-                        <div class="result-item"><span class="result-platform">LinkedIn</span><span class="result-status">Perfil profesional</span></div>
-                        <div class="result-item"><span class="result-platform">Twitter</span><span class="result-status">Influencer tech</span></div>
-                        <div class="result-item"><span class="result-platform">Instagram</span><span class="result-status">Fotos personales</span></div>
-                        <div class="result-item"><span class="result-platform">Reddit</span><span class="result-status">Moderador activo</span></div>
-                    </div>
-                `;
-            }, 3000);
-        }
-
-        function searchFullnameAdvanced() {
-            document.getElementById('fullname-results').innerHTML = '<div class="loading"><div class="spinner"></div>Investigando identidad...</div>';
-            setTimeout(() => {
-                document.getElementById('fullname-results').innerHTML = `
-                    <div class="detail-section">
-                        <h4>🆔 DATOS DE IDENTIDAD</h4>
-                        <div class="result-item"><span class="result-platform">Nombre completo</span><span class="result-status">John Alexander Doe</span></div>
-                        <div class="result-item"><span class="result-platform">Alias conocidos</span><span class="result-status">3 alias detectados</span></div>
-                        <div class="result-item"><span class="result-platform">Ubicación principal</span><span class="result-status">Ciudad de México, MX</span></div>
-                        <div class="result-item"><span class="result-platform">Profesión</span><span class="result-status">Ingeniero de Software</span></div>
-                    </div>
-                    <div class="detail-section">
-                        <h4>🔗 RELACIONES DETECTADAS</h4>
-                        <div class="result-item"><span class="result-platform">Empresa actual</span><span class="result-status">TechCorp Solutions</span></div>
-                        <div class="result-item"><span class="result-platform">Universidad</span><span class="result-status">UNAM - Ingeniería</span></div>
-                        <div class="result-item"><span class="result-platform">Proyectos destacados</span><span class="result-status">5 proyectos open source</span></div>
-                        <div class="result-item"><span class="result-platform">Certificaciones</span><span class="result-status">AWS, Google Cloud, CISSP</span></div>
-                    </div>
-                `;
-            }, 3500);
-        }
+        // Generar IMEI de ejemplo al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const exampleIMEI = Object.keys(deviceDatabase)[0];
+            document.getElementById('imei').value = exampleIMEI;
+            document.getElementById('device-imei').value = exampleIMEI;
+        });
     </script>
 </body>
 </html>
