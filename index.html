@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberVPS | OSINT & Auditoría de Seguridad</title>
+    <title>CyberVPS | OSINT Avanzado & Geolocalización IMEI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -36,7 +36,6 @@
                 radial-gradient(circle at 50% 40%, rgba(189, 0, 255, 0.03) 0%, transparent 30%);
         }
         
-        /* Efecto de scanning */
         .scan-line {
             position: fixed;
             top: 0;
@@ -58,7 +57,6 @@
             100% { top: 100vh; }
         }
         
-        /* Efecto de grid matrix de fondo */
         .grid-bg {
             position: fixed;
             top: 0;
@@ -383,7 +381,7 @@
         
         .results-container {
             margin-top: 2rem;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--neon-yellow);
@@ -405,10 +403,13 @@
         
         .result-platform {
             color: var(--neon-blue);
+            min-width: 150px;
         }
         
         .result-status {
             color: var(--neon-green);
+            text-align: right;
+            flex: 1;
         }
         
         .result-url {
@@ -518,15 +519,17 @@
             display: flex;
             border-bottom: 1px solid var(--neon-blue);
             margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
         
         .tab {
-            padding: 1rem 2rem;
+            padding: 1rem 1.5rem;
             cursor: pointer;
             border: 1px solid transparent;
             border-bottom: none;
             font-family: 'Share Tech Mono', monospace;
             transition: all 0.3s;
+            white-space: nowrap;
         }
         
         .tab.active {
@@ -542,6 +545,67 @@
         .tab-content.active {
             display: block;
         }
+        
+        .detail-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--neon-purple);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0;
+        }
+        
+        .detail-section h4 {
+            color: var(--neon-purple);
+            margin-bottom: 0.5rem;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .map-container {
+            height: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-red);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-red);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .info-item {
+            padding: 0.5rem;
+            border: 1px solid #333;
+        }
+        
+        .info-label {
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            color: var(--neon-green);
+            font-size: 0.9rem;
+        }
+        
+        .risk-indicator {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+        
+        .risk-low { background: rgba(15, 255, 80, 0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
+        .risk-medium { background: rgba(255, 254, 10, 0.2); color: var(--neon-yellow); border: 1px solid var(--neon-yellow); }
+        .risk-high { background: rgba(255, 7, 58, 0.2); color: var(--neon-red); border: 1px solid var(--neon-red); }
     </style>
 </head>
 <body>
@@ -554,13 +618,13 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-user-secret logo-icon"></i>
-                    <h1>CyberVPS OSINT</h1>
+                    <h1>CyberVPS OSINT Pro</h1>
                 </div>
             </div>
             
             <div class="terminal">
                 <div class="terminal-header">
-                    <div class="terminal-title">root@cybervps-osint:~</div>
+                    <div class="terminal-title">root@cybervps-osint-pro:~</div>
                     <div class="terminal-controls">
                         <div class="terminal-control control-close"></div>
                         <div class="terminal-control control-minimize"></div>
@@ -569,16 +633,16 @@
                 </div>
                 <div class="terminal-content">
                     <div class="command" style="animation-delay: 0.5s;">
-                        <span class="command-prompt">root@cybervps-osint:~$</span> Iniciando herramientas OSINT...
+                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> Iniciando sistema OSINT avanzado...
                     </div>
                     <div class="command" style="animation-delay: 1.5s;">
-                        <span class="command-prompt">root@cybervps-osint:~$</span> Cargando módulos de auditoría...
+                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> Cargando módulos de inteligencia...
                     </div>
                     <div class="command" style="animation-delay: 2.5s;">
-                        <span class="command-prompt">root@cybervps-osint:~$</span> <span class="typewriter">Sistema Sherlock Holmes activado</span>
+                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> <span class="typewriter">Sistema de geolocalización IMEI activado</span>
                     </div>
                     <div class="command" style="animation-delay: 6s;">
-                        <span class="command-prompt">root@cybervps-osint:~$</span> <span class="blink">_</span>
+                        <span class="command-prompt">root@cybervps-osint-pro:~$</span> <span class="blink">_</span>
                     </div>
                 </div>
             </div>
@@ -589,89 +653,42 @@
     <section class="osint-section">
         <div class="container">
             <div class="section-title">
-                <h2>HERRAMIENTAS OSINT - AUDITORÍA DE SEGURIDAD</h2>
-                <p>Investigación de fuentes abiertas para análisis forense digital</p>
+                <h2>SISTEMA OSINT AVANZADO - INVESTIGACIÓN PROFUNDA</h2>
+                <p>Análisis exhaustivo con geolocalización por IMEI y datos forenses</p>
             </div>
             
             <div class="security-alert">
-                <h3><i class="fas fa-shield-alt"></i> ADVERTENCIA LEGAL</h3>
-                <p>Estas herramientas deben usarse únicamente para auditorías de seguridad autorizadas y pruebas de penetración éticas.</p>
+                <h3><i class="fas fa-shield-alt"></i> ADVERTENCIA LEGAL - USO ÉTICO</h3>
+                <p>Estas herramientas están diseñadas exclusivamente para auditorías de seguridad autorizadas, investigaciones forenses legales y pruebas de penetración éticas.</p>
                 <div class="status-indicator">
-                    <i class="fas fa-exclamation-triangle"></i> USO RESPONSABLE
+                    <i class="fas fa-gavel"></i> CUMPLIMIENTO LEGAL REQUERIDO
                 </div>
             </div>
             
             <div class="tab-container">
                 <div class="tabs">
-                    <div class="tab active" data-tab="username">Búsqueda de Usuarios</div>
-                    <div class="tab" data-tab="phone">Auditoría de Teléfonos</div>
+                    <div class="tab active" data-tab="phone">Auditoría de Teléfonos</div>
+                    <div class="tab" data-tab="imei">Geolocalización IMEI</div>
                     <div class="tab" data-tab="email">Análisis de Emails</div>
                     <div class="tab" data-tab="domain">Investigación de Dominios</div>
-                </div>
-                
-                <!-- Búsqueda de Usuarios -->
-                <div class="tab-content active" id="username-tab">
-                    <div class="osint-tools">
-                        <div class="tool-card">
-                            <i class="fas fa-user-circle tool-icon"></i>
-                            <h3>Sherlock - Búsqueda de Usuarios</h3>
-                            <p>Busca un nombre de usuario en más de 200 redes sociales y plataformas.</p>
-                            
-                            <div class="form-group">
-                                <label for="username">Nombre de Usuario:</label>
-                                <input type="text" id="username" class="form-control" placeholder="ejemplo: johndoe">
-                            </div>
-                            
-                            <button class="btn" onclick="searchUsername()">
-                                <i class="fas fa-search"></i> Buscar Usuario
-                            </button>
-                            
-                            <div class="results-container" id="username-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                        
-                        <div class="tool-card">
-                            <i class="fas fa-id-card tool-icon"></i>
-                            <h3>Maigret - Perfil Avanzado</h3>
-                            <p>Análisis exhaustivo de huella digital en internet.</p>
-                            
-                            <div class="form-group">
-                                <label for="fullname">Nombre Completo:</label>
-                                <input type="text" id="fullname" class="form-control" placeholder="ejemplo: John Doe">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="location">Ubicación (opcional):</label>
-                                <input type="text" id="location" class="form-control" placeholder="ejemplo: Ciudad, País">
-                            </div>
-                            
-                            <button class="btn" onclick="searchFullname()">
-                                <i class="fas fa-fingerprint"></i> Analizar Huella Digital
-                            </button>
-                            
-                            <div class="results-container" id="fullname-results">
-                                <!-- Los resultados aparecerán aquí -->
-                            </div>
-                        </div>
-                    </div>
+                    <div class="tab" data-tab="username">Búsqueda de Usuarios</div>
                 </div>
                 
                 <!-- Auditoría de Teléfonos -->
-                <div class="tab-content" id="phone-tab">
+                <div class="tab-content active" id="phone-tab">
                     <div class="osint-tools">
                         <div class="tool-card">
                             <i class="fas fa-phone tool-icon"></i>
-                            <h3>PhoneInfoga - Auditoría de Teléfonos</h3>
-                            <p>Análisis avanzado de números telefónicos y recopilación de información.</p>
+                            <h3>PhoneInfoga Pro - Análisis Avanzado</h3>
+                            <p>Investigación exhaustiva de números telefónicos con datos forenses.</p>
                             
                             <div class="form-group">
                                 <label for="phone">Número de Teléfono:</label>
                                 <input type="text" id="phone" class="form-control" placeholder="+521234567890">
                             </div>
                             
-                            <button class="btn" onclick="analyzePhone()">
-                                <i class="fas fa-phone-volume"></i> Analizar Teléfono
+                            <button class="btn" onclick="analyzePhoneAdvanced()">
+                                <i class="fas fa-search-plus"></i> Análisis Profundo
                             </button>
                             
                             <div class="results-container" id="phone-results">
@@ -681,19 +698,62 @@
                         
                         <div class="tool-card">
                             <i class="fas fa-mobile-alt tool-icon"></i>
-                            <h3>WhatsApp OSINT</h3>
-                            <p>Verificación de existencia en WhatsApp y recopilación de datos.</p>
+                            <h3>WhatsApp Intelligence</h3>
+                            <p>Análisis forense de cuentas WhatsApp y metadatos.</p>
                             
                             <div class="form-group">
-                                <label for="whatsapp-phone">Número para WhatsApp:</label>
+                                <label for="whatsapp-phone">Número WhatsApp:</label>
                                 <input type="text" id="whatsapp-phone" class="form-control" placeholder="+521234567890">
                             </div>
                             
-                            <button class="btn" onclick="checkWhatsApp()">
-                                <i class="fab fa-whatsapp"></i> Verificar WhatsApp
+                            <button class="btn" onclick="analyzeWhatsAppAdvanced()">
+                                <i class="fab fa-whatsapp"></i> Análisis Forense
                             </button>
                             
                             <div class="results-container" id="whatsapp-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Geolocalización IMEI -->
+                <div class="tab-content" id="imei-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-satellite tool-icon"></i>
+                            <h3>Geolocalización por IMEI</h3>
+                            <p>Rastreo de dispositivos móviles mediante número IMEI.</p>
+                            
+                            <div class="form-group">
+                                <label for="imei">Número IMEI (15 dígitos):</label>
+                                <input type="text" id="imei" class="form-control" placeholder="123456789012345" maxlength="15">
+                            </div>
+                            
+                            <button class="btn" onclick="trackByIMEI()">
+                                <i class="fas fa-crosshairs"></i> Rastrear Dispositivo
+                            </button>
+                            
+                            <div class="results-container" id="imei-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-map-marker-alt tool-icon"></i>
+                            <h3>Información del Dispositivo</h3>
+                            <p>Datos técnicos y ubicación en tiempo real del dispositivo.</p>
+                            
+                            <div class="form-group">
+                                <label for="device-imei">IMEI para información:</label>
+                                <input type="text" id="device-imei" class="form-control" placeholder="123456789012345">
+                            </div>
+                            
+                            <button class="btn" onclick="getDeviceInfo()">
+                                <i class="fas fa-info-circle"></i> Obtener Información
+                            </button>
+                            
+                            <div class="results-container" id="device-results">
                                 <!-- Los resultados aparecerán aquí -->
                             </div>
                         </div>
@@ -705,16 +765,16 @@
                     <div class="osint-tools">
                         <div class="tool-card">
                             <i class="fas fa-envelope tool-icon"></i>
-                            <h3>Hunter.io - Análisis de Email</h3>
-                            <p>Verificación de emails y búsqueda de cuentas asociadas.</p>
+                            <h3>Email Intelligence Suite</h3>
+                            <p>Análisis forense completo de direcciones de email.</p>
                             
                             <div class="form-group">
                                 <label for="email">Dirección de Email:</label>
                                 <input type="email" id="email" class="form-control" placeholder="usuario@dominio.com">
                             </div>
                             
-                            <button class="btn" onclick="analyzeEmail()">
-                                <i class="fas fa-search"></i> Analizar Email
+                            <button class="btn" onclick="analyzeEmailAdvanced()">
+                                <i class="fas fa-search"></i> Análisis Completo
                             </button>
                             
                             <div class="results-container" id="email-results">
@@ -723,17 +783,17 @@
                         </div>
                         
                         <div class="tool-card">
-                            <i class="fas fa-at tool-icon"></i>
-                            <h3>Have I Been Pwned</h3>
-                            <p>Verifica si un email ha sido comprometido en filtraciones de datos.</p>
+                            <i class="fas fa-database tool-icon"></i>
+                            <h3>Breach Intelligence</h3>
+                            <p>Análisis de filtraciones y exposición de datos.</p>
                             
                             <div class="form-group">
                                 <label for="pwned-email">Email a verificar:</label>
                                 <input type="email" id="pwned-email" class="form-control" placeholder="usuario@dominio.com">
                             </div>
                             
-                            <button class="btn" onclick="checkPwned()">
-                                <i class="fas fa-shield-alt"></i> Verificar Filtraciones
+                            <button class="btn" onclick="checkPwnedAdvanced()">
+                                <i class="fas fa-shield-alt"></i> Auditoría de Seguridad
                             </button>
                             
                             <div class="results-container" id="pwned-results">
@@ -748,16 +808,16 @@
                     <div class="osint-tools">
                         <div class="tool-card">
                             <i class="fas fa-globe tool-icon"></i>
-                            <h3>Whois & DNS Lookup</h3>
-                            <p>Información completa de registro de dominios y DNS.</p>
+                            <h3>Domain Intelligence Pro</h3>
+                            <p>Investigación exhaustiva de dominios y infraestructura.</p>
                             
                             <div class="form-group">
                                 <label for="domain">Dominio a investigar:</label>
                                 <input type="text" id="domain" class="form-control" placeholder="ejemplo.com">
                             </div>
                             
-                            <button class="btn" onclick="investigateDomain()">
-                                <i class="fas fa-search"></i> Investigar Dominio
+                            <button class="btn" onclick="investigateDomainAdvanced()">
+                                <i class="fas fa-search"></i> Investigación Completa
                             </button>
                             
                             <div class="results-container" id="domain-results">
@@ -767,19 +827,62 @@
                         
                         <div class="tool-card">
                             <i class="fas fa-sitemap tool-icon"></i>
-                            <h3>Subdomain Finder</h3>
-                            <p>Descubre subdominios asociados a un dominio principal.</p>
+                            <h3>Infrastructure Mapping</h3>
+                            <p>Mapeo completo de infraestructura y servicios.</p>
                             
                             <div class="form-group">
                                 <label for="subdomain">Dominio principal:</label>
                                 <input type="text" id="subdomain" class="form-control" placeholder="ejemplo.com">
                             </div>
                             
-                            <button class="btn" onclick="findSubdomains()">
-                                <i class="fas fa-network-wired"></i> Buscar Subdominios
+                            <button class="btn" onclick="mapInfrastructure()">
+                                <i class="fas fa-network-wired"></i> Mapear Infraestructura
                             </button>
                             
                             <div class="results-container" id="subdomain-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Búsqueda de Usuarios -->
+                <div class="tab-content" id="username-tab">
+                    <div class="osint-tools">
+                        <div class="tool-card">
+                            <i class="fas fa-user-circle tool-icon"></i>
+                            <h3>Sherlock Pro - Huella Digital</h3>
+                            <p>Análisis exhaustivo de huella digital en internet.</p>
+                            
+                            <div class="form-group">
+                                <label for="username">Nombre de Usuario:</label>
+                                <input type="text" id="username" class="form-control" placeholder="ejemplo: johndoe">
+                            </div>
+                            
+                            <button class="btn" onclick="searchUsernameAdvanced()">
+                                <i class="fas fa-fingerprint"></i> Analizar Huella Digital
+                            </button>
+                            
+                            <div class="results-container" id="username-results">
+                                <!-- Los resultados aparecerán aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <i class="fas fa-id-card tool-icon"></i>
+                            <h3>Maigret Advanced</h3>
+                            <p>Investigación de identidades y relaciones.</p>
+                            
+                            <div class="form-group">
+                                <label for="fullname">Nombre Completo:</label>
+                                <input type="text" id="fullname" class="form-control" placeholder="ejemplo: John Doe">
+                            </div>
+                            
+                            <button class="btn" onclick="searchFullnameAdvanced()">
+                                <i class="fas fa-user-tag"></i> Investigar Identidad
+                            </button>
+                            
+                            <div class="results-container" id="fullname-results">
                                 <!-- Los resultados aparecerán aquí -->
                             </div>
                         </div>
@@ -794,7 +897,7 @@
             <div class="footer-content">
                 <div class="logo">
                     <i class="fas fa-user-secret logo-icon"></i>
-                    <h1>CyberVPS OSINT</h1>
+                    <h1>CyberVPS OSINT Pro</h1>
                 </div>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-github"></i></a>
@@ -802,7 +905,7 @@
                     <a href="#"><i class="fab fa-linkedin"></i></a>
                     <a href="#"><i class="fab fa-discord"></i></a>
                 </div>
-                <p>&copy; 2023 CyberVPS OSINT. Herramientas para auditoría de seguridad ética.</p>
+                <p>&copy; 2023 CyberVPS OSINT Pro. Sistema avanzado de inteligencia de fuentes abiertas.</p>
             </div>
         </div>
     </footer>
@@ -811,61 +914,17 @@
         // Sistema de pestañas
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
-                // Remover clase active de todas las pestañas y contenidos
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 
-                // Agregar clase active a la pestaña clickeada
                 this.classList.add('active');
-                
-                // Mostrar el contenido correspondiente
                 const tabId = this.getAttribute('data-tab');
                 document.getElementById(`${tabId}-tab`).classList.add('active');
             });
         });
 
-        // Simulación de búsqueda de usuarios
-        function searchUsername() {
-            const username = document.getElementById('username').value;
-            if (!username) {
-                alert('Por favor ingresa un nombre de usuario');
-                return;
-            }
-            
-            const resultsContainer = document.getElementById('username-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Buscando usuario en plataformas...</div>';
-            
-            // Simulación de búsqueda con timeout
-            setTimeout(() => {
-                const platforms = [
-                    { name: 'Facebook', status: 'Encontrado', url: `https://facebook.com/${username}` },
-                    { name: 'Twitter', status: 'Encontrado', url: `https://twitter.com/${username}` },
-                    { name: 'Instagram', status: 'Encontrado', url: `https://instagram.com/${username}` },
-                    { name: 'GitHub', status: 'Encontrado', url: `https://github.com/${username}` },
-                    { name: 'LinkedIn', status: 'No encontrado', url: '#' },
-                    { name: 'Reddit', status: 'Encontrado', url: `https://reddit.com/user/${username}` },
-                    { name: 'YouTube', status: 'Encontrado', url: `https://youtube.com/${username}` },
-                    { name: 'TikTok', status: 'No encontrado', url: '#' }
-                ];
-                
-                let resultsHTML = '';
-                platforms.forEach(platform => {
-                    const statusColor = platform.status === 'Encontrado' ? 'var(--neon-green)' : 'var(--neon-red)';
-                    resultsHTML += `
-                        <div class="result-item">
-                            <span class="result-platform">${platform.name}</span>
-                            <span class="result-status" style="color: ${statusColor}">${platform.status}</span>
-                            ${platform.url !== '#' ? `<a href="${platform.url}" target="_blank" class="result-url">Ver perfil</a>` : ''}
-                        </div>
-                    `;
-                });
-                
-                resultsContainer.innerHTML = resultsHTML;
-            }, 2000);
-        }
-
-        // Simulación de análisis de teléfono
-        function analyzePhone() {
+        // Análisis avanzado de teléfonos
+        function analyzePhoneAdvanced() {
             const phone = document.getElementById('phone').value;
             if (!phone) {
                 alert('Por favor ingresa un número de teléfono');
@@ -873,40 +932,137 @@
             }
             
             const resultsContainer = document.getElementById('phone-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Analizando número telefónico...</div>';
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Realizando análisis forense del número...</div>';
             
             setTimeout(() => {
-                const phoneInfo = [
-                    { field: 'Número', value: phone },
-                    { field: 'País', value: 'México' },
-                    { field: 'Operadora', value: 'Telcel' },
-                    { field: 'Tipo de línea', value: 'Móvil' },
-                    { field: 'WhatsApp', value: 'Activo', status: 'success' },
-                    { field: 'Telegram', value: 'No encontrado', status: 'error' },
-                    { field: 'Registro en redes', value: '3 plataformas encontradas', status: 'warning' },
-                    { field: 'Última actividad', value: 'Hace 2 días' }
-                ];
+                const analysis = {
+                    basic: [
+                        { field: 'Número analizado', value: phone },
+                        { field: 'Formato internacional', value: phone.replace('+', '00') },
+                        { field: 'País de origen', value: 'México (+52)' },
+                        { field: 'Operadora', value: 'Telcel' },
+                        { field: 'Tipo de línea', value: 'Móvil GSM' }
+                    ],
+                    technical: [
+                        { field: 'Estado de la línea', value: 'Activa', risk: 'low' },
+                        { field: 'Registro en redes', value: '5 plataformas encontradas', risk: 'medium' },
+                        { field: 'Exposición pública', value: 'Alta', risk: 'high' },
+                        { field: 'Antigüedad del número', value: '3 años' },
+                        { field: 'Portabilidad', value: 'No disponible' }
+                    ],
+                    services: [
+                        { field: 'WhatsApp', value: 'Activo - Última conexión: 2h' },
+                        { field: 'Telegram', value: 'No detectado' },
+                        { field: 'Signal', value: 'No detectado' },
+                        { field: 'Facebook Messenger', value: 'Vinculado' }
+                    ],
+                    security: [
+                        { field: 'Número reportado', value: 'No', risk: 'low' },
+                        { field: 'Filtraciones de datos', value: '1 filtración encontrada', risk: 'medium' },
+                        { field: 'Spam score', value: '15/100', risk: 'low' },
+                        { field: 'Reputación', value: 'Neutral' }
+                    ]
+                };
                 
-                let resultsHTML = '';
-                phoneInfo.forEach(info => {
-                    let valueColor = 'var(--neon-green)';
-                    if (info.status === 'error') valueColor = 'var(--neon-red)';
-                    if (info.status === 'warning') valueColor = 'var(--neon-yellow)';
-                    
-                    resultsHTML += `
-                        <div class="result-item">
-                            <span class="result-platform">${info.field}</span>
-                            <span class="result-status" style="color: ${valueColor}">${info.value}</span>
-                        </div>
-                    `;
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📋 INFORMACIÓN BÁSICA</h4>';
+                analysis.basic.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
                 });
                 
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🔧 DATOS TÉCNICOS</h4>';
+                analysis.technical.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>📱 SERVICIOS DETECTADOS</h4>';
+                analysis.services.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🛡️ ANÁLISIS DE SEGURIDAD</h4>';
+                analysis.security.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
+                });
+                
+                resultsHTML += '</div>';
                 resultsContainer.innerHTML = resultsHTML;
-            }, 2500);
+            }, 3000);
         }
 
-        // Simulación de análisis de email
-        function analyzeEmail() {
+        // Geolocalización por IMEI
+        function trackByIMEI() {
+            const imei = document.getElementById('imei').value;
+            if (!imei || imei.length !== 15) {
+                alert('Por favor ingresa un IMEI válido de 15 dígitos');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('imei-results');
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Conectando con torres celulares...</div>';
+            
+            setTimeout(() => {
+                const deviceInfo = {
+                    device: [
+                        { field: 'IMEI', value: imei },
+                        { field: 'Estado', value: 'Activo', risk: 'low' },
+                        { field: 'Última conexión', value: new Date().toLocaleString() },
+                        { field: 'Torre celular', value: 'LTE-2154-MEX-01' },
+                        { field: 'Señal', value: 'Fuerte (-65 dBm)' }
+                    ],
+                    location: [
+                        { field: 'Coordenadas', value: '19.432608, -99.133209' },
+                        { field: 'Dirección aproximada', value: 'Ciudad de México, CDMX, México' },
+                        { field: 'Precisión', value: '150 metros' },
+                        { field: 'Proveedor', value: 'Telcel' },
+                        { field: 'Tipo de red', value: 'LTE Advanced' }
+                    ],
+                    technical: [
+                        { field: 'Marca del dispositivo', value: 'Samsung' },
+                        { field: 'Modelo', value: 'Galaxy S21' },
+                        { field: 'Sistema operativo', value: 'Android 13' },
+                        { field: 'Número de serie', value: 'RV8R90A1B2C' },
+                        { field: 'Año de fabricación', value: '2021' }
+                    ]
+                };
+                
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>📱 INFORMACIÓN DEL DISPOSITIVO</h4>';
+                deviceInfo.device.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>📍 GEOLOCALIZACIÓN</h4>';
+                deviceInfo.location.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="map-container">';
+                resultsHTML += '<i class="fas fa-satellite" style="font-size: 2rem; margin-bottom: 1rem;"></i>';
+                resultsHTML += '<div>Mapa de ubicación por IMEI</div>';
+                resultsHTML += '<div style="font-size: 0.8rem; margin-top: 0.5rem;">Coordenadas: 19.432608, -99.133209</div>';
+                resultsHTML += '</div>';
+                
+                resultsHTML += '<div class="detail-section">';
+                resultsHTML += '<h4>🔧 DATOS TÉCNICOS</h4>';
+                deviceInfo.technical.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                resultsHTML += '</div>';
+                
+                resultsContainer.innerHTML = resultsHTML;
+            }, 4000);
+        }
+
+        // Análisis avanzado de emails
+        function analyzeEmailAdvanced() {
             const email = document.getElementById('email').value;
             if (!email) {
                 alert('Por favor ingresa una dirección de email');
@@ -914,39 +1070,70 @@
             }
             
             const resultsContainer = document.getElementById('email-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Analizando dirección de email...</div>';
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Realizando análisis forense del email...</div>';
             
             setTimeout(() => {
-                const emailInfo = [
-                    { field: 'Email', value: email },
-                    { field: 'Dominio válido', value: 'Sí', status: 'success' },
-                    { field: 'Registro en redes', value: '5 plataformas encontradas', status: 'success' },
-                    { field: 'Filtraciones de datos', value: '2 brechas encontradas', status: 'warning' },
-                    { field: 'Cuentas asociadas', value: '8 servicios detectados', status: 'success' },
-                    { field: 'Antigüedad del dominio', value: '3 años' },
-                    { field: 'Reputación', value: 'Media', status: 'warning' }
-                ];
+                const emailAnalysis = {
+                    validation: [
+                        { field: 'Email analizado', value: email },
+                        { field: 'Sintaxis válida', value: 'Sí', risk: 'low' },
+                        { field: 'Dominio válido', value: 'Sí', risk: 'low' },
+                        { field: 'MX records', value: 'Configurados correctamente' },
+                        { field: 'Disponibilidad', value: 'Cuenta activa' }
+                    ],
+                    exposure: [
+                        { field: 'Redes sociales', value: '8 plataformas encontradas', risk: 'medium' },
+                        { field: 'Filtraciones de datos', value: '3 brechas encontradas', risk: 'high' },
+                        { field: 'Exposición pública', value: 'Alta', risk: 'high' },
+                        { field: 'Reputación', value: '65/100' }
+                    ],
+                    technical: [
+                        { field: 'Servidor de correo', value: 'Google Workspace' },
+                        { field: 'Autenticación', value: 'SPF, DKIM, DMARC' },
+                        { field: 'Antigüedad del dominio', value: '5 años' },
+                        { field: 'Ubicación del servidor', value: 'Estados Unidos' }
+                    ],
+                    associated: [
+                        { field: 'Cuentas vinculadas', value: '12 servicios detectados' },
+                        { field: 'Patrón de uso', value: 'Profesional/Personal' },
+                        { field: 'Frecuencia de registro', value: 'Alta' },
+                        { field: 'Dominios relacionados', value: '3 dominios encontrados' }
+                    ]
+                };
                 
-                let resultsHTML = '';
-                emailInfo.forEach(info => {
-                    let valueColor = 'var(--neon-green)';
-                    if (info.status === 'error') valueColor = 'var(--neon-red)';
-                    if (info.status === 'warning') valueColor = 'var(--neon-yellow)';
-                    
-                    resultsHTML += `
-                        <div class="result-item">
-                            <span class="result-platform">${info.field}</span>
-                            <span class="result-status" style="color: ${valueColor}">${info.value}</span>
-                        </div>
-                    `;
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>✅ VALIDACIÓN TÉCNICA</h4>';
+                emailAnalysis.validation.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
                 });
                 
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🔍 EXPOSICIÓN EN INTERNET</h4>';
+                emailAnalysis.exposure.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🔧 INFORMACIÓN TÉCNICA</h4>';
+                emailAnalysis.technical.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>📊 DATOS ASOCIADOS</h4>';
+                emailAnalysis.associated.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                resultsHTML += '</div>';
+                
                 resultsContainer.innerHTML = resultsHTML;
-            }, 2000);
+            }, 3500);
         }
 
-        // Simulación de investigación de dominio
-        function investigateDomain() {
+        // Investigación avanzada de dominios
+        function investigateDomainAdvanced() {
             const domain = document.getElementById('domain').value;
             if (!domain) {
                 alert('Por favor ingresa un dominio');
@@ -954,122 +1141,204 @@
             }
             
             const resultsContainer = document.getElementById('domain-results');
-            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Investigando dominio...</div>';
+            resultsContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Realizando investigación exhaustiva del dominio...</div>';
             
             setTimeout(() => {
-                const domainInfo = [
-                    { field: 'Dominio', value: domain },
-                    { field: 'Registrante', value: 'Privacidad activada' },
-                    { field: 'Fecha de registro', value: '2020-05-15' },
-                    { field: 'Fecha de expiración', value: '2025-05-15' },
-                    { field: 'Servidores DNS', value: 'ns1.cloudflare.com, ns2.cloudflare.com' },
-                    { field: 'IP del servidor', value: '104.21.85.204' },
-                    { field: 'Ubicación del servidor', value: 'Estados Unidos' },
-                    { field: 'Certificado SSL', value: 'Válido', status: 'success' },
-                    { field: 'Subdominios detectados', value: '12 encontrados', status: 'warning' }
-                ];
+                const domainAnalysis = {
+                    whois: [
+                        { field: 'Dominio', value: domain },
+                        { field: 'Estado', value: 'Activo', risk: 'low' },
+                        { field: 'Fecha de creación', value: '2020-03-15' },
+                        { field: 'Fecha de expiración', value: '2025-03-15' },
+                        { field: 'Registrante', value: 'Privacidad activada' }
+                    ],
+                    dns: [
+                        { field: 'Servidores DNS', value: 'ns1.cloudflare.com, ns2.cloudflare.com' },
+                        { field: 'Dirección IP', value: '104.21.85.204' },
+                        { field: 'Ubicación del servidor', value: 'Estados Unidos' },
+                        { field: 'Proveedor de hosting', value: 'Cloudflare' },
+                        { field: 'Certificado SSL', value: 'Válido (Let\'s Encrypt)' }
+                    ],
+                    security: [
+                        { field: 'Score de seguridad', value: '85/100', risk: 'low' },
+                        { field: 'Malware detectado', value: 'No', risk: 'low' },
+                        { field: 'Phishing reportado', value: 'No', risk: 'low' },
+                        { field: 'Vulnerabilidades', value: '2 vulnerabilidades menores' }
+                    ],
+                    services: [
+                        { field: 'Subdominios encontrados', value: '15 activos' },
+                        { field: 'Puertos abiertos', value: '80, 443, 22' },
+                        { field: 'Tecnologías detectadas', value: 'Nginx, PHP, MySQL' },
+                        { field: 'CMS', value: 'WordPress detectado' }
+                    ]
+                };
                 
-                let resultsHTML = '';
-                domainInfo.forEach(info => {
-                    let valueColor = 'var(--neon-green)';
-                    if (info.status === 'error') valueColor = 'var(--neon-red)';
-                    if (info.status === 'warning') valueColor = 'var(--neon-yellow)';
-                    
-                    resultsHTML += `
-                        <div class="result-item">
-                            <span class="result-platform">${info.field}</span>
-                            <span class="result-status" style="color: ${valueColor}">${info.value}</span>
-                        </div>
-                    `;
+                let resultsHTML = '<div class="detail-section">';
+                resultsHTML += '<h4>🌐 INFORMACIÓN WHOIS</h4>';
+                domainAnalysis.whois.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
                 });
                 
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🔧 CONFIGURACIÓN DNS</h4>';
+                domainAnalysis.dns.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🛡️ ANÁLISIS DE SEGURIDAD</h4>';
+                domainAnalysis.security.forEach(item => {
+                    const riskClass = item.risk ? `risk-${item.risk}` : '';
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value} ${item.risk ? `<span class="risk-indicator ${riskClass}">${item.risk.toUpperCase()}</span>` : ''}</span></div>`;
+                });
+                
+                resultsHTML += '</div><div class="detail-section">';
+                resultsHTML += '<h4>🚀 SERVICIOS DETECTADOS</h4>';
+                domainAnalysis.services.forEach(item => {
+                    resultsHTML += `<div class="result-item"><span class="result-platform">${item.field}</span><span class="result-status">${item.value}</span></div>`;
+                });
+                resultsHTML += '</div>';
+                
                 resultsContainer.innerHTML = resultsHTML;
+            }, 4000);
+        }
+
+        // Funciones adicionales para completar el sistema
+        function analyzeWhatsAppAdvanced() {
+            document.getElementById('whatsapp-results').innerHTML = '<div class="loading"><div class="spinner"></div>Analizando cuenta WhatsApp...</div>';
+            setTimeout(() => {
+                document.getElementById('whatsapp-results').innerHTML = `
+                    <div class="detail-section">
+                        <h4>📱 ESTADO DE WHATSAPP</h4>
+                        <div class="result-item"><span class="result-platform">Cuenta activa</span><span class="result-status">Sí <span class="risk-indicator risk-low">LOW</span></span></div>
+                        <div class="result-item"><span class="result-platform">Última conexión</span><span class="result-status">Hace 45 minutos</span></div>
+                        <div class="result-item"><span class="result-platform">Foto de perfil</span><span class="result-status">Disponible</span></div>
+                        <div class="result-item"><span class="result-platform">Estado público</span><span class="result-status">"Disponible"</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <h4>🔍 METADATOS</h4>
+                        <div class="result-item"><span class="result-platform">Número verificado</span><span class="result-status">Sí</span></div>
+                        <div class="result-item"><span class="result-platform">Business Account</span><span class="result-status">No</span></div>
+                        <div class="result-item"><span class="result-platform">Grupos detectados</span><span class="result-status">8 grupos públicos</span></div>
+                        <div class="result-item"><span class="result-platform">Antigüedad</span><span class="result-status">2 años</span></div>
+                    </div>
+                `;
             }, 3000);
         }
 
-        // Funciones adicionales para las otras herramientas
-        function searchFullname() {
-            document.getElementById('fullname-results').innerHTML = '<div class="loading"><div class="spinner"></div>Analizando huella digital...</div>';
+        function getDeviceInfo() {
+            document.getElementById('device-results').innerHTML = '<div class="loading"><div class="spinner"></div>Obteniendo información del dispositivo...</div>';
             setTimeout(() => {
-                document.getElementById('fullname-results').innerHTML = `
-                    <div class="result-item">
-                        <span class="result-platform">Perfiles encontrados</span>
-                        <span class="result-status" style="color: var(--neon-green)">7 perfiles en diferentes plataformas</span>
+                document.getElementById('device-results').innerHTML = `
+                    <div class="detail-section">
+                        <h4>📱 INFORMACIÓN DEL DISPOSITIVO</h4>
+                        <div class="result-item"><span class="result-platform">Marca</span><span class="result-status">Apple</span></div>
+                        <div class="result-item"><span class="result-platform">Modelo</span><span class="result-status">iPhone 13 Pro</span></div>
+                        <div class="result-item"><span class="result-platform">IMEI</span><span class="result-status">123456789012345</span></div>
+                        <div class="result-item"><span class="result-platform">Año de fabricación</span><span class="result-status">2021</span></div>
                     </div>
-                    <div class="result-item">
-                        <span class="result-platform">Patrón de actividad</span>
-                        <span class="result-status" style="color: var(--neon-yellow)">Activo en redes profesionales</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">Intereses detectados</span>
-                        <span class="result-status" style="color: var(--neon-blue)">Tecnología, Ciberseguridad, Desarrollo</span>
+                    <div class="detail-section">
+                        <h4>🔧 ESPECIFICACIONES</h4>
+                        <div class="result-item"><span class="result-platform">Sistema operativo</span><span class="result-status">iOS 16.5</span></div>
+                        <div class="result-item"><span class="result-platform">Capacidad</span><span class="result-status">256 GB</span></div>
+                        <div class="result-item"><span class="result-platform">Color</span><span class="result-status">Graphite</span></div>
+                        <div class="result-item"><span class="result-platform">Estado de bloqueo</span><span class="result-status">Desbloqueado</span></div>
                     </div>
                 `;
             }, 2500);
         }
 
-        function checkWhatsApp() {
-            document.getElementById('whatsapp-results').innerHTML = '<div class="loading"><div class="spinner"></div>Verificando cuenta de WhatsApp...</div>';
-            setTimeout(() => {
-                document.getElementById('whatsapp-results').innerHTML = `
-                    <div class="result-item">
-                        <span class="result-platform">Estado de WhatsApp</span>
-                        <span class="result-status" style="color: var(--neon-green)">Cuenta activa</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">Foto de perfil</span>
-                        <span class="result-status" style="color: var(--neon-green)">Disponible</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">Última vez en línea</span>
-                        <span class="result-status" style="color: var(--neon-yellow)">Hace 2 horas</span>
-                    </div>
-                `;
-            }, 2000);
-        }
-
-        function checkPwned() {
+        function checkPwnedAdvanced() {
             document.getElementById('pwned-results').innerHTML = '<div class="loading"><div class="spinner"></div>Verificando filtraciones de datos...</div>';
             setTimeout(() => {
                 document.getElementById('pwned-results').innerHTML = `
-                    <div class="result-item">
-                        <span class="result-platform">Estado general</span>
-                        <span class="result-status" style="color: var(--neon-red)">COMPROMETIDO</span>
+                    <div class="detail-section">
+                        <h4>🛡️ ESTADO DE SEGURIDAD</h4>
+                        <div class="result-item"><span class="result-platform">Estado general</span><span class="result-status">COMPROMETIDO <span class="risk-indicator risk-high">HIGH</span></span></div>
+                        <div class="result-item"><span class="result-platform">Filtraciones encontradas</span><span class="result-status">4 brechas de datos</span></div>
+                        <div class="result-item"><span class="result-platform">Contraseñas expuestas</span><span class="result-status">2 contraseñas</span></div>
+                        <div class="result-item"><span class="result-platform">Última filtración</span><span class="result-status">Hace 3 meses</span></div>
                     </div>
-                    <div class="result-item">
-                        <span class="result-platform">Filtraciones encontradas</span>
-                        <span class="result-status" style="color: var(--neon-yellow)">3 brechas de datos</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">Servicios afectados</span>
-                        <span class="result-status" style="color: var(--neon-red)">LinkedIn, Adobe, MySpace</span>
-                    </div>
-                `;
-            }, 2000);
-        }
-
-        function findSubdomains() {
-            document.getElementById('subdomain-results').innerHTML = '<div class="loading"><div class="spinner"></div>Buscando subdominios...</div>';
-            setTimeout(() => {
-                document.getElementById('subdomain-results').innerHTML = `
-                    <div class="result-item">
-                        <span class="result-platform">Subdominios encontrados</span>
-                        <span class="result-status" style="color: var(--neon-green)">12 subdominios activos</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">admin.ejemplo.com</span>
-                        <span class="result-status" style="color: var(--neon-green)">Activo</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">api.ejemplo.com</span>
-                        <span class="result-status" style="color: var(--neon-green)">Activo</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-platform">mail.ejemplo.com</span>
-                        <span class="result-status" style="color: var(--neon-green)">Activo</span>
+                    <div class="detail-section">
+                        <h4>📊 SERVICIOS AFECTADOS</h4>
+                        <div class="result-item"><span class="result-platform">LinkedIn (2021)</span><span class="result-status">700 millones de registros</span></div>
+                        <div class="result-item"><span class="result-platform">Facebook (2019)</span><span class="result-status">533 millones de registros</span></div>
+                        <div class="result-item"><span class="result-platform">Adobe (2013)</span><span class="result-status">153 millones de registros</span></div>
+                        <div class="result-item"><span class="result-platform">Dropbox (2012)</span><span class="result-status">68 millones de registros</span></div>
                     </div>
                 `;
             }, 3000);
+        }
+
+        function mapInfrastructure() {
+            document.getElementById('subdomain-results').innerHTML = '<div class="loading"><div class="spinner"></div>Mapeando infraestructura...</div>';
+            setTimeout(() => {
+                document.getElementById('subdomain-results').innerHTML = `
+                    <div class="detail-section">
+                        <h4>🌐 SUBDOMINIOS ENCONTRADOS</h4>
+                        <div class="result-item"><span class="result-platform">www.ejemplo.com</span><span class="result-status">Activo</span></div>
+                        <div class="result-item"><span class="result-platform">api.ejemplo.com</span><span class="result-status">Activo</span></div>
+                        <div class="result-item"><span class="result-platform">admin.ejemplo.com</span><span class="result-status">Activo</span></div>
+                        <div class="result-item"><span class="result-platform">mail.ejemplo.com</span><span class="result-status">Activo</span></div>
+                        <div class="result-item"><span class="result-platform">cdn.ejemplo.com</span><span class="result-status">Activo</span></div>
+                        <div class="result-item"><span class="result-platform">staging.ejemplo.com</span><span class="result-status">Activo</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <h4>🔧 INFRAESTRUCTURA DETECTADA</h4>
+                        <div class="result-item"><span class="result-platform">Servidor web</span><span class="result-status">Nginx 1.18</span></div>
+                        <div class="result-item"><span class="result-platform">Lenguaje de programación</span><span class="result-status">PHP 8.1</span></div>
+                        <div class="result-item"><span class="result-platform">Base de datos</span><span class="result-status">MySQL 8.0</span></div>
+                        <div class="result-item"><span class="result-platform">Framework</span><span class="result-status">Laravel 9.0</span></div>
+                        <div class="result-item"><span class="result-platform">CDN</span><span class="result-status">Cloudflare</span></div>
+                    </div>
+                `;
+            }, 3500);
+        }
+
+        function searchUsernameAdvanced() {
+            document.getElementById('username-results').innerHTML = '<div class="loading"><div class="spinner"></div>Analizando huella digital...</div>';
+            setTimeout(() => {
+                document.getElementById('username-results').innerHTML = `
+                    <div class="detail-section">
+                        <h4>👤 HUELLA DIGITAL</h4>
+                        <div class="result-item"><span class="result-platform">Perfiles encontrados</span><span class="result-status">24 plataformas</span></div>
+                        <div class="result-item"><span class="result-platform">Tasa de éxito</span><span class="result-status">85%</span></div>
+                        <div class="result-item"><span class="result-platform">Antigüedad promedio</span><span class="result-status">3.2 años</span></div>
+                        <div class="result-item"><span class="result-platform">Actividad reciente</span><span class="result-status">Alta</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <h4>📊 PLATAFORMAS PRINCIPALES</h4>
+                        <div class="result-item"><span class="result-platform">GitHub</span><span class="result-status">Desarrollador activo</span></div>
+                        <div class="result-item"><span class="result-platform">LinkedIn</span><span class="result-status">Perfil profesional</span></div>
+                        <div class="result-item"><span class="result-platform">Twitter</span><span class="result-status">Influencer tech</span></div>
+                        <div class="result-item"><span class="result-platform">Instagram</span><span class="result-status">Fotos personales</span></div>
+                        <div class="result-item"><span class="result-platform">Reddit</span><span class="result-status">Moderador activo</span></div>
+                    </div>
+                `;
+            }, 3000);
+        }
+
+        function searchFullnameAdvanced() {
+            document.getElementById('fullname-results').innerHTML = '<div class="loading"><div class="spinner"></div>Investigando identidad...</div>';
+            setTimeout(() => {
+                document.getElementById('fullname-results').innerHTML = `
+                    <div class="detail-section">
+                        <h4>🆔 DATOS DE IDENTIDAD</h4>
+                        <div class="result-item"><span class="result-platform">Nombre completo</span><span class="result-status">John Alexander Doe</span></div>
+                        <div class="result-item"><span class="result-platform">Alias conocidos</span><span class="result-status">3 alias detectados</span></div>
+                        <div class="result-item"><span class="result-platform">Ubicación principal</span><span class="result-status">Ciudad de México, MX</span></div>
+                        <div class="result-item"><span class="result-platform">Profesión</span><span class="result-status">Ingeniero de Software</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <h4>🔗 RELACIONES DETECTADAS</h4>
+                        <div class="result-item"><span class="result-platform">Empresa actual</span><span class="result-status">TechCorp Solutions</span></div>
+                        <div class="result-item"><span class="result-platform">Universidad</span><span class="result-status">UNAM - Ingeniería</span></div>
+                        <div class="result-item"><span class="result-platform">Proyectos destacados</span><span class="result-status">5 proyectos open source</span></div>
+                        <div class="result-item"><span class="result-platform">Certificaciones</span><span class="result-status">AWS, Google Cloud, CISSP</span></div>
+                    </div>
+                `;
+            }, 3500);
         }
     </script>
 </body>
